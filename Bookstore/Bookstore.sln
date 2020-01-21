@@ -7,9 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookstore.Android", "Bookst
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookstore.iOS", "Bookstore.iOS\Bookstore.iOS.csproj", "{477DF463-78A2-4EB9-8A6E-F095C19AC215}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookstore", "Bookstore\Bookstore.csproj", "{917106A7-9804-4EAE-A8F6-40C4948741B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookstore", "Bookstore\Bookstore.csproj", "{917106A7-9804-4EAE-A8F6-40C4948741B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookstore.API", "Bookstore.API\Bookstore.API.csproj", "{40AE02D8-45F9-46E2-9059-2BDC0FFED72D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookstore.API", "Bookstore.API\Bookstore.API.csproj", "{40AE02D8-45F9-46E2-9059-2BDC0FFED72D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIService", "APIService", "{FAD7CFD2-0B45-49D0-B0EF-51A47E48863D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MobileClient", "MobileClient", "{9A984C14-660A-4797-BDBA-1D6A9CA0865A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,6 +94,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E54068DE-B8FE-4F9E-B91C-72ACD80F2A30} = {9A984C14-660A-4797-BDBA-1D6A9CA0865A}
+		{477DF463-78A2-4EB9-8A6E-F095C19AC215} = {9A984C14-660A-4797-BDBA-1D6A9CA0865A}
+		{917106A7-9804-4EAE-A8F6-40C4948741B1} = {9A984C14-660A-4797-BDBA-1D6A9CA0865A}
+		{40AE02D8-45F9-46E2-9059-2BDC0FFED72D} = {FAD7CFD2-0B45-49D0-B0EF-51A47E48863D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {822B2118-3317-4504-97B0-1A16930EC6F1}

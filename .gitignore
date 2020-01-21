@@ -24,6 +24,6 @@ bld/
 #[Ll]og/
 
 # Visual Studio 2015 cache/options directory
-.vs/
-
+/Bookstore/.vs/
+/Bookstore/Bookstore/bin/
 /Bookstore/.vs/Bookstore/v16/Server/sqlite3

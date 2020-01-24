@@ -3,18 +3,103 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:Bookstore.Converters"
+             xmlns:customControl="clr-namespace:Bookstore.CustomControls"
              mc:Ignorable="d"
              x:Class="Bookstore.App">
 
     <Application.Resources>
         <ResourceDictionary>
-            <!--Global Styles-->
-            <Color x:Key="NavigationPrimary">#2196F3</Color>
-            <Style TargetType="NavigationPage">
-                <Setter Property="BarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
-                <Setter Property="BarTextColor" Value="White" />
+            <Color x:Key="FontColor">White</Color>
+            <Color x:Key="MainBgColor">White</Color>
+            <Color x:Key="MainColor">#544661</Color>
+            <Color x:Key="Primary">#E5E9EE</Color>
+            <Color x:Key="PrimaryDark">#BA2140</Color>
+            <Color x:Key="GradiendEndColor">#866e9c</Color>
+            <Color x:Key="DarkFontColor">#252525</Color>
+            <Color x:Key="Secondary">#B5BBC2</Color>
+            <Color x:Key="Accent">LightGray</Color>
+            <Color x:Key="LightColor">LightGray</Color>
+            <OnPlatform x:Key="PingFangBold" x:TypeArguments="x:String">
+                <On Platform="Android" Value="Fonts/PingFangBold.ttf#PingFang" />
+                <On Platform="iOS" Value="PingFangHK-Semibold" />
+            </OnPlatform>
+            <OnPlatform x:Key="PingFangLight" x:TypeArguments="x:String">
+                <On Platform="Android" Value="Fonts/PingFangLight.ttf#PingFang" />
+                <On Platform="iOS" Value="PingFangHK-Light" />
+            </OnPlatform>
+            <OnPlatform x:Key="PingFangMedium" x:TypeArguments="x:String">
+                <On Platform="Android" Value="Fonts/PingFangMedium.ttf#PingFang" />
+                <On Platform="iOS" Value="PingFangHK-Medium" />
+            </OnPlatform>
+            <OnPlatform x:Key="PingFangRegular" x:TypeArguments="x:String">
+                <On Platform="Android" Value="Fonts/PingFangRegular.ttf#PingFang" />
+                <On Platform="iOS" Value="PingFangHK-Regular" />
+            </OnPlatform>
+            <Style x:Key="LabelStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="{StaticResource PingFangRegular}" />
             </Style>
+            <Style x:Key="FrameStyle" TargetType="Frame">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="HasShadow" Value="False" />
+                <Setter Property="Padding" Value="{x:OnPlatform Android=5, iOS=8}" />
+                <Setter Property="CornerRadius" Value="{x:OnPlatform Android=25, iOS=10}" />
+                <Setter Property="BackgroundColor" Value="#F7F7F7" />
+            </Style>
+
+            <Style x:Key="BoxViewStyle" TargetType="BoxView">
+                <Setter Property="HeightRequest" Value=".5" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="BackgroundColor" Value="#D1D1D1" />
+            </Style>
+
+            <Style x:Key="IconViewStyle" TargetType="customControl:IconView">
+                <Setter Property="Foreground" Value="{StaticResource MainColor}" />
+                <Setter Property="HeightRequest" Value="30" />
+                <Setter Property="WidthRequest" Value="30" />
+                <Setter Property="Margin" Value="20,0,0,0" />
+            </Style>
+            <Style x:Key="ProfleLabelStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="{StaticResource PingFangRegular}" />
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+                <Setter Property="TextColor" Value="#252525" />
+                <Setter Property="Margin" Value="15,0,0,0" />
+            </Style>
+
+            <converters:CardNumberToImageConverter
+                x:Key="CardConverter"
+                Amex="ic_amex"
+                Dinners="ic_dinersclub"
+                Discover="ic_discover"
+                JCB="ic_jcb"
+                MasterCard="ic_mastercard"
+                NotRecognized="nocards"
+                Visa="ic_visa" />
+
+            <converters:CardNumberToImageConverter
+                x:Key="CardLightConverter"
+                Amex="americanexpresslogo"
+                Dinners="ic_dinersclub_white.png"
+                Discover="ic_discover_light"
+                JCB="ic_jcb"
+                MasterCard="ic_mastercard_white"
+                NotRecognized="ic_chip"
+                Visa="ic_visa_white" />
+
+            <converters:CardNumberToColorConverter
+                x:Key="CardColorConverter"
+                Amex="#3177CB"
+                Dinners="#1B4F8F"
+                Discover="#E9752F"
+                JCB="#9E2921"
+                MasterCard="#394854"
+                NotRecognized="#544661"
+                Visa="#2867BA" />
+
+
         </ResourceDictionary>
     </Application.Resources>
-    
+
 </Application>

@@ -3,6 +3,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Bookstore.Services;
 using Bookstore.Views;
+using Bookstore.SplashPages;
 
 namespace Bookstore
 {
@@ -14,7 +15,7 @@ namespace Bookstore
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new SplashPage());
         }
 
         protected override void OnStart()

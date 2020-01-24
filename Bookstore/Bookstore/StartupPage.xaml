@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sharedTransitions="clr-namespace:Plugin.SharedTransitions;assembly=Plugin.SharedTransitions"
+             NavigationPage.HasNavigationBar="False"
+             Visual="Material"  
+             x:Class="Bookstore.StartupPage">
+    <StackLayout>
+        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+
+
+            <Image
+                sharedTransitions:Transition.Name="Logo"
+                BackgroundColor="Transparent"
+                HeightRequest="100"
+                HorizontalOptions="CenterAndExpand"
+                Source="bookstorelogo.png"
+                VerticalOptions="CenterAndExpand"
+                WidthRequest="100" />
+            <Label
+                FontAttributes="Bold"
+                FontFamily="{StaticResource PingFangRegular}"
+                FontSize="10"
+                HorizontalOptions="CenterAndExpand"
+                Text="Let is spark"
+                TextColor="{StaticResource MainColor}" />
+            <Button
+                Margin="50,10,50,10"
+                BackgroundColor="White"
+                BorderColor="{StaticResource MainColor}"
+                BorderWidth="2"
+                Command="{Binding SignUpCommand}"
+                CornerRadius="30"
+                FontFamily="{StaticResource PingFangRegular}"
+                FontSize="24"
+                HeightRequest="57"
+                HorizontalOptions="CenterAndExpand"
+                Text="Sign up"
+                TextColor="{StaticResource MainColor}"
+                WidthRequest="227" />
+            <Button
+                Margin="50,10,50,10"
+                BackgroundColor="{StaticResource MainColor}"
+                BorderColor="{StaticResource MainColor}"
+                BorderWidth="2"
+                Command="{Binding LoginCommand}"
+                CornerRadius="30"
+                FontFamily="{StaticResource PingFangRegular}"
+                FontSize="24"
+                HeightRequest="57"
+                HorizontalOptions="CenterAndExpand"
+                Text="Log In"
+                TextColor="White"
+                WidthRequest="227" />
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

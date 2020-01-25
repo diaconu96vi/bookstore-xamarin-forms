@@ -1,5 +1,6 @@
 ﻿using Bookstore.Converters;
 using Bookstore.Properties;
+using Bookstore.Views.Startup;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,11 +23,11 @@ namespace Bookstore.ViewModels
 
         public async Task ExecuteLoginCommand()
         {
-
+            await Application.Current.MainPage.Navigation.PushAsync(new LoginPage());
         }        
         public async Task ExecuteSignUpCommand()
         {
-
+            await Application.Current.MainPage.Navigation.PushAsync(new SignupPage());
         }
     }
 }

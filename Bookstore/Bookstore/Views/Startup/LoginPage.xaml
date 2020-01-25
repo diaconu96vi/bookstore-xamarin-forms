@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:renderers="clr-namespace:Bookstore.Renderers"
+             xmlns:sharedTransitions="clr-namespace:Plugin.SharedTransitions;assembly=Plugin.SharedTransitions"
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             BackgroundColor="White"
+             NavigationPage.HasNavigationBar="False"
+             Visual="Material"
+             x:Class="Bookstore.Views.Startup.LoginPage">
+    <ContentPage.Content>
+        <AbsoluteLayout>
+
+            <StackLayout
+                AbsoluteLayout.LayoutBounds="0,0,1,.5"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="{StaticResource MainColor}" />
+            <StackLayout AbsoluteLayout.LayoutBounds=".5,.1,.5,.3" BackgroundColor="Transparent" AbsoluteLayout.LayoutFlags="All">
+                <Image
+                    sharedTransitions:Transition.Name="Logo"
+                    BackgroundColor="Transparent"
+                    HeightRequest="100"
+                    HorizontalOptions="CenterAndExpand"
+                    Source="bookstorelogo.png"
+                    VerticalOptions="CenterAndExpand"
+                    WidthRequest="100" />
+                <Label
+                    FontFamily="{StaticResource PingFangBold}"
+                    FontSize="25"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="Log In"
+                    TextColor="White" />
+            </StackLayout>
+            <yummy:PancakeView
+                Margin="10,0,10,0"
+                Padding="25"
+                AbsoluteLayout.LayoutBounds="1,1,1,1"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="White"
+                CornerRadius="35,35,0,0   "
+                HasShadow="False"
+                VerticalOptions="EndAndExpand">
+                <StackLayout>
+                    <Label
+                        FontFamily="{StaticResource PingFangRegular}"
+                        FontSize="15"
+                        Text="E-Mail"
+                        TextColor="{StaticResource DarkFontColor}" />
+                    <Frame Style="{StaticResource FrameStyle}">
+                        <renderers:BorderlessEntry 
+                            Text="{Binding Email}"
+                            TextColor="{StaticResource DarkFontColor}" />
+                    </Frame>
+                    <Label
+                        FontFamily="{StaticResource PingFangRegular}"
+                        FontSize="15"
+                        Text="Password"
+                        TextColor="{StaticResource DarkFontColor}" />
+                    <Frame Style="{StaticResource FrameStyle}">
+                        <renderers:BorderlessEntry 
+                            Text="{Binding Password}"
+                            IsPassword="True"
+                            TextColor="{StaticResource DarkFontColor}" />
+                    </Frame>                    
+                    <Label
+                        FontFamily="{StaticResource PingFangRegular}"
+                        FontSize="15"
+                        Text="Confirm Password"
+                        TextColor="{StaticResource DarkFontColor}" />
+                    <Frame Style="{StaticResource FrameStyle}">
+                        <renderers:BorderlessEntry 
+                            Text="{Binding ConfirmPassword}"
+                            IsPassword="True"
+                            TextColor="{StaticResource DarkFontColor}" />
+                    </Frame>
+                    <Button
+                        Margin="50,10,50,10"
+                        BackgroundColor="{StaticResource MainColor}"
+                        BorderColor="{StaticResource MainColor}"
+                        BorderWidth="2"
+                        Command="{Binding RequestLoginCommand}"
+                        CornerRadius="30"
+                        FontFamily="{StaticResource PingFangRegular}"
+                        FontSize="20"
+                        HeightRequest="57"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="Log In"
+                        TextColor="White"
+                        WidthRequest="227" />
+                    <Button
+                        Margin="50,10,50,10"
+                        BackgroundColor="#344B88"
+                        BorderColor="#344B88"
+                        BorderWidth="2"
+                        Command="{Binding FacebookLogin}"
+                        CornerRadius="30"
+                        FontFamily="{StaticResource PingFangRegular}"
+                        FontSize="12"
+                        HeightRequest="57"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="Log in with Facebook"
+                        TextColor="White"
+                        WidthRequest="227" />
+                </StackLayout>
+            </yummy:PancakeView>
+
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

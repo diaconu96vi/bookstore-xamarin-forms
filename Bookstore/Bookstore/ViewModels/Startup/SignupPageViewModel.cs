@@ -2,6 +2,7 @@
 using Bookstore.Models;
 using Bookstore.Services;
 using Bookstore.Views;
+using Bookstore.Views.TabbedPages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +42,7 @@ namespace Bookstore.ViewModels.Startup
             if(isSuccess.Item1)
             {
                 
-                await Application.Current.MainPage.Navigation.PushAsync(new ItemsPage());
+                await Application.Current.MainPage.Navigation.PushAsync(new ParentTabbedPage());
             }
             else
             {

@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:abstractions="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+             xmlns:customControl="clr-namespace:Bookstore.CustomControls"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:partialViews="clr-namespace:Bookstore.Views.PartialViews"
+             BackgroundColor="White"
+             x:Class="Bookstore.Views.TabbedPages.ProfilePage"> 
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <StackLayout
+                Margin="20,0,20,10"
+                AbsoluteLayout.LayoutBounds="1,1,1,1"
+                AbsoluteLayout.LayoutFlags="All">
+                <partialViews:NavigationBarPartialView BackgroundColor="White">
+                    <x:Arguments>
+                        <x:String>Profile</x:String>
+                        <x:Boolean>False</x:Boolean>
+                        <x:Boolean>False</x:Boolean>
+                    </x:Arguments>
+                </partialViews:NavigationBarPartialView>
+                <StackLayout Margin="0,10,0,10" Orientation="Horizontal">
+                    <abstractions:CircleImage
+                        FillColor="LightGray"
+                        HeightRequest="85"
+                        Source="bookstorelogo.png"
+                        WidthRequest="85" />
+                    <StackLayout VerticalOptions="CenterAndExpand">
+                        <Label
+                            FontFamily="{StaticResource PingFangMedium}"
+                            FontSize="18"
+                            Text="Ufuk SAHIN"
+                            TextColor="#2E2E2E" />
+                        <Label
+                            FontSize="12"
+                            Text="Ufukzimmerman@gmail.com"
+                            TextColor="#8B8B8B" />
+                    </StackLayout>
+                    <customControl:IconView
+                        x:Name="SettigsIcon"
+                        Foreground="{StaticResource MainColor}"
+                        HeightRequest="30"
+                        HorizontalOptions="EndAndExpand"
+                        Source="settings.png"
+                        VerticalOptions="CenterAndExpand"
+                        WidthRequest="30">
+                        <customControl:IconView.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="SettingClick" />
+                        </customControl:IconView.GestureRecognizers>
+                    </customControl:IconView>
+                </StackLayout>
+                <StackLayout Spacing="20">
+                    <BoxView Style="{StaticResource BoxViewStyle}" />
+                    <StackLayout ClassId="MyOder" Orientation="Horizontal">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OrderInfoClick" />
+                        </StackLayout.GestureRecognizers>
+                        <customControl:IconView Source="myOrdersIcon" Style="{StaticResource IconViewStyle}" />
+                        <Label Style="{StaticResource ProfleLabelStyle}" Text="My Orders" />
+                    </StackLayout>
+                    <BoxView Style="{StaticResource BoxViewStyle}" />
+                    <StackLayout ClassId="MyFav" Orientation="Horizontal">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OrderInfoClick" />
+                        </StackLayout.GestureRecognizers>
+                        <customControl:IconView Source="faxList" Style="{StaticResource IconViewStyle}" />
+                        <Label Style="{StaticResource ProfleLabelStyle}" Text="Favori Products " />
+                    </StackLayout>
+                    <BoxView Style="{StaticResource BoxViewStyle}" />
+                    <StackLayout ClassId="LastView" Orientation="Horizontal">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OrderInfoClick" />
+                        </StackLayout.GestureRecognizers>
+                        <customControl:IconView Source="lastViewsIcon" Style="{StaticResource IconViewStyle}" />
+                        <Label Style="{StaticResource ProfleLabelStyle}" Text="Last Viewed Products" />
+                    </StackLayout>
+                    <BoxView Style="{StaticResource BoxViewStyle}" />
+                    <StackLayout ClassId="MyComments" Orientation="Horizontal">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OrderInfoClick" />
+                        </StackLayout.GestureRecognizers>
+                        <customControl:IconView Source="commetsProfile" Style="{StaticResource IconViewStyle}" />
+                        <Label Style="{StaticResource ProfleLabelStyle}" Text="My Comments" />
+                    </StackLayout>
+                </StackLayout>
+
+            </StackLayout>
+            <pancakeView:PancakeView
+                x:Name="SettingsView"
+                Margin="10"
+                Padding="0"
+                AbsoluteLayout.LayoutBounds="1,1,1,.3"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="White"
+                CornerRadius="8"
+                Elevation="5"
+                HasShadow="False"
+                IsVisible="False">
+                <StackLayout
+                    Padding="5"
+                    Spacing="10"
+                    VerticalOptions="CenterAndExpand">
+                    <StackLayout ClassId="MyOder" Orientation="Horizontal">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ChancePassClick" />
+                        </StackLayout.GestureRecognizers>
+                        <customControl:IconView Source="passIcon" Style="{StaticResource IconViewStyle}" />
+                        <Label Style="{StaticResource ProfleLabelStyle}" Text="Change Password" />
+                    </StackLayout>
+                    <BoxView Style="{StaticResource BoxViewStyle}" />
+                    <StackLayout ClassId="MyFav" Orientation="Horizontal">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ContactClick" />
+                        </StackLayout.GestureRecognizers>
+                        <customControl:IconView Source="contact" Style="{StaticResource IconViewStyle}" />
+                        <Label Style="{StaticResource ProfleLabelStyle}" Text="Contact " />
+                    </StackLayout>
+                    <BoxView Style="{StaticResource BoxViewStyle}" />
+                    <StackLayout ClassId="LastView" Orientation="Horizontal">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="LogOutClick" />
+                        </StackLayout.GestureRecognizers>
+                        <customControl:IconView Source="logOut" Style="{StaticResource IconViewStyle}" />
+                        <Label Style="{StaticResource ProfleLabelStyle}" Text="Log out" />
+                    </StackLayout>
+                </StackLayout>
+            </pancakeView:PancakeView>
+        </AbsoluteLayout>
+
+    </ContentPage.Content>
+</ContentPage>

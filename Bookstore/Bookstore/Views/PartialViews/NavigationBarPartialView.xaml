@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StackLayout
+    x:Class="Bookstore.Views.PartialViews.NavigationBarPartialView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="StackMain"
+    Margin="{x:OnPlatform Android='20,10,20,10',
+                          iOS='20,20,20,10'}"
+    BackgroundColor="White"
+    HeightRequest="70"
+    Orientation="Horizontal"
+    Spacing="0">
+
+    <Image
+        x:Name="BackButton"
+        HeightRequest="25"
+        HorizontalOptions="Start"
+        Source="back.png"
+        WidthRequest="25" />
+    <Label
+        x:Name="Title"
+        Margin="-20,0,0,0"
+        FontSize="20"
+        HorizontalOptions="CenterAndExpand"
+        LineBreakMode="TailTruncation"
+        Text="{Binding Title}"
+        TextColor="#2E2E2E"
+        VerticalOptions="CenterAndExpand"
+        VerticalTextAlignment="Center" />
+</StackLayout>

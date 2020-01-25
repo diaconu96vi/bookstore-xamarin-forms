@@ -28,28 +28,27 @@ namespace Bookstore.ViewModels.Startup
 
         public async Task ExecuteRequestLoginCommand()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new ParentTabbedPage());
-            //var errorCredentials = ValidCredentials();
-            //if (string.IsNullOrEmpty(errorCredentials))
-            //{
-            //    var response = await _apiServices.LoginAsync(new LoginModel()
-            //    {
-            //        Email = Email,
-            //        Password = Password
-            //    });
-            //    if(response)
-            //    {
-            //        await Application.Current.MainPage.Navigation.PushAsync(new ItemsPage());
-            //    }
-            //    else
-            //    {
-            //        await Application.Current.MainPage.DisplayAlert("Error", "Credentials are not valid", "Ok");
-            //    }
-            //}
-            //else
-            //{
-            //    await Application.Current.MainPage.DisplayAlert("Login", errorCredentials, "Ok");
-            //}
+            var errorCredentials = ValidCredentials();
+            if (string.IsNullOrEmpty(errorCredentials))
+            {
+                var response = await _apiServices.LoginAsync(new LoginModel()
+                {
+                    Email = Email,
+                    Password = Password
+                });
+                if (response)
+                {
+                    await Application.Current.MainPage.Navigation.PushAsync(new ParentTabbedPage());
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Credentials are not valid", "Ok");
+                }
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Login", errorCredentials, "Ok");
+            }
         }     
         
         public async Task ExecuteFacebookLogin()

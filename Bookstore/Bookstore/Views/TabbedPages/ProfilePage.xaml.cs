@@ -1,4 +1,6 @@
-﻿using Plugin.SharedTransitions;
+﻿using Bookstore.ViewModels.TabbedPages;
+using Bookstore.Views.Admin;
+using Plugin.SharedTransitions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +19,7 @@ namespace Bookstore.Views.TabbedPages
         public ProfilePage()
         {
             InitializeComponent();
+            this.BindingContext = new ProfilePageViewModel();
         }
 
         private void OrderInfoClick(object sender, EventArgs e)
@@ -39,12 +42,15 @@ namespace Bookstore.Views.TabbedPages
                 case "MyComments":
                     //OpenPage(new MyCommentsPage());
                     break;
+                case "AddBooks":
+                    OpenPage(new AddBooksPage());
+                    break;
             }
         }
 
-        private void OpenPage(Page page)
+        private async void OpenPage(Page page)
         {
-            Navigation.PushAsync(page);
+            await Navigation.PushAsync(page);
         }
 
         private void ChancePassClick(object sender, EventArgs e)
@@ -64,7 +70,14 @@ namespace Bookstore.Views.TabbedPages
 
         private void SettingClick(object sender, EventArgs e)
         {
-            open = open == false;
+            if(open)
+            {
+                open = false;
+            }
+            else
+            {
+                open = true;
+            }
 
             SettingsView.IsVisible = open;
         }

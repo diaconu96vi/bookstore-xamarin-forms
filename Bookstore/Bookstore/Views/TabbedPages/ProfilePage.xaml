@@ -86,6 +86,14 @@
                         <customControl:IconView Source="commetsProfile" Style="{StaticResource IconViewStyle}" />
                         <Label Style="{StaticResource ProfleLabelStyle}" Text="My Comments" />
                     </StackLayout>
+                    <BoxView Style="{StaticResource BoxViewStyle}" />
+                    <StackLayout ClassId="AddBooks" IsVisible="{Binding IsAdmin}"  Orientation="Horizontal">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OrderInfoClick" />
+                        </StackLayout.GestureRecognizers>
+                        <customControl:IconView Source="add.png" Style="{StaticResource IconViewStyle}" />
+                        <Label Style="{StaticResource ProfleLabelStyle}" Text="Add new books" />
+                    </StackLayout>
                 </StackLayout>
 
             </StackLayout>

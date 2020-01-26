@@ -14,12 +14,14 @@ namespace Bookstore.Droid
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            var basePath = Android.App.Application.Context.GetExternalFilesDir(null).AbsolutePath;
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
         }

@@ -16,7 +16,7 @@ namespace Bookstore.API.Models
         public string ISBN { get; set; } 
         public string Title { get; set; }
         public DateTime PublicationDate { get; set; }
-        public string Edition { get; set; }
+        public byte[] Image { get; set; }
 
         public int Price { get; set; }
 

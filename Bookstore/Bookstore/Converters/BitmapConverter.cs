@@ -18,5 +18,15 @@ namespace Bookstore.Converters
             });
         }
 
+        public static byte[] StreamToByte(Stream input)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                input.CopyTo(ms);
+                return ms.ToArray();
+            }
+
+        }
+
     }
 }

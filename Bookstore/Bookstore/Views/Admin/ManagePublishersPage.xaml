@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:partialViews="clr-namespace:Bookstore.Views.PartialViews"
+             xmlns:renderers="clr-namespace:Bookstore.Renderers"
+             BackgroundColor="White"
+             x:Class="Bookstore.Views.Admin.ManagePublishersPage"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <ScrollView>
+        <StackLayout>
+            <partialViews:NavigationBarPartialView>
+                <x:Arguments>
+                    <x:String>Manage publishers</x:String>
+                    <x:Boolean>True</x:Boolean>
+                    <x:Boolean>True</x:Boolean>
+                </x:Arguments>
+            </partialViews:NavigationBarPartialView>
+            <pancakeView:PancakeView
+                Margin="10"
+                Padding="10"
+                CornerRadius="8"
+                HasShadow="False"
+                VerticalOptions="FillAndExpand">
+                    <StackLayout Spacing="2">
+                        <!--Add publisher-->
+                        <Label
+                        FontFamily="{StaticResource PingFangRegular}"
+                        FontSize="20"
+                        Text="Add publisher"
+                        TextColor="{StaticResource MainColor}" />
+                        <BoxView Style="{StaticResource BoxViewStyle}" />
+                        <Label
+                        FontFamily="{StaticResource PingFangRegular}"
+                        FontSize="15"
+                        Text="Name"
+                        TextColor="{StaticResource DarkFontColor}" />
+                        <Frame Style="{StaticResource FrameStyle}">
+                            <renderers:BorderlessEntry 
+                            FontSize="15"
+                            Text="{Binding AddPublisherName}"
+                            TextColor="{StaticResource DarkFontColor}" />
+                        </Frame>
+                        <Button
+                        Margin="0,10,0,10"
+                        BackgroundColor="{StaticResource MainColor}"
+                        BorderColor="{StaticResource MainColor}"
+                        BorderWidth="2"
+                        Command="{Binding AddPublisherCommand}"
+                        CornerRadius="30"
+                        FontFamily="{StaticResource PingFangRegular}"
+                        FontSize="20"
+                        HeightRequest="40"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="Confirm add"
+                        TextColor="White"
+                        WidthRequest="227" />
+                        <!--Update publisher-->
+                        <BoxView Style="{StaticResource BoxViewStyle}" />
+                        <Label
+                        FontFamily="{StaticResource PingFangRegular}"
+                        FontSize="20"
+                        Text="Update publisher"
+                        TextColor="{StaticResource MainColor}" />
+                        <BoxView Style="{StaticResource BoxViewStyle}" />
+                        <Frame Style="{StaticResource FrameStyle}">
+                            <renderers:BorderlessPicker
+                            FontSize="15"
+                            ItemsSource="{Binding Publishers}"
+                            ItemDisplayBinding="{Binding Name}"
+                            SelectedItem="{Binding SelectedUpdatePublisher}"
+                            TextColor="{StaticResource DarkFontColor}" />
+                        </Frame>
+                        <Label
+                        FontFamily="{StaticResource PingFangRegular}"
+                        FontSize="15"
+                        Text="Name"
+                        TextColor="{StaticResource DarkFontColor}" />
+                        <Frame Style="{StaticResource FrameStyle}">
+                            <renderers:BorderlessEntry 
+                            FontSize="15"
+                            Text="{Binding UpdatePublisherName}"
+                            TextColor="{StaticResource DarkFontColor}" />
+                        </Frame>
+                        <Button
+                        Margin="0,10,0,10"
+                        BackgroundColor="{StaticResource MainColor}"
+                        BorderColor="{StaticResource MainColor}"
+                        BorderWidth="2"
+                        Command="{Binding UpdatePublisherCommand}"
+                        CornerRadius="30"
+                        FontFamily="{StaticResource PingFangRegular}"
+                        FontSize="20"
+                        HeightRequest="40"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="Confirm update"
+                        TextColor="White"
+                        WidthRequest="227" />
+                        <!--Delete publisher-->
+                        <BoxView Style="{StaticResource BoxViewStyle}" />
+                        <Label
+                        FontFamily="{StaticResource PingFangRegular}"
+                        FontSize="20"
+                        Text="Delete publisher"
+                        TextColor="{StaticResource MainColor}" />
+                        <BoxView Style="{StaticResource BoxViewStyle}" />
+                        <Frame Style="{StaticResource FrameStyle}">
+                            <renderers:BorderlessPicker
+                            FontSize="15"
+                            ItemsSource="{Binding Publishers}"
+                            ItemDisplayBinding="{Binding Name}"
+                            SelectedItem="{Binding SelectedDeletePublisher}"
+                            TextColor="{StaticResource DarkFontColor}" />
+                        </Frame>
+                        <Button
+                        Margin="0,10,0,10"
+                        BackgroundColor="{StaticResource MainColor}"
+                        BorderColor="{StaticResource MainColor}"
+                        BorderWidth="2"
+                        Command="{Binding DeletePublisherCommand}"
+                        CornerRadius="30"
+                        FontFamily="{StaticResource PingFangRegular}"
+                        FontSize="20"
+                        HeightRequest="40"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="Confirm delete"
+                        TextColor="White"
+                        WidthRequest="227" />
+                    </StackLayout>
+                </pancakeView:PancakeView>
+
+        </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

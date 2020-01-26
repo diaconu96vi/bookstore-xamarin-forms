@@ -57,10 +57,5 @@ namespace Bookstore.ViewModels.Startup
                 }
             }
         }     
-        
-        public async Task ExecuteFacebookLogin()
-        {
-            
-        }
     }
 }

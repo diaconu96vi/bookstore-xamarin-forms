@@ -4,6 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:partialViews="clr-namespace:Bookstore.Views.PartialViews"
              xmlns:renderers="clr-namespace:Bookstore.Renderers"
@@ -11,6 +12,7 @@
              x:Class="Bookstore.Views.Admin.AddBooksPage"
              NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
+        <ScrollView>
         <StackLayout>
             <partialViews:NavigationBarPartialView>
                 <x:Arguments>
@@ -33,7 +35,8 @@
                         TextColor="{StaticResource DarkFontColor}" />
                     <Frame Style="{StaticResource FrameStyle}">
                         <renderers:BorderlessEntry 
-                            Text="{Binding Title}"
+                            FontSize="10"
+                            Text="{Binding BookTitle}"
                             TextColor="{StaticResource DarkFontColor}" />
                     </Frame>
                     <Label
@@ -43,6 +46,7 @@
                         TextColor="{StaticResource DarkFontColor}" />
                     <Frame Style="{StaticResource FrameStyle}">
                         <renderers:BorderlessEntry 
+                            FontSize="10"
                             Text="{Binding ISBN}"
                             TextColor="{StaticResource DarkFontColor}" />
                     </Frame>
@@ -53,6 +57,7 @@
                         TextColor="{StaticResource DarkFontColor}" />
                     <Frame Style="{StaticResource FrameStyle}">
                         <renderers:BorderlessDatePicker
+                            FontSize="10"
                             Date="{Binding Date}"
                             TextColor="{StaticResource DarkFontColor}" />
                     </Frame>                    
@@ -63,6 +68,7 @@
                         TextColor="{StaticResource DarkFontColor}" />
                     <Frame Style="{StaticResource FrameStyle}">
                         <renderers:BorderlessEntry
+                            FontSize="10"
                             Text="{Binding Price}"
                             Keyboard="Numeric"
                             TextColor="{StaticResource DarkFontColor}" />
@@ -74,6 +80,7 @@
                         TextColor="{StaticResource DarkFontColor}" />
                     <Frame Style="{StaticResource FrameStyle}">
                         <renderers:BorderlessPicker
+                            FontSize="10"
                             ItemsSource="{Binding Authors}"
                             ItemDisplayBinding="{Binding Name}"
                             SelectedItem="{Binding SelectedAuthor}"
@@ -86,22 +93,30 @@
                         TextColor="{StaticResource DarkFontColor}" />
                     <Frame Style="{StaticResource FrameStyle}">
                         <renderers:BorderlessPicker
+                            FontSize="10"
                             ItemsSource="{Binding Publications}"
                             ItemDisplayBinding="{Binding Name}"
                             SelectedItem="{Binding SelectedPublication}"
                             TextColor="{StaticResource DarkFontColor}" />
-                    </Frame>                    
-                    <Label
-                        FontFamily="{StaticResource PingFangRegular}"
-                        FontSize="15"
-                        Text="Image url"
-                        TextColor="{StaticResource DarkFontColor}" />
-                    <Frame Style="{StaticResource FrameStyle}">
-                        <renderers:BorderlessEditor
-                            Text="{Binding ImageUrl}"
-                            TextColor="{StaticResource DarkFontColor}" />
                     </Frame>
-
+                    <Button
+                        Margin="0,10,0,10"
+                        BackgroundColor="{StaticResource MainColor}"
+                        BorderColor="{StaticResource MainColor}"
+                        BorderWidth="2"
+                        HeightRequest="40"
+                        Command="{Binding AddImageCommand}"
+                        CornerRadius="30"
+                        FontFamily="{StaticResource PingFangRegular}"
+                        FontSize="20"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="Add image"
+                        TextColor="White"
+                        WidthRequest="227" />
+                    <forms:CachedImage
+                                    Source="{Binding SelectedImage}"
+                                    Aspect="AspectFit"
+                                    HeightRequest="100" />
                     <Button
                         Margin="0,10,0,10"
                         BackgroundColor="{StaticResource MainColor}"
@@ -111,7 +126,7 @@
                         CornerRadius="30"
                         FontFamily="{StaticResource PingFangRegular}"
                         FontSize="20"
-                        HeightRequest="57"
+                        HeightRequest="40"
                         HorizontalOptions="CenterAndExpand"
                         Text="Save Change"
                         TextColor="White"
@@ -120,5 +135,6 @@
             </pancakeView:PancakeView>
 
         </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

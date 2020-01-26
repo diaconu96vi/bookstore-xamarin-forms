@@ -13,12 +13,12 @@ using Xamarin.Forms.Xaml;
 namespace Bookstore.Views.Admin
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AddBooksPage : ContentPage
+    public partial class ManagePublishersPage : ContentPage
     {
-        public AddBooksPage()
+        public ManagePublishersPage()
         {
             InitializeComponent();
-            this.BindingContext = new AddBooksPageViewModel();
+            this.BindingContext = new ManagePublishersPageViewModel();
         }
     }
 }

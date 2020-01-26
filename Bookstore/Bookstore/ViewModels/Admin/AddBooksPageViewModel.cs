@@ -1,22 +1,26 @@
 ﻿using Bookstore.Models;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
 
 namespace Bookstore.ViewModels.Admin
 {
-    public class AddBooksPageViewModel
+    public class AddBooksPageViewModel : BaseViewModel
     {
         public Command SaveChangesCommand { get; set; }
+        public Command AddImageCommand { get; set; }
 
         public string ISBN { get; set; }
-        public string Title { get; set; }
+        public string BookTitle { get; set; }
         public DateTime Date { get; set; }
         public string Price { get; set; }
-        public string ImageUrl { get; set; }
+        public ImageSource SelectedImage { get; set; }
 
         public ObservableCollection<Author> Authors { get; set; }
         public ObservableCollection<Publication> Publications { get; set; }
@@ -29,11 +33,32 @@ namespace Bookstore.ViewModels.Admin
             Authors = GetAuthors();
             Publications = GetPublications();
             SaveChangesCommand = new Command(async () => await ExecuteSaveChangesCommand());
+            AddImageCommand = new Command(async () => await ExecuteAddImageCommand());
         }
 
         public async Task ExecuteSaveChangesCommand()
         {
             var date = Date.Date;
+        }
+        public async Task ExecuteAddImageCommand()
+        {
+            await CrossMedia.Current.Initialize();
+            if (!CrossMedia.Current.IsPickPhotoSupported)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Media not supported on this device", "Ok");
+                return;
+            }
+            var mediaOptions = new PickMediaOptions()
+            {
+                PhotoSize = PhotoSize.Small
+            };
+            var selectedFileImage = await CrossMedia.Current.PickPhotoAsync(mediaOptions);
+            if(selectedFileImage == null)
+            {
+                return;
+            }
+            SelectedImage = ImageSource.FromStream(() => selectedFileImage.GetStream());
+            OnPropertyChanged(nameof(SelectedImage));
         }
 
         private ObservableCollection<Author> GetAuthors()

@@ -1,4 +1,5 @@
-﻿using Bookstore.ViewModels.TabbedPages;
+﻿using Bookstore.ApplicationUtils;
+using Bookstore.ViewModels.TabbedPages;
 using Bookstore.Views.Admin;
 using Plugin.SharedTransitions;
 using System;
@@ -16,6 +17,7 @@ namespace Bookstore.Views.TabbedPages
     public partial class ProfilePage : ContentPage
     {
         private bool open;
+        private bool openAdmin;
         public ProfilePage()
         {
             InitializeComponent();
@@ -43,7 +45,16 @@ namespace Bookstore.Views.TabbedPages
                     //OpenPage(new MyCommentsPage());
                     break;
                 case "AddBooks":
-                    OpenPage(new AddBooksPage());
+                    OpenModalPage(new AddBooksPage());
+                    break;                
+                case "ManageGenres":
+                    OpenModalPage(new ManageGenresPage());
+                    break;
+                case "ManageAuthors":
+                    OpenModalPage(new ManageAuthorsPage());
+                    break;                
+                case "ManagePublishers":
+                    OpenModalPage(new ManagePublishersPage());
                     break;
             }
         }
@@ -51,6 +62,11 @@ namespace Bookstore.Views.TabbedPages
         private async void OpenPage(Page page)
         {
             await Navigation.PushAsync(page);
+        }
+        
+        private async void OpenModalPage(Page page)
+        {
+            await Navigation.PushModalAsync(page, true);
         }
 
         private void ChancePassClick(object sender, EventArgs e)
@@ -65,7 +81,8 @@ namespace Bookstore.Views.TabbedPages
 
         private void LogOutClick(object sender, EventArgs e)
         {
-            Application.Current.MainPage = new SharedTransitionNavigationPage(new MainPage());
+            ApplicationGeneralSettings.CurrentUser = null;
+            Application.Current.MainPage = new SharedTransitionNavigationPage(new StartupPage());
         }
 
         private void SettingClick(object sender, EventArgs e)
@@ -80,6 +97,20 @@ namespace Bookstore.Views.TabbedPages
             }
 
             SettingsView.IsVisible = open;
+        }
+
+        private void AdminClick(object sender, EventArgs e)
+        {
+            if (openAdmin)
+            {
+                openAdmin = false;
+            }
+            else
+            {
+                openAdmin = true;
+            }
+
+            AdminView.IsVisible = openAdmin;
         }
     }
 }

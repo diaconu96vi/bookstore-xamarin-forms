@@ -26,6 +26,7 @@
     <PackageReference Include="DLToolkit.Forms.Controls.FlowListView" Version="2.0.11" />
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="3.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Xam.Plugin.Media" Version="4.0.1.5" />
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle" Version="3.0.0.5" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.Forms" Version="4.3.0.908675" />  
@@ -55,6 +56,15 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Views\Admin\ManagePublishersPage.xaml.cs">
+      <DependentUpon>ManagePublishersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Admin\ManageGenresPage.xaml.cs">
+      <DependentUpon>ManageGenresPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Admin\ManageAuthorsPage.xaml.cs">
+      <DependentUpon>ManageAuthorsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Startup\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
@@ -67,6 +77,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Admin\AddBooksPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\DetailPages\BookDetailPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Startup\LoginPage.xaml">

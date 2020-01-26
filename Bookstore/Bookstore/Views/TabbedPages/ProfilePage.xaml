@@ -9,7 +9,7 @@
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:partialViews="clr-namespace:Bookstore.Views.PartialViews"
              BackgroundColor="White"
-             x:Class="Bookstore.Views.TabbedPages.ProfilePage"> 
+             x:Class="Bookstore.Views.TabbedPages.ProfilePage">
     <ContentPage.Content>
         <AbsoluteLayout>
             <StackLayout
@@ -52,6 +52,19 @@
                             <TapGestureRecognizer Tapped="SettingClick" />
                         </customControl:IconView.GestureRecognizers>
                     </customControl:IconView>
+                    <customControl:IconView
+                        x:Name="AdminIcon"
+                        IsVisible="{Binding IsAdmin}"
+                        Foreground="{StaticResource MainColor}"
+                        HeightRequest="30"
+                        HorizontalOptions="EndAndExpand"
+                        Source="fillstar.png"
+                        VerticalOptions="CenterAndExpand"
+                        WidthRequest="30">
+                        <customControl:IconView.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="AdminClick" />
+                        </customControl:IconView.GestureRecognizers>
+                    </customControl:IconView>
                 </StackLayout>
                 <StackLayout Spacing="20">
                     <BoxView Style="{StaticResource BoxViewStyle}" />
@@ -85,14 +98,6 @@
                         </StackLayout.GestureRecognizers>
                         <customControl:IconView Source="commetsProfile" Style="{StaticResource IconViewStyle}" />
                         <Label Style="{StaticResource ProfleLabelStyle}" Text="My Comments" />
-                    </StackLayout>
-                    <BoxView Style="{StaticResource BoxViewStyle}" />
-                    <StackLayout ClassId="AddBooks" IsVisible="{Binding IsAdmin}"  Orientation="Horizontal">
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OrderInfoClick" />
-                        </StackLayout.GestureRecognizers>
-                        <customControl:IconView Source="add.png" Style="{StaticResource IconViewStyle}" />
-                        <Label Style="{StaticResource ProfleLabelStyle}" Text="Add new books" />
                     </StackLayout>
                 </StackLayout>
 
@@ -134,6 +139,55 @@
                         </StackLayout.GestureRecognizers>
                         <customControl:IconView Source="logOut" Style="{StaticResource IconViewStyle}" />
                         <Label Style="{StaticResource ProfleLabelStyle}" Text="Log out" />
+                    </StackLayout>
+                </StackLayout>
+            </pancakeView:PancakeView>
+
+            <pancakeView:PancakeView
+                x:Name="AdminView"
+                IsVisible="False"
+                Margin="10"
+                Padding="0"
+                AbsoluteLayout.LayoutBounds="1,1,1,.3"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="White"
+                CornerRadius="8"
+                Elevation="5"
+                HasShadow="False">
+                <StackLayout
+                    Padding="5"
+                    Spacing="2"
+                    VerticalOptions="CenterAndExpand">
+                    <StackLayout ClassId="AddBooks" Orientation="Horizontal">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OrderInfoClick" />
+                        </StackLayout.GestureRecognizers>
+                        <customControl:IconView Source="add.png" Style="{StaticResource IconViewStyle}" />
+                        <Label Style="{StaticResource ProfleLabelStyle}" Text="Add new books" />
+                    </StackLayout>
+                    <BoxView Style="{StaticResource BoxViewStyle}" />
+                    <StackLayout ClassId="ManageGenres" Orientation="Horizontal">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OrderInfoClick" />
+                        </StackLayout.GestureRecognizers>
+                        <customControl:IconView Source="add.png" Style="{StaticResource IconViewStyle}" />
+                        <Label Style="{StaticResource ProfleLabelStyle}" Text="Manage book genres " />
+                    </StackLayout>
+                    <BoxView Style="{StaticResource BoxViewStyle}" />
+                    <StackLayout ClassId="ManageAuthors" Orientation="Horizontal">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OrderInfoClick" />
+                        </StackLayout.GestureRecognizers>
+                        <customControl:IconView Source="add.png" Style="{StaticResource IconViewStyle}" />
+                        <Label Style="{StaticResource ProfleLabelStyle}" Text="Manage authors " />
+                    </StackLayout>
+                    <BoxView Style="{StaticResource BoxViewStyle}" />
+                    <StackLayout ClassId="ManagePublishers" Orientation="Horizontal">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OrderInfoClick" />
+                        </StackLayout.GestureRecognizers>
+                        <customControl:IconView Source="add.png" Style="{StaticResource IconViewStyle}" />
+                        <Label Style="{StaticResource ProfleLabelStyle}" Text="Manage publishers" />
                     </StackLayout>
                 </StackLayout>
             </pancakeView:PancakeView>

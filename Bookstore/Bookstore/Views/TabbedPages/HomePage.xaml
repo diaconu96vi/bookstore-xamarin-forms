@@ -1,15 +1,193 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-             x:Class="Bookstore.Views.TabbedPages.HomePage">
+<ContentPage
+    x:Class="Bookstore.Views.TabbedPages.HomePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:carousel="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
+    xmlns:customControl="clr-namespace:Bookstore.CustomControls"
+    xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:renderers="clr-namespace:Bookstore.Renderers"
+    xmlns:sharedTransitions="clr-namespace:Plugin.SharedTransitions;assembly=Plugin.SharedTransitions"
+    sharedTransitions:SharedTransitionNavigationPage.BackgroundAnimation="SlideFromRight"
+    BackgroundColor="White"
+     NavigationPage.HasNavigationBar="False"
+    Visual="Material">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="MainStackLayout" TargetType="StackLayout">
+                <Setter Property="Margin" Value="10,0,10,20" />
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="HeightRequest" Value="210" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="WidthRequest" Value="150" />
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ScrollView>
+            <StackLayout>
+                <Frame
+                    Margin="10,20,10,20"
+                    HasShadow="False"
+                    HeightRequest="30"
+                    Style="{StaticResource FrameStyle}">
+                    <renderers:BorderlessSearchBar BackgroundColor="Transparent" FontFamily="{StaticResource PingFangRegular}" />
+                </Frame>
+                <Label
+                    Margin="10,5,10,5"
+                    FontAttributes="None"
+                    FontFamily="{StaticResource PingFangMedium}"
+                    FontSize="17"
+                    HorizontalOptions="Start"
+                    Text="Genres"
+                    TextColor="#2E2E2E" />
+                <ScrollView
+                    Margin="10,0,10,20"
+                    HorizontalScrollBarVisibility="Never"
+                    Orientation="Horizontal"
+                    VerticalScrollBarVisibility="Never">
+                    <customControl:RepeaterView ItemsSource="{Binding GenresList}" Orientation="Horizontal">
+                        <customControl:RepeaterView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout>
+                                        <pancakeView:PancakeView
+
+                                            Margin="5"
+                                            Padding="0"
+                                            BackgroundColor="White"
+                                            CornerRadius="30"
+                                            Elevation="1"
+                                            HasShadow="False"
+                                            HeightRequest="60"
+                                            WidthRequest="60">
+
+                                            <customControl:IconView
+                                                Margin="10"
+                                                BackgroundColor="White"
+                                                Foreground="{StaticResource MainColor}"
+                                                HeightRequest="35"
+                                                HorizontalOptions="FillAndExpand"
+                                                Source="{Binding Image}"
+                                                WidthRequest="35" />
+                                        </pancakeView:PancakeView>
+                                        <Label
+                                            FontSize="12"
+                                            HorizontalOptions="CenterAndExpand"
+                                            HorizontalTextAlignment="Center"
+                                            Style="{StaticResource LabelStyle}"
+                                            Text="{Binding GenreName}"
+                                            TextColor="#2E2E2E"
+                                            VerticalTextAlignment="Center" />
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="GenreDetail_Tapped"></TapGestureRecognizer>
+                                        </StackLayout.GestureRecognizers>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </customControl:RepeaterView.ItemTemplate>
+                    </customControl:RepeaterView>
+                </ScrollView>
+                <carousel:CarouselViewControl
+                    ItemsSource="{Binding CarouselImages}"
+                    Margin="10,0,10,20"
+                    BackgroundColor="{StaticResource MainColor}"
+                    CurrentPageIndicatorTintColor="White"
+                    HeightRequest="150"
+                    IndicatorsTintColor="{StaticResource MainColor}"
+                    InterPageSpacing="1"
+                    IsSwipeEnabled="True"
+                    Position="0"
+                    ShowArrows="False"
+                    ShowIndicators="True"
+                    WidthRequest="300">
+                    <carousel:CarouselViewControl.ItemTemplate>
+                        <DataTemplate>
+                            <ContentView>
+                                <forms:CachedImage
+                                    Margin="0"
+                                    Aspect="AspectFill"
+                                    Source="{Binding CarouselImage}" />
+                            </ContentView>
+                        </DataTemplate>
+                    </carousel:CarouselViewControl.ItemTemplate>
+                </carousel:CarouselViewControl>
+
+                <StackLayout
+                    Margin="10,5,10,10"
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Horizontal">
+                    <Label
+                        FontAttributes="None"
+                        FontSize="17"
+                        HorizontalOptions="Start"
+                        Style="{StaticResource LabelStyle}"
+                        Text="Best Sellers"
+                        TextColor="#2E2E2E"
+                        VerticalOptions="Center"
+                        VerticalTextAlignment="Center" />
+                </StackLayout>
+
+                <ScrollView HorizontalScrollBarVisibility="Never" Orientation="Horizontal">
+                    <customControl:RepeaterView
+                    ItemsSource="{Binding BooksList}"
+                    Orientation="Horizontal"
+                    Spacing="10">
+                        <customControl:RepeaterView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <pancakeView:PancakeView
+                                    Margin="5"
+                                    Padding="5"
+                                    BackgroundColor="White"
+                                    CornerRadius="8"
+                                    Elevation="2"
+                                    HasShadow="False"
+                                    HeightRequest="250"
+                                    HorizontalOptions="StartAndExpand"
+                                    VerticalOptions="StartAndExpand"
+                                    WidthRequest="130">
+                                        <StackLayout>
+                                            <StackLayout
+                                                Padding="10"
+                                                BackgroundColor="#f7f7f7"
+                                                HorizontalOptions="FillAndExpand">
+                                                <forms:CachedImage
+                                            Aspect="AspectFit"
+                                            HeightRequest="150"
+                                            Source="{Binding Image}" />
+                                            </StackLayout>
+                                            <Label
+                                                FontFamily="{StaticResource PingFangMedium}"
+                                                FontSize="15"
+                                                Text="{Binding Title}"
+                                                TextColor="#2E2E2E">
+                                            </Label>
+                                            <Label
+                                                FontSize="11"
+                                                Style="{StaticResource LabelStyle}"
+                                                Text="{Binding AuthorName}"
+                                                TextColor="DarkGray" />
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontFamily="{StaticResource PingFangBold}"
+                                                FontSize="20"
+                                                Text="{Binding Price, StringFormat='{0} Lei'}"
+                                                TextColor="{StaticResource MainColor}" />
+                                            <StackLayout.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="BookDetail_Tapped" ></TapGestureRecognizer>
+                                            </StackLayout.GestureRecognizers>
+                                        </StackLayout>
+                                    </pancakeView:PancakeView>
+                                </ViewCell>
+                            </DataTemplate>
+                        </customControl:RepeaterView.ItemTemplate>
+                    </customControl:RepeaterView>
+                </ScrollView>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

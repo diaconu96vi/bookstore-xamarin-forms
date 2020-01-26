@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace Bookstore.API.Models
+namespace Bookstore.Models
 {
     public class Genre
     {
-        [Required]
-        [Key]
         public int GenreSysID { get; set; }
-
         public string Name { get; set; }
-
         public byte[] Image { get; set; }
     }
 }

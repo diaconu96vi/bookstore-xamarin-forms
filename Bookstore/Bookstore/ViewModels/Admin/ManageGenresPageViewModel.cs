@@ -68,6 +68,7 @@ namespace Bookstore.ViewModels.Admin
                     Image = SelectedAddGenreImage
                 };
                 Genres.Add(newGenre);
+                OnPropertyChanged(nameof(Genres));
             }
             else
             {

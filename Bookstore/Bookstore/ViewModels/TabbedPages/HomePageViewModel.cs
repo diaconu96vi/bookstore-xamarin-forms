@@ -13,7 +13,7 @@ namespace Bookstore.ViewModels.TabbedPages
     public class HomePageViewModel : BaseViewModel
     {
 
-        public ObservableCollection<Carousel> CarouselImages { get; set; }
+        public ObservableCollection<Models.CarouselView> CarouselImages { get; set; }
         public ObservableCollection<GenreView> GenresList { get; set; }
         public ObservableCollection<BookView> BooksList { get; set; }
 
@@ -42,23 +42,23 @@ namespace Bookstore.ViewModels.TabbedPages
             };
         }
 
-        private ObservableCollection<Carousel> RetrieveCarouselImages()
+        private ObservableCollection<Models.CarouselView> RetrieveCarouselImages()
         {
-            return new ObservableCollection<Carousel>()
+            return new ObservableCollection<Models.CarouselView>()
             {
-                new Carousel()
+                new Models.CarouselView()
                 {
                     CarouselImage = "bookshop_carousel1.jpg"
                 },
-                new Carousel()
+                new Models.CarouselView()
                 {
                     CarouselImage = "bookshop_carousel2.jpg"
                 },
-                new Carousel()
+                new Models.CarouselView()
                 {
                     CarouselImage = "bookshop_carousel3.jpg"
                 },
-                new Carousel()
+                new Models.CarouselView()
                 {
                     CarouselImage = "bookshop_carousel4.jpg"
                 }

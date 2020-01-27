@@ -17,10 +17,10 @@ namespace Bookstore.ViewModels.Admin
         public string AddPublisherName { get; set; }
         public string UpdatePublisherName { get; set; }
 
-        public Publication SelectedUpdatePublisher { get; set; }
-        public Publication SelectedDeletePublisher { get; set; }
+        public Publisher SelectedUpdatePublisher { get; set; }
+        public Publisher SelectedDeletePublisher { get; set; }
 
-        public ObservableCollection<Publication> Publishers { get; set; }
+        public ObservableCollection<Publisher> Publishers { get; set; }
         public ManagePublishersPageViewModel()
         {
             AddPublisherCommand = new Command(async () => await ExecuteAddPublisherCommand());

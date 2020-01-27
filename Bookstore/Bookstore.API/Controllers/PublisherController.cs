@@ -1,24 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Bookstore.API.Data;
+﻿using Bookstore.API.Data;
 using Bookstore.API.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Bookstore.API.Controllers
 {
     [Route("api/[controller]")]
-    public class GenreController : Controller
+    public class PublisherController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _environment;
 
-        public GenreController(ApplicationDbContext context, IWebHostEnvironment environment)
+        public PublisherController(ApplicationDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
             _environment = environment;
@@ -27,10 +25,10 @@ namespace Bookstore.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var genres = await _context.Genres.ToListAsync();
-            if (genres != null)
+            var publishers = await _context.Publishers.ToListAsync();
+            if (publishers != null)
             {
-                return Ok(genres);
+                return Ok(publishers);
             }
             return BadRequest();
         }
@@ -39,63 +37,62 @@ namespace Bookstore.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetRecord(int id)
         {
-            var genre = await _context.Genres.FirstOrDefaultAsync(x => x.GenreSysID == id);
-            if(genre != null)
+            var publisher = await _context.Publishers.FirstOrDefaultAsync(x => x.SysID == id);
+            if (publisher != null)
             {
                 return BadRequest();
             }
-            return Ok(genre);
+            return Ok(publisher);
         }
 
         // POST api/<controller>
         [HttpPost]
-        public async Task<IActionResult> CreateRecord([FromBody]Genre value)
+        public async Task<IActionResult> CreateRecord([FromBody]Publisher value)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var genre = await _context.Genres.FirstOrDefaultAsync(x=> x.GenreSysID == value.GenreSysID);
-            if(genre != null)
+            var publisher = await _context.Publishers.FirstOrDefaultAsync(x => x.SysID == value.SysID);
+            if (publisher != null)
             {
                 return BadRequest();
             }
-            _context.Genres.Add(value);
+            _context.Publishers.Add(publisher);
             var result = await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(CreateRecord), new { id = value.GenreSysID }, value);
+            return CreatedAtAction(nameof(CreateRecord), new { id = value.SysID }, value);
         }
 
         // PUT api/<controller>/5
         [HttpPut()]
-        public async Task<IActionResult> UpdateItem([FromBody]Genre value)
+        public async Task<IActionResult> UpdateItem([FromBody]Publisher value)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var genre = await _context.Genres.FirstOrDefaultAsync(x => x.GenreSysID == value.GenreSysID);
-            if(genre == null)
+            var publisher = await _context.Publishers.FirstOrDefaultAsync(x => x.SysID == value.SysID);
+            if (publisher == null)
             {
                 return NotFound();
             }
-            genre.Image = value.Image;
-            genre.Name = value.Name;
+            publisher.Name = value.Name;
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(UpdateItem), new { id = genre.GenreSysID }, genre);
+            return CreatedAtAction(nameof(UpdateItem), new { id = publisher.SysID }, publisher);
         }
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteItem(int id)
         {
-            var genre = await _context.Genres.FirstOrDefaultAsync(x => x.GenreSysID == id);
-            if(genre == null)
+            var publisher = await _context.Publishers.FirstOrDefaultAsync(x => x.SysID == id);
+            if (publisher == null)
             {
                 return NotFound();
             }
-            _context.Genres.Remove(genre);
+            _context.Publishers.Remove(publisher);
             await _context.SaveChangesAsync();
 
             return NoContent();

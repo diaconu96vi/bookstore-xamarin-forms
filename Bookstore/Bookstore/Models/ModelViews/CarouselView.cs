@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Bookstore.Models
 {
-    public class Carousel
+    public class CarouselView
     {
         public string CarouselImage { get; set; }
     }

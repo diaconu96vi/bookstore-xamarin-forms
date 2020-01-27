@@ -1,29 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace Bookstore.API.Models
+namespace Bookstore.Models
 {
     public class Book
     {
-        [Required]
-        [Key]
         public int BookSysID { get; set; }
 
-        public string ISBN { get; set; } 
+        public string ISBN { get; set; }
         public string Title { get; set; }
         public DateTime PublicationDate { get; set; }
         public byte[] Image { get; set; }
 
         public int Price { get; set; }
 
-        [ForeignKey("Author")]
         public int AuthorFK_SysID { get; set; }
 
-        [ForeignKey("Publisher")]
         public int PublisherFK_SysID { get; set; }
 
 
@@ -31,13 +24,5 @@ namespace Bookstore.API.Models
         public Author Author { get; set; }
 
         public Publisher Publisher { get; set; }
-
-        //Reverse navigation
-        public List<BookGenre> BookGenres { get; set; }
-
-        public Book()
-        {
-            BookGenres = new List<BookGenre>();
-        }
     }
 }

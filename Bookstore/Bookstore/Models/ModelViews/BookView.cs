@@ -10,6 +10,7 @@ namespace Bookstore.Models
         public int SysID { get; set; }
         public string Title { get; set; }
         public string Price { get; set; }
+        public DateTime PublicationDate { get; set; }
         public string AuthorName { get; set; }
         public string PublicationName { get; set; }
 

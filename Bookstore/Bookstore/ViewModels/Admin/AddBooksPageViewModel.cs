@@ -23,10 +23,10 @@ namespace Bookstore.ViewModels.Admin
         public ImageSource SelectedImage { get; set; }
 
         public ObservableCollection<Author> Authors { get; set; }
-        public ObservableCollection<Publication> Publications { get; set; }
+        public ObservableCollection<Publisher> Publications { get; set; }
 
         public Author SelectedAuthor { get; set; }
-        public Publication SelectedPublication { get; set; }
+        public Publisher SelectedPublication { get; set; }
 
         public AddBooksPageViewModel()
         {
@@ -79,16 +79,16 @@ namespace Bookstore.ViewModels.Admin
             return authors;
         }        
 
-        private ObservableCollection<Publication> GetPublications()
+        private ObservableCollection<Publisher> GetPublications()
         {
-            ObservableCollection<Publication> publications = new ObservableCollection<Publication>()
+            ObservableCollection<Publisher> publications = new ObservableCollection<Publisher>()
             {
-                new Publication()
+                new Publisher()
                 {
                     SysID = 1,
                     Name = "carturestis"
                 },
-                new Publication()
+                new Publisher()
                 {
                     SysID = 1,
                     Name = "diverta"

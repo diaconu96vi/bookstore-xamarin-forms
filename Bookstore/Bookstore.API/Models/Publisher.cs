@@ -10,10 +10,17 @@ namespace Bookstore.API.Models
     {
         [Required]
         [Key]
-        public int PublisherSysID { get; set; }
+        public int SysID { get; set; }
 
         public string Name { get; set; }
 
-        public ICollection<Book> Books { get; set; }
+        //Reverse navigation
+
+        public List<Book> Books { get; set; }
+
+        public Publisher()
+        {
+            Books = new List<Book>();
+        }
     }
 }

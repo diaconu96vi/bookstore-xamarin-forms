@@ -9,5 +9,13 @@ namespace Bookstore.Models
         public int GenreSysID { get; set; }
         public string Name { get; set; }
         public byte[] Image { get; set; }
+
+        //Reverse navigation
+        public List<BookGenre> BookGenres { get; set; }
+
+        public Genre()
+        {
+            BookGenres = new List<BookGenre>();
+        }
     }
 }

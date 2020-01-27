@@ -4,20 +4,19 @@ using System.Text;
 
 namespace Bookstore.Models
 {
-    public class Author
+    public class Publisher
     {
         public int SysID { get; set; }
 
         public string Name { get; set; }
 
-        public string CompanyName { get; set; }
-
         //Reverse navigation
+
         public List<Book> Books { get; set; }
 
-        public Author()
+        public Publisher()
         {
             Books = new List<Book>();
         }
-    }
+    }   
 }

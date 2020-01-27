@@ -15,5 +15,13 @@ namespace Bookstore.API.Models
         public string Name { get; set; }
 
         public byte[] Image { get; set; }
+
+        //Reverse navigation
+        public List<BookGenre> BookGenres { get; set; }
+
+        public Genre()
+        {
+            BookGenres = new List<BookGenre>();
+        }
     }
 }

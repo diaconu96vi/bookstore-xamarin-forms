@@ -14,7 +14,6 @@ namespace Bookstore
         {
             InitializeComponent();
 
-            DependencyService.Register<MockDataStore>();
             MainPage = new NavigationPage(new SplashPage());
         }
 

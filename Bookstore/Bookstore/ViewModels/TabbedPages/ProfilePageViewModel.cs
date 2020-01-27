@@ -9,8 +9,15 @@ namespace Bookstore.ViewModels.TabbedPages
     {
         public bool? IsAdmin { get; set; }
 
+        public string UserName { get; set; }
+        public string UserEmail { get; set; }
+
         public ProfilePageViewModel()
         {
+            UserName = ApplicationGeneralSettings.CurrentUser.UserName;
+            UserEmail = ApplicationGeneralSettings.CurrentUser.Email;
+            OnPropertyChanged(nameof(UserName));
+            OnPropertyChanged(nameof(UserEmail));
             VerifyAdminPage();
         }
 

@@ -43,6 +43,8 @@ namespace Bookstore.ViewModels.Admin
         public ObservableCollection<BookView> Books { get; set; }
         public ManageBooksPageViewModel()
         {
+            Date = DateTime.Today.Date;
+            OnPropertyChanged(nameof(Date));
             authorApiService = new AuthorApiService();
             bookApiService = new BookApiService();
             publisherApiService = new PublisherApiService();
@@ -134,6 +136,7 @@ namespace Bookstore.ViewModels.Admin
             OnPropertyChanged(nameof(SelectedAuthor));
             OnPropertyChanged(nameof(SelectedPublication));
             OnPropertyChanged(nameof(SelectedImage));
+            OnPropertyChanged(nameof(ISBN));
 
         }
 

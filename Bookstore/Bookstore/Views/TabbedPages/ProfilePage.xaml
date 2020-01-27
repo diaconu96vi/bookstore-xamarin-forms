@@ -33,11 +33,11 @@
                         <Label
                             FontFamily="{StaticResource PingFangMedium}"
                             FontSize="18"
-                            Text="Ufuk SAHIN"
+                            Text="{Binding UserName}"
                             TextColor="#2E2E2E" />
                         <Label
                             FontSize="12"
-                            Text="Ufukzimmerman@gmail.com"
+                            Text="{Binding UserEmail}"
                             TextColor="#8B8B8B" />
                     </StackLayout>
                     <customControl:IconView

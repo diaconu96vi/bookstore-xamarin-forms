@@ -1,4 +1,6 @@
-﻿using Bookstore.Models;
+﻿using Bookstore.Converters;
+using Bookstore.Models;
+using Bookstore.Services;
 using Bookstore.Views.DetailPages;
 using System;
 using System.Collections.Generic;
@@ -19,17 +21,20 @@ namespace Bookstore.ViewModels.TabbedPages
 
         public BookView SelectedBook { get; set; }
         public GenreView SelectedGenre { get; set; }
+
+        public GenreApiService _genreApiService { get; set; }
+        public BookApiService _bookApiService { get; set; }
+        public AuthorApiService _authorApiService { get; set; }
+
         public HomePageViewModel()
         {
+            _genreApiService = new GenreApiService();
+            _bookApiService = new BookApiService();
+            _authorApiService = new AuthorApiService();
             CarouselImages = RetrieveCarouselImages();
-            GenresList = new ObservableCollection<GenreView>()
-            {
-                new GenreView()
-                {
-                    GenreName = "Romance",
-                    Image = "barberSeat.png"
-                }
-            };
+            ConfigureGenresListDataSource();
+            ConfigureBooksListDataSource();
+
             BooksList = new ObservableCollection<BookView>()
             {
                 new BookView()
@@ -40,6 +45,53 @@ namespace Bookstore.ViewModels.TabbedPages
                     Image = "machine.jpg"
                 }
             };
+        }
+        
+        private async void ConfigureGenresListDataSource()
+        {
+            var allGenres = await _genreApiService.GetAll();
+            if(allGenres == null && allGenres.Any())
+            {
+                return;
+            }
+            var convertedList = new ObservableCollection<GenreView>();
+            foreach (var genre in allGenres.ToList())
+            {
+                var convertGenre = new GenreView()
+                {
+                    SysID = genre.GenreSysID,
+                    GenreName = genre.Name,
+                    Image = BitmapConverter.ByteToImageSource(genre.Image)
+                };
+                convertedList.Add(convertGenre);
+            }
+            GenresList = convertedList;
+            OnPropertyChanged(nameof(GenresList));
+        }
+
+        private async void ConfigureBooksListDataSource()
+        {
+            var allBooks = await _bookApiService.GetAll();
+            if(allBooks == null && allBooks.Any())
+            {
+                return;
+            }
+            var convertedList = new ObservableCollection<BookView>();
+            foreach (var book in allBooks.ToList())
+            {
+                var author = await _authorApiService.GetRecordAsync(book.AuthorFK_SysID);
+                var convertBook = new BookView()
+                {
+                    SysID = book.BookSysID,
+                    Title = book.Title,
+                    AuthorName = author.Name,
+                    Price = book.Price.ToString(),
+                    Image = BitmapConverter.ByteToImageSource(book.Image)
+                };
+                convertedList.Add(convertBook);
+            }
+            BooksList = convertedList;
+            OnPropertyChanged(nameof(BooksList));
         }
 
         private ObservableCollection<Models.CarouselView> RetrieveCarouselImages()

@@ -113,6 +113,7 @@ namespace Bookstore.ViewModels.Admin
             }
             Genres = convertGenres;
             OnPropertyChanged(nameof(Genres));
+            OnPropertyChanged(nameof(SelectedAddGenreImage));
         }
         public async Task ExecuteUpdateGenresCommand()
         {
@@ -203,7 +204,8 @@ namespace Bookstore.ViewModels.Admin
             }
             var mediaOptions = new PickMediaOptions()
             {
-                PhotoSize = PhotoSize.Small
+                MaxWidthHeight = 30,
+                PhotoSize = PhotoSize.MaxWidthHeight
             };
             var selectedFileImage = await CrossMedia.Current.PickPhotoAsync(mediaOptions);
             if (selectedFileImage == null)
@@ -225,7 +227,8 @@ namespace Bookstore.ViewModels.Admin
             }
             var mediaOptions = new PickMediaOptions()
             {
-                PhotoSize = PhotoSize.Small
+                MaxWidthHeight = 30,
+                PhotoSize = PhotoSize.MaxWidthHeight
             };
             var selectedFileImage = await CrossMedia.Current.PickPhotoAsync(mediaOptions);
             if (selectedFileImage == null)

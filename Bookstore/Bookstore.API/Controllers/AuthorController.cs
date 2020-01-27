@@ -42,7 +42,7 @@ namespace Bookstore.API.Controllers
         public async Task<IActionResult> GetRecord(int id)
         {
             var author = await _context.Authors.FirstOrDefaultAsync(x => x.SysID == id);
-            if (author != null)
+            if (author == null)
             {
                 return BadRequest();
             }

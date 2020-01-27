@@ -9,97 +9,105 @@
              xmlns:partialViews="clr-namespace:Bookstore.Views.PartialViews"
              xmlns:renderers="clr-namespace:Bookstore.Renderers"
              BackgroundColor="White"
-             x:Class="Bookstore.Views.Admin.AddBooksPage"
+             x:Class="Bookstore.Views.Admin.ManageBooksPage"
              NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
         <ScrollView>
-        <StackLayout>
-            <partialViews:NavigationBarPartialView>
-                <x:Arguments>
-                    <x:String>Add books</x:String>
-                    <x:Boolean>True</x:Boolean>
-                    <x:Boolean>True</x:Boolean>
-                </x:Arguments>
-            </partialViews:NavigationBarPartialView>
-            <pancakeView:PancakeView
+            <StackLayout>
+                <partialViews:NavigationBarPartialView>
+                    <x:Arguments>
+                        <x:String>Add books</x:String>
+                        <x:Boolean>True</x:Boolean>
+                        <x:Boolean>True</x:Boolean>
+                    </x:Arguments>
+                </partialViews:NavigationBarPartialView>
+                <pancakeView:PancakeView
                 Margin="10"
                 Padding="10"
                 CornerRadius="8"
                 HasShadow="False"
                 VerticalOptions="FillAndExpand">
-                <StackLayout Spacing="2">
-                    <Label
+                    <StackLayout Spacing="2">
+                        <!--Add book-->
+                        <BoxView Style="{StaticResource BoxViewStyle}" />
+                        <Label
+                        FontFamily="{StaticResource PingFangRegular}"
+                        FontSize="20"
+                        Text="Add book"
+                        TextColor="{StaticResource MainColor}" />
+                        <BoxView Style="{StaticResource BoxViewStyle}" />
+                        <Label
                         FontFamily="{StaticResource PingFangRegular}"
                         FontSize="15"
                         Text="Title"
                         TextColor="{StaticResource DarkFontColor}" />
-                    <Frame Style="{StaticResource FrameStyle}">
-                        <renderers:BorderlessEntry 
+                        <Frame Style="{StaticResource FrameStyle}">
+                            <renderers:BorderlessEntry 
                             FontSize="10"
                             Text="{Binding BookTitle}"
                             TextColor="{StaticResource DarkFontColor}" />
-                    </Frame>
-                    <Label
+                        </Frame>
+                        <Label
                         FontFamily="{StaticResource PingFangRegular}"
                         FontSize="15"
                         Text="ISBN"
                         TextColor="{StaticResource DarkFontColor}" />
-                    <Frame Style="{StaticResource FrameStyle}">
-                        <renderers:BorderlessEntry 
+                        <Frame Style="{StaticResource FrameStyle}">
+                            <renderers:BorderlessEntry 
                             FontSize="10"
                             Text="{Binding ISBN}"
                             TextColor="{StaticResource DarkFontColor}" />
-                    </Frame>
-                    <Label
+                        </Frame>
+                        <Label
                         FontFamily="{StaticResource PingFangRegular}"
                         FontSize="15"
                         Text="Publication date"
                         TextColor="{StaticResource DarkFontColor}" />
-                    <Frame Style="{StaticResource FrameStyle}">
-                        <renderers:BorderlessDatePicker
+                        <Frame Style="{StaticResource FrameStyle}">
+                            <renderers:BorderlessDatePicker
                             FontSize="10"
                             Date="{Binding Date}"
                             TextColor="{StaticResource DarkFontColor}" />
-                    </Frame>                    
-                    <Label
+                        </Frame>
+                        <Label
                         FontFamily="{StaticResource PingFangRegular}"
                         FontSize="15"
                         Text="Price"
                         TextColor="{StaticResource DarkFontColor}" />
-                    <Frame Style="{StaticResource FrameStyle}">
-                        <renderers:BorderlessEntry
+                        <Frame Style="{StaticResource FrameStyle}">
+                            <renderers:BorderlessEntry
                             FontSize="10"
                             Text="{Binding Price}"
                             Keyboard="Numeric"
                             TextColor="{StaticResource DarkFontColor}" />
-                    </Frame>                    
-                    <Label
+                        </Frame>
+                        <Label
                         FontFamily="{StaticResource PingFangRegular}"
                         FontSize="15"
                         Text="Author"
                         TextColor="{StaticResource DarkFontColor}" />
-                    <Frame Style="{StaticResource FrameStyle}">
-                        <renderers:BorderlessPicker
+                        <Frame Style="{StaticResource FrameStyle}">
+                            <renderers:BorderlessPicker
                             FontSize="10"
                             ItemsSource="{Binding Authors}"
                             ItemDisplayBinding="{Binding Name}"
                             SelectedItem="{Binding SelectedAuthor}"
                             TextColor="{StaticResource DarkFontColor}" />
-                    </Frame>                    
-                    <Label
+                        </Frame>
+                        <Label
                         FontFamily="{StaticResource PingFangRegular}"
                         FontSize="15"
                         Text="Publication"
                         TextColor="{StaticResource DarkFontColor}" />
-                    <Frame Style="{StaticResource FrameStyle}">
-                        <renderers:BorderlessPicker
+                        <Frame Style="{StaticResource FrameStyle}">
+                            <renderers:BorderlessPicker
                             FontSize="10"
-                            ItemsSource="{Binding Publications}"
+                            ItemsSource="{Binding Publishers}"
                             ItemDisplayBinding="{Binding Name}"
                             SelectedItem="{Binding SelectedPublication}"
                             TextColor="{StaticResource DarkFontColor}" />
-                    </Frame>
-                    <Button
+                        </Frame>
+                        <Button
                         Margin="0,10,0,10"
                         BackgroundColor="{StaticResource MainColor}"
                         BorderColor="{StaticResource MainColor}"
@@ -113,11 +121,11 @@
                         Text="Add image"
                         TextColor="White"
                         WidthRequest="227" />
-                    <forms:CachedImage
+                        <forms:CachedImage
                                     Source="{Binding SelectedImage}"
                                     Aspect="AspectFit"
                                     HeightRequest="100" />
-                    <Button
+                        <Button
                         Margin="0,10,0,10"
                         BackgroundColor="{StaticResource MainColor}"
                         BorderColor="{StaticResource MainColor}"
@@ -131,10 +139,40 @@
                         Text="Save Change"
                         TextColor="White"
                         WidthRequest="227" />
-                </StackLayout>
-            </pancakeView:PancakeView>
+                        <!--Delete book-->
+                        <BoxView Style="{StaticResource BoxViewStyle}" />
+                        <Label
+                        FontFamily="{StaticResource PingFangRegular}"
+                        FontSize="20"
+                        Text="Delete book"
+                        TextColor="{StaticResource MainColor}" />
+                        <BoxView Style="{StaticResource BoxViewStyle}" />
+                        <Frame Style="{StaticResource FrameStyle}">
+                            <renderers:BorderlessPicker
+                            FontSize="15"
+                            ItemsSource="{Binding Books}"
+                            ItemDisplayBinding="{Binding Title}"
+                            SelectedItem="{Binding SelectedBook}"
+                            TextColor="{StaticResource DarkFontColor}" />
+                        </Frame>
+                        <Button
+                        Margin="0,10,0,10"
+                        BackgroundColor="{StaticResource MainColor}"
+                        BorderColor="{StaticResource MainColor}"
+                        BorderWidth="2"
+                        Command="{Binding DeleteBookCommand}"
+                        CornerRadius="30"
+                        FontFamily="{StaticResource PingFangRegular}"
+                        FontSize="20"
+                        HeightRequest="40"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="Confirm delete"
+                        TextColor="White"
+                        WidthRequest="227" />
+                    </StackLayout>
+                </pancakeView:PancakeView>
 
-        </StackLayout>
+            </StackLayout>
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>

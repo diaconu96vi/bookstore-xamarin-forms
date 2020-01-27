@@ -62,17 +62,15 @@
                                             CornerRadius="30"
                                             Elevation="1"
                                             HasShadow="False"
-                                            HeightRequest="60"
-                                            WidthRequest="60">
+                                            HeightRequest="90"
+                                            WidthRequest="90">
 
-                                            <customControl:IconView
+                                            <forms:CachedImage
                                                 Margin="10"
-                                                BackgroundColor="White"
-                                                Foreground="{StaticResource MainColor}"
-                                                HeightRequest="35"
+                                                HeightRequest="50"
                                                 HorizontalOptions="FillAndExpand"
                                                 Source="{Binding Image}"
-                                                WidthRequest="35" />
+                                                WidthRequest="50" />
                                         </pancakeView:PancakeView>
                                         <Label
                                             FontSize="12"

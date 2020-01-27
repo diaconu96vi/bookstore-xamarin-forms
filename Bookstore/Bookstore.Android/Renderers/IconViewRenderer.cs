@@ -14,9 +14,11 @@ namespace Bookstore.Droid.Renderers
     public class IconViewRenderer : ViewRenderer<IconView, ImageView>
     {
         private bool _isDisposed;
+        private Context context { get; set; }
 
         public IconViewRenderer(Context context) : base(context)
         {
+            this.context = context;
             base.AutoPackage = false;
         }
 
@@ -57,7 +59,7 @@ namespace Bookstore.Droid.Renderers
         {
             if (!_isDisposed && !string.IsNullOrWhiteSpace(Element.Source))
             {
-                var d = Resources.GetDrawable(Element.Source).Mutate();
+                var d = context.GetDrawable(Element.Source).Mutate();
                 d.SetColorFilter(new LightingColorFilter(Element.Foreground.ToAndroid(), Element.Foreground.ToAndroid()));
                 d.Alpha = Element.Foreground.ToAndroid().A;
                 Control.SetImageDrawable(d);

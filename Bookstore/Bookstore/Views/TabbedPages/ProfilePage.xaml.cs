@@ -45,7 +45,7 @@ namespace Bookstore.Views.TabbedPages
                     //OpenPage(new MyCommentsPage());
                     break;
                 case "AddBooks":
-                    OpenModalPage(new AddBooksPage());
+                    OpenModalPage(new ManageBooksPage());
                     break;                
                 case "ManageGenres":
                     OpenModalPage(new ManageGenresPage());

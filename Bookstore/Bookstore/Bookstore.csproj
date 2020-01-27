@@ -56,6 +56,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Views\Admin\ManageBooksPage.xaml.cs">
+      <DependentUpon>ManageBooksPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Admin\ManagePublishersPage.xaml.cs">
       <DependentUpon>ManagePublishersPage.xaml</DependentUpon>
     </Compile>
@@ -76,7 +79,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Admin\AddBooksPage.xaml">
+    <EmbeddedResource Update="Views\Admin\ManageBooksPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\DetailPages\BookDetailPage.xaml">

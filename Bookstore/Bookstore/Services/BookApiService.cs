@@ -9,42 +9,28 @@ using System.Threading.Tasks;
 
 namespace Bookstore.Services
 {
-    public class AuthorApiService : BaseApiService
+    public class BookApiService : BaseApiService
     {
-        public AuthorApiService() : base()
+        public BookApiService() : base()
         {
 
         }
 
-        public async Task<List<Author>> GetAll()
+        public async Task<List<Book>> GetAll()
         {
-            var response = await HttpClient.GetAsync("Author");
+            var response = await HttpClient.GetAsync("Book");
             if (response.IsSuccessStatusCode)
             {
                 var str = await response.Content.ReadAsStringAsync();
-                var authors = JsonConvert.DeserializeObject<List<Author>>(str);
-                return authors;
+                var Book = JsonConvert.DeserializeObject<List<Book>>(str);
+                return Book;
             }
             else
             {
-                return new List<Author>();
+                return new List<Book>();
             }
         }
-        public async Task<Author> GetRecordAsync(int id)
-        {
-            var response = await HttpClient.GetAsync(string.Format("Author/{0}", id));
-            if (response.IsSuccessStatusCode)
-            {
-                var str = await response.Content.ReadAsStringAsync();
-                var author = JsonConvert.DeserializeObject<Author>(str);
-                return author;
-            }
-            else
-            {
-                return null;
-            }
-        }
-        public async Task<Author> CreateAsync(Author model)
+        public async Task<Book> CreateAsync(Book model)
         {
             var json = JsonConvert.SerializeObject(model);
 
@@ -52,12 +38,12 @@ namespace Bookstore.Services
 
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-            var response = await HttpClient.PostAsync("Author", content);
+            var response = await HttpClient.PostAsync("Book", content);
             if (response.IsSuccessStatusCode)
             {
                 var str = await response.Content.ReadAsStringAsync();
-                var author = JsonConvert.DeserializeObject<Author>(str);
-                return author;
+                var Book = JsonConvert.DeserializeObject<Book>(str);
+                return Book;
             }
             else
             {
@@ -65,7 +51,7 @@ namespace Bookstore.Services
             }
         }
 
-        public async Task<Author> UpdateAsync(Author model)
+        public async Task<Book> UpdateAsync(Book model)
         {
             var json = JsonConvert.SerializeObject(model);
 
@@ -73,12 +59,12 @@ namespace Bookstore.Services
 
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-            var response = await HttpClient.PutAsync("Author", content);
+            var response = await HttpClient.PutAsync("Book", content);
             if (response.IsSuccessStatusCode)
             {
                 var str = await response.Content.ReadAsStringAsync();
-                var author = JsonConvert.DeserializeObject<Author>(str);
-                return author;
+                var Book = JsonConvert.DeserializeObject<Book>(str);
+                return Book;
             }
             else
             {
@@ -88,8 +74,8 @@ namespace Bookstore.Services
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var response = await HttpClient.DeleteAsync(string.Format("Author/{0}", id));
-            if(response.IsSuccessStatusCode)
+            var response = await HttpClient.DeleteAsync(string.Format("Book/{0}", id));
+            if (response.IsSuccessStatusCode)
             {
                 return true;
             }

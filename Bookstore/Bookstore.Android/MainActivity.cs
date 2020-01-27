@@ -14,7 +14,6 @@ namespace Bookstore.Droid
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            var basePath = Android.App.Application.Context.GetExternalFilesDir(null).AbsolutePath;
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 

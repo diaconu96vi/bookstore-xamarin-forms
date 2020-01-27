@@ -55,7 +55,7 @@ namespace Bookstore.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var genre = await _context.Genres.FirstOrDefaultAsync(x=> x.GenreSysID == value.GenreSysID);
+            var genre = await _context.Genres.FirstOrDefaultAsync(x=> x.Name.Equals(value.GenreSysID));
             if(genre != null)
             {
                 return BadRequest();

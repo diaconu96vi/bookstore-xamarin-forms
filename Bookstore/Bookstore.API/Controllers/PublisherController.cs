@@ -25,6 +25,10 @@ namespace Bookstore.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            if(!_context.Publishers.Any())
+            {
+                return BadRequest();
+            }
             var publishers = await _context.Publishers.ToListAsync();
             if (publishers != null)
             {
@@ -58,7 +62,7 @@ namespace Bookstore.API.Controllers
             {
                 return BadRequest();
             }
-            _context.Publishers.Add(publisher);
+            _context.Publishers.Add(value);
             var result = await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(CreateRecord), new { id = value.SysID }, value);

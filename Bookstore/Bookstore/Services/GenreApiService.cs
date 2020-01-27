@@ -50,5 +50,38 @@ namespace Bookstore.Services
                 return null;
             }
         }
+        public async Task<Genre> UpdateAsync(Genre model)
+        {
+            var json = JsonConvert.SerializeObject(model);
+
+            HttpContent content = new StringContent(json);
+
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            var response = await HttpClient.PutAsync("Genre", content);
+            if (response.IsSuccessStatusCode)
+            {
+                var str = await response.Content.ReadAsStringAsync();
+                var genre = JsonConvert.DeserializeObject<Genre>(str);
+                return genre;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var response = await HttpClient.DeleteAsync(string.Format("Genre/{0}", id));
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

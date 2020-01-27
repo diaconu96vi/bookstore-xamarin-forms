@@ -27,7 +27,7 @@ namespace Bookstore.Services
             }
             else
             {
-                return null;
+                return new List<Publisher>();
             }
         }
         public async Task<Publisher> CreateAsync(Publisher model)

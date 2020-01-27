@@ -25,6 +25,10 @@ namespace Bookstore.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            if(!_context.Authors.Any())
+            {
+                return BadRequest();
+            }
             var authors = await _context.Authors.ToListAsync();
             if (authors != null)
             {
@@ -53,12 +57,15 @@ namespace Bookstore.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var author = await _context.Authors.FirstOrDefaultAsync(x => x.SysID == value.SysID);
-            if (author != null)
+            if (_context.Authors.Any())
             {
-                return BadRequest();
+                var author = await _context.Authors.FirstOrDefaultAsync(x => x.Name.Equals(value.Name));
+                if (author != null)
+                {
+                    return BadRequest();
+                }
             }
-            _context.Authors.Add(author);
+            _context.Authors.Add(value);
             var result = await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(CreateRecord), new { id = value.SysID }, value);

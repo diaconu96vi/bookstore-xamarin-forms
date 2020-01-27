@@ -3,6 +3,7 @@ using Bookstore.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -27,6 +28,8 @@ namespace Bookstore.ViewModels.Admin
 
         public ManageAuthorsPageViewModel()
         {
+            _apiService = new AuthorApiService();
+            Authors = new ObservableCollection<Author>();
             ConfigureAuthorsDataSource();
             AddAuthorCommand = new Command(async () => await ExecuteAddAuthorCommand());
             UpdateAuthorCommand = new Command(async () => await ExecuteUpdateAuthorCommand());
@@ -35,7 +38,7 @@ namespace Bookstore.ViewModels.Admin
 
         public async Task ExecuteAddAuthorCommand()
         {
-            if (CheckAddValuesEmpty())
+            if (!CheckAddValuesEmpty())
             {
                 await Application.Current.MainPage.DisplayAlert("Warning", "Values are empty", "Cancel");
             }
@@ -47,7 +50,9 @@ namespace Bookstore.ViewModels.Admin
             if (result != null)
             {
                 Authors.Add(result);
+                AddAuthorName = string.Empty;
                 OnPropertyChanged(nameof(Authors));
+                OnPropertyChanged(nameof(AddAuthorName));
             }
             else
             {
@@ -76,6 +81,10 @@ namespace Bookstore.ViewModels.Admin
         private async void ConfigureAuthorsDataSource()
         {
             var authorsList = await _apiService.GetAll();
+            if(authorsList != null && !authorsList.Any())
+            {
+                return;
+            }
             foreach(var author in authorsList)
             {
                 Authors.Add(author);
@@ -84,7 +93,7 @@ namespace Bookstore.ViewModels.Admin
         }
         public async Task ExecuteUpdateAuthorCommand()
         {
-            if(CheckUpdateValuesEmpty())
+            if(!CheckUpdateValuesEmpty())
             {
                 await Application.Current.MainPage.DisplayAlert("Warning", "Values are empty", "Cancel");
             }
@@ -104,9 +113,11 @@ namespace Bookstore.ViewModels.Admin
                 {
                     Authors.Remove(SelectedUpdateAuthor);
                     SelectedUpdateAuthor = null;
+                    UpdateAuthorName = string.Empty;
                     Authors.Add(result);
                     OnPropertyChanged(nameof(Authors));
                     OnPropertyChanged(nameof(SelectedUpdateAuthor));
+                    OnPropertyChanged(nameof(UpdateAuthorName));
                 }
             }
         }        

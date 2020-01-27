@@ -27,7 +27,7 @@ namespace Bookstore.Services
             }
             else
             {
-                return null;
+                return new List<Author>();
             }
         }
         public async Task<Author> CreateAsync(Author model)

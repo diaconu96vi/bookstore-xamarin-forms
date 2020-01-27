@@ -27,6 +27,7 @@ namespace Bookstore.ViewModels.Admin
         public ManagePublishersPageViewModel()
         {
             _apiService = new PublisherApiService();
+            Publishers = new ObservableCollection<Publisher>();
             ConfigureDataSource();
             AddPublisherCommand = new Command(async () => await ExecuteAddPublisherCommand());
             UpdatePublisherCommand = new Command(async () => await ExecuteUpdatePublisherCommand());
@@ -47,7 +48,9 @@ namespace Bookstore.ViewModels.Admin
             if (result != null)
             {
                 Publishers.Add(result);
+                AddPublisherName = string.Empty;
                 OnPropertyChanged(nameof(Publishers));
+                OnPropertyChanged(nameof(AddPublisherName));
             }
             else
             {
@@ -59,18 +62,18 @@ namespace Bookstore.ViewModels.Admin
         {
             if (!string.IsNullOrEmpty(AddPublisherName))
             {
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
 
         private bool CheckUpdateValuesEmpty()
         {
             if (!string.IsNullOrEmpty(UpdatePublisherName))
             {
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
 
         private async void ConfigureDataSource()
@@ -104,9 +107,11 @@ namespace Bookstore.ViewModels.Admin
                 {
                     Publishers.Remove(SelectedUpdatePublisher);
                     SelectedUpdatePublisher = null;
+                    UpdatePublisherName = string.Empty;
                     Publishers.Add(result);
                     OnPropertyChanged(nameof(Publishers));
                     OnPropertyChanged(nameof(SelectedUpdatePublisher));
+                    OnPropertyChanged(nameof(UpdatePublisherName));
                 }
             }
         }
@@ -118,7 +123,7 @@ namespace Bookstore.ViewModels.Admin
             }
             else
             {
-                var result = await _apiService.DeleteAsync(SelectedUpdatePublisher.SysID);
+                var result = await _apiService.DeleteAsync(SelectedDeletePublisher.SysID);
                 if (result)
                 {
                     Publishers.Remove(SelectedDeletePublisher);

@@ -18,7 +18,7 @@
     },
     "Bookstore.API": {
       "commandName": "Project",
-      "applicationUrl": "http://localhost:5005",
+      "applicationUrl": "http://192.168.1.104:44301",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

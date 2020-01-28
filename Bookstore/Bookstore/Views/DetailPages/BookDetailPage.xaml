@@ -46,46 +46,13 @@
                     <customControl:IconView
                         Margin="0,0,10,0"
                         HorizontalOptions="End"
-                        Source="faxList"
-                        Style="{StaticResource IconViewStyle}" />
-                </StackLayout>
-                <StackLayout
-                    x:Name="NavbarStack"
-                    BackgroundColor="White"
-                    IsVisible="False"
-                    Orientation="Horizontal"
-                    VerticalOptions="Start">
-                    <StackLayout
-                        Padding="0"
-                        BackgroundColor="#f7f7f7"
-                        HorizontalOptions="Start">
-                        <Image
-                            Aspect="AspectFit"
-                            HeightRequest="60"
-                            Source="{Binding BookImage}"
-                            WidthRequest="60" />
-                    </StackLayout>
-                    <StackLayout VerticalOptions="CenterAndExpand">
-                        <Label
-                            FontFamily="{StaticResource PingFangMedium}"
-                            FontSize="15"
-                            Text="{Binding Title}"
-                            TextColor="#2E2E2E" />
-                        <Label
-                            FontFamily="{StaticResource PingFangRegular}"
-                            FontSize="11"
-                            Text="{Binding Author}"
-                            TextColor="#917A7A" />
-                    </StackLayout>
-                    <Label
-                        Margin="0,0,10,0"
-                        FontAttributes="Bold"
-                        FontFamily="{StaticResource PingFangMedium}"
-                        FontSize="30"
-                        HorizontalOptions="EndAndExpand"
-                        Text="{Binding Price}"
-                        TextColor="{StaticResource MainColor}"
-                        VerticalOptions="CenterAndExpand" />
+                        Source="{Binding FavoriteIcon}"
+                        Style="{StaticResource IconViewStyle}">
+                        <customControl:IconView.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapFavoriteIcon">
+                            </TapGestureRecognizer>
+                        </customControl:IconView.GestureRecognizers>
+                    </customControl:IconView>
                 </StackLayout>
             </StackLayout>
             <ScrollView x:Name="MainScroll">
@@ -95,32 +62,15 @@
                         BackgroundColor="White"
                         CornerRadius="8"
                         HasShadow="False">
-                        <abstractions:CarouselViewControl
-                            x:Name="CarouselView"
-                            Margin="0,5,0,5"
-                            sharedTransitions:Transition.Name="Detail"
-                            BackgroundColor="White"
-                            CurrentPageIndicatorTintColor="White"
-                            HeightRequest="200"
-                            IndicatorsTintColor="{StaticResource MainColor}"
-                            InterPageSpacing="0"
-                            IsSwipeEnabled="True"
-                            Position="0"
-                            ShowArrows="False"
-                            ShowIndicators="True"
-                            WidthRequest="200">
-                            <abstractions:CarouselViewControl.ItemTemplate>
-                                <DataTemplate>
-                                    <ContentView>
-                                        <forms:CachedImage
-                                            Margin="0"
-                                            Aspect="AspectFit"
-                                            Source="{Binding ProductImg}" />
-                                    </ContentView>
-                                </DataTemplate>
-                            </abstractions:CarouselViewControl.ItemTemplate>
-                        </abstractions:CarouselViewControl>
-
+                        <StackLayout
+                                    Padding="10"
+                                    BackgroundColor="#f7f7f7"
+                                    HorizontalOptions="FillAndExpand">
+                            <forms:CachedImage
+                                    Aspect="AspectFit"
+                                    HeightRequest="150"
+                                    Source="{Binding BookImage}" />
+                        </StackLayout>
                     </pancakeView:PancakeView>
                     <StackLayout Orientation="Horizontal" Spacing="0">
                         <StackLayout Margin="10,0,0,0">
@@ -129,19 +79,41 @@
                                 FontSize="20"
                                 HorizontalOptions="Start"
                                 LineBreakMode="TailTruncation"
-                                Text="Shaver"
+                                Text="{Binding BookTitle}"
                                 TextColor="#2E2E2E"
                                 VerticalOptions="Start"
                                 VerticalTextAlignment="Center" />
+                            <BoxView Style="{StaticResource BoxViewStyle}" />
                             <Label
                                 FontFamily="{StaticResource PingFangRegular}"
                                 FontSize="15"
                                 HorizontalOptions="Start"
                                 LineBreakMode="TailTruncation"
-                                Text="Braun"
+                                Text="{Binding Author}"
                                 TextColor="#B9B9B9"
                                 VerticalOptions="Start"
                                 VerticalTextAlignment="Center" />
+                            <BoxView Style="{StaticResource BoxViewStyle}" />
+                            <Label
+                                FontFamily="{StaticResource PingFangRegular}"
+                                FontSize="15"
+                                HorizontalOptions="Start"
+                                LineBreakMode="TailTruncation"
+                                Text="{Binding Publisher}"
+                                TextColor="#B9B9B9"
+                                VerticalOptions="Start"
+                                VerticalTextAlignment="Center" />
+                            <BoxView Style="{StaticResource BoxViewStyle}" />
+                            <Label
+                                FontFamily="{StaticResource PingFangRegular}"
+                                FontSize="15"
+                                HorizontalOptions="Start"
+                                LineBreakMode="TailTruncation"
+                                Text="{Binding Date}"
+                                TextColor="#B9B9B9"
+                                VerticalOptions="Start"
+                                VerticalTextAlignment="Center" />
+                            <BoxView Style="{StaticResource BoxViewStyle}" />
                         </StackLayout>
                         <Label
                             Margin="0,0,10,0"
@@ -149,7 +121,7 @@
                             FontFamily="{StaticResource PingFangMedium}"
                             FontSize="25"
                             HorizontalOptions="EndAndExpand"
-                            Text="$149.99"
+                            Text="{Binding Price}"
                             TextColor="{StaticResource MainColor}"
                             VerticalOptions="StartAndExpand" />
                     </StackLayout>
@@ -158,11 +130,9 @@
                         FontFamily="{StaticResource PingFangMedium}"
                         FontSize="15"
                         TextColor="#B9B9B9">
-
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..." />
-                                <Span Text="Read More" TextColor="{StaticResource MainColor}" />
+                                <Span Text="Bookstore - Let it spark" TextColor="{StaticResource MainColor}" />
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
@@ -171,13 +141,20 @@
                         HorizontalOptions="FillAndExpand"
                         Orientation="Horizontal">
                         <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                            <Label
+                                    FontSize="20"
+                                    Text="Quantity"
+                                    VerticalOptions="CenterAndExpand"
+                                    FontFamily="{StaticResource PingFangMedium}"
+                                    HorizontalOptions="StartAndExpand"
+                                    TextColor="DarkGray" />
                             <pancakeView:PancakeView
                                 Margin="10,5,10,5"
                                 BackgroundColor="White"
                                 CornerRadius="8"
                                 Elevation="2"
                                 HeightRequest="50"
-                                HorizontalOptions="Start"
+                                HorizontalOptions="EndAndExpand"
                                 WidthRequest="50">
                                 <renderers:BorderlessPicker
                                     Title="1"
@@ -185,35 +162,6 @@
                                     HorizontalOptions="CenterAndExpand"
                                     TextColor="DarkGray" />
                             </pancakeView:PancakeView>
-                            <pancakeView:PancakeView
-                                BackgroundColor="Tan"
-                                CornerRadius="15"
-                                HeightRequest="30"
-                                HorizontalOptions="EndAndExpand"
-                                VerticalOptions="CenterAndExpand"
-                                WidthRequest="30" />
-                            <pancakeView:PancakeView
-                                BackgroundColor="DarkBlue"
-                                CornerRadius="15"
-                                HeightRequest="30"
-                                HorizontalOptions="Start"
-                                VerticalOptions="CenterAndExpand"
-                                WidthRequest="30" />
-                            <pancakeView:PancakeView
-                                BackgroundColor="OrangeRed"
-                                CornerRadius="15"
-                                HeightRequest="30"
-                                HorizontalOptions="Start"
-                                VerticalOptions="CenterAndExpand"
-                                WidthRequest="30" />
-                            <pancakeView:PancakeView
-                                BackgroundColor="Black"
-                                CornerRadius="15"
-                                HeightRequest="30"
-                                HorizontalOptions="Start"
-                                VerticalOptions="CenterAndExpand"
-                                WidthRequest="30" />
-
                         </StackLayout>
                     </ScrollView>
                     <StackLayout Margin="10" Orientation="Horizontal">
@@ -226,6 +174,7 @@
                             HeightRequest="46"
                             HorizontalOptions="FillAndExpand"
                             Text="Add Basket"
+                            Command="{Binding AddBasketCommand}"
                             TextColor="White"
                             WidthRequest="100" />
                         <Button
@@ -237,6 +186,7 @@
                             HeightRequest="46"
                             HorizontalOptions="FillAndExpand"
                             Text="Buy Fast"
+                            Command="{Binding BuyFastCommand}"
                             TextColor="White"
                             WidthRequest="100" />
                     </StackLayout>
@@ -247,31 +197,80 @@
                             FontFamily="{StaticResource PingFangRegular}"
                             FontSize="40"
                             HorizontalOptions="Start"
-                            Text="4.9"
+                            Text="Users rating"
                             TextColor="{StaticResource MainColor}"
                             VerticalOptions="CenterAndExpand" />
+                    </StackLayout>
+                    <StackLayout Margin="10,0,10,10" Orientation="Horizontal">
                         <StackLayout VerticalOptions="CenterAndExpand">
-                            <customControl:RepeaterView x:Name="starList" Orientation="Horizontal">
+                            <customControl:RepeaterView ItemsSource="{Binding GeneralRatingStars}" Orientation="Horizontal">
                                 <customControl:RepeaterView.ItemTemplate>
                                     <DataTemplate>
                                         <ViewCell>
                                             <Image
                                                 Aspect="AspectFit"
-                                                HeightRequest="15"
-                                                Source="{Binding StarImg}"
-                                                WidthRequest="15" />
+                                                HeightRequest="40"
+                                                Source="{Binding StarImageString}"
+                                                WidthRequest="40" />
                                         </ViewCell>
                                     </DataTemplate>
                                 </customControl:RepeaterView.ItemTemplate>
                             </customControl:RepeaterView>
-                            <Label
-                                FontFamily="{StaticResource PingFangRegular}"
-                                FontSize="17"
-                                Text="Commented on 5"
-                                TextColor="DarkGray" />
                         </StackLayout>
+                        <Label
+                            Margin="10,0,10,0"
+                            FontAttributes="Bold"
+                            FontFamily="{StaticResource PingFangRegular}"
+                            FontSize="40"
+                            HorizontalOptions="CenterAndExpand"
+                            Text="{Binding GeneralRatingText}"
+                            TextColor="{StaticResource MainColor}"
+                            VerticalOptions="CenterAndExpand" />
                         <StackLayout />
-
+                    </StackLayout>
+                    <StackLayout Margin="10,0,10,10" Orientation="Horizontal">
+                        <Label
+                            Margin="10,0,10,0"
+                            FontAttributes="Bold"
+                            FontFamily="{StaticResource PingFangRegular}"
+                            FontSize="40"
+                            HorizontalOptions="Start"
+                            Text="Your rating"
+                            TextColor="{StaticResource MainColor}"
+                            VerticalOptions="CenterAndExpand" />
+                    </StackLayout>
+                    <StackLayout Margin="10,0,10,10" Orientation="Horizontal">
+                        <StackLayout VerticalOptions="CenterAndExpand">
+                            <customControl:RepeaterView ItemsSource="{Binding UserRatingStars}" Orientation="Horizontal">
+                                <customControl:RepeaterView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <Image
+                                                ClassId="{Binding StarClassID}"
+                                                Aspect="AspectFit"
+                                                HeightRequest="40"
+                                                Source="{Binding StarImageString}"
+                                                WidthRequest="40">
+                                                <Image.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="TapRatingStars">
+                                                    </TapGestureRecognizer>
+                                                </Image.GestureRecognizers>
+                                            </Image>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </customControl:RepeaterView.ItemTemplate>
+                            </customControl:RepeaterView>
+                        </StackLayout>
+                        <Label
+                            Margin="10,0,10,0"
+                            FontAttributes="Bold"
+                            FontFamily="{StaticResource PingFangRegular}"
+                            FontSize="30"
+                            HorizontalOptions="CenterAndExpand"
+                            Text="{Binding UserRatingText}"
+                            TextColor="{StaticResource MainColor}"
+                            VerticalOptions="CenterAndExpand" />
+                        <StackLayout/>
                     </StackLayout>
                     <pancakeView:PancakeView
                         Margin="10,0,10,10"
@@ -279,27 +278,13 @@
                         BackgroundColor="White"
                         Elevation="3">
                         <StackLayout>
-
                             <StackLayout Orientation="Horizontal">
                                 <StackLayout>
                                     <Label
                                         FontFamily="{StaticResource PingFangBold}"
                                         FontSize="15"
-                                        Text="Quality"
+                                        Text="Comment"
                                         TextColor="#252525" />
-                                    <customControl:RepeaterView x:Name="starListComment" Orientation="Horizontal">
-                                        <customControl:RepeaterView.ItemTemplate>
-                                            <DataTemplate>
-                                                <ViewCell>
-                                                    <Image
-                                                        Aspect="AspectFit"
-                                                        HeightRequest="15"
-                                                        Source="{Binding StarImg}"
-                                                        WidthRequest="15" />
-                                                </ViewCell>
-                                            </DataTemplate>
-                                        </customControl:RepeaterView.ItemTemplate>
-                                    </customControl:RepeaterView>
                                 </StackLayout>
                                 <StackLayout HorizontalOptions="EndAndExpand">
                                     <Label
@@ -321,63 +306,6 @@
                                 TextColor="DarkGray" />
                         </StackLayout>
                     </pancakeView:PancakeView>
-                    <pancakeView:PancakeView
-                        Margin="10,0,10,10"
-                        Padding="10"
-                        BackgroundColor="White"
-                        Elevation="3">
-                        <StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <StackLayout>
-                                    <Label
-                                        FontFamily="{StaticResource PingFangBold}"
-                                        FontSize="15"
-                                        Text="Quality"
-                                        TextColor="#252525" />
-                                    <customControl:RepeaterView x:Name="starListComment2" Orientation="Horizontal">
-                                        <customControl:RepeaterView.ItemTemplate>
-                                            <DataTemplate>
-                                                <ViewCell>
-                                                    <Image
-                                                        Aspect="AspectFit"
-                                                        HeightRequest="15"
-                                                        Source="{Binding StarImg}"
-                                                        WidthRequest="15" />
-                                                </ViewCell>
-                                            </DataTemplate>
-                                        </customControl:RepeaterView.ItemTemplate>
-                                    </customControl:RepeaterView>
-                                </StackLayout>
-                                <StackLayout HorizontalOptions="EndAndExpand">
-                                    <Label
-                                        FontFamily="{StaticResource PingFangRegular}"
-                                        FontSize="12"
-                                        Text="Ufuk Sahin"
-                                        TextColor="#252525" />
-                                    <Label
-                                        FontFamily="{StaticResource PingFangRegular}"
-                                        FontSize="10"
-                                        Text="12/09/2019"
-                                        TextColor="DarkGray" />
-                                </StackLayout>
-                            </StackLayout>
-                            <Label
-                                FontFamily="{StaticResource PingFangRegular}"
-                                FontSize="15"
-                                Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.... "
-                                TextColor="DarkGray" />
-                        </StackLayout>
-                    </pancakeView:PancakeView>
-                    <Button
-                        Margin="10,0,10,20"
-                        BackgroundColor="White"
-                        Clicked="MoreCommentsClick"
-                        CornerRadius="15"
-                        FontFamily="{StaticResource PingFangRegular}"
-                        HeightRequest="40"
-                        HorizontalOptions="CenterAndExpand"
-                        Text="More"
-                        TextColor="DarkGray" />
                 </StackLayout>
             </ScrollView>
         </StackLayout>

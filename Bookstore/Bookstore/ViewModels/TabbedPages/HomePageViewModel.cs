@@ -25,12 +25,14 @@ namespace Bookstore.ViewModels.TabbedPages
         public GenreApiService _genreApiService { get; set; }
         public BookApiService _bookApiService { get; set; }
         public AuthorApiService _authorApiService { get; set; }
+        public PublisherApiService _publisherApiService { get; set; }
 
         public HomePageViewModel()
         {
             _genreApiService = new GenreApiService();
             _bookApiService = new BookApiService();
             _authorApiService = new AuthorApiService();
+            _publisherApiService = new PublisherApiService();
             CarouselImages = RetrieveCarouselImages();
             ConfigureGenresListDataSource();
             ConfigureBooksListDataSource();
@@ -80,12 +82,15 @@ namespace Bookstore.ViewModels.TabbedPages
             foreach (var book in allBooks.ToList())
             {
                 var author = await _authorApiService.GetRecordAsync(book.AuthorFK_SysID);
+                var publisher = await _publisherApiService.GetRecordAsync(book.PublisherFK_SysID);
                 var convertBook = new BookView()
                 {
                     SysID = book.BookSysID,
                     Title = book.Title,
                     AuthorName = author.Name,
                     Price = book.Price.ToString(),
+                    PublicationDate = book.PublicationDate,
+                    PublicationName = publisher.Name,
                     Image = BitmapConverter.ByteToImageSource(book.Image)
                 };
                 convertedList.Add(convertBook);

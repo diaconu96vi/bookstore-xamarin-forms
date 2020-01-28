@@ -55,7 +55,6 @@
                                 <ViewCell>
                                     <StackLayout>
                                         <pancakeView:PancakeView
-
                                             Margin="5"
                                             Padding="0"
                                             BackgroundColor="White"
@@ -64,13 +63,10 @@
                                             HasShadow="False"
                                             HeightRequest="90"
                                             WidthRequest="90">
-
                                             <forms:CachedImage
-                                                Margin="10"
+                                                Aspect="AspectFit"
                                                 HeightRequest="50"
-                                                HorizontalOptions="FillAndExpand"
-                                                Source="{Binding Image}"
-                                                WidthRequest="50" />
+                                                Source="{Binding Image}" />
                                         </pancakeView:PancakeView>
                                         <Label
                                             FontSize="12"

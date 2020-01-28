@@ -30,6 +30,20 @@ namespace Bookstore.Services
                 return new List<Publisher>();
             }
         }
+        public async Task<Publisher> GetRecordAsync(int id)
+        {
+            var response = await HttpClient.GetAsync(string.Format("Publisher/{0}", id));
+            if (response.IsSuccessStatusCode)
+            {
+                var str = await response.Content.ReadAsStringAsync();
+                var publisher = JsonConvert.DeserializeObject<Publisher>(str);
+                return publisher;
+            }
+            else
+            {
+                return null;
+            }
+        }
         public async Task<Publisher> CreateAsync(Publisher model)
         {
             var json = JsonConvert.SerializeObject(model);

@@ -4,14 +4,16 @@ using Bookstore.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bookstore.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200128184058_bookDetailFeatures")]
+    partial class bookDetailFeatures
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -309,32 +311,7 @@ namespace Bookstore.API.Migrations
 
                     b.HasKey("SysID");
 
-                    b.ToTable("Publishers");
-                });
-
-            modelBuilder.Entity("Bookstore.API.Models.Rating", b =>
-                {
-                    b.Property<int>("RatingSysID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AppUserFK_SysID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("BookFK_SysID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RatingGrade")
-                        .HasColumnType("int");
-
-                    b.HasKey("RatingSysID");
-
-                    b.HasIndex("AppUserFK_SysID");
-
-                    b.HasIndex("BookFK_SysID");
-
-                    b.ToTable("Ratings");
+                    b.ToTable("Publisher");
                 });
 
             modelBuilder.Entity("Bookstore.API.Models.Warehouse", b =>
@@ -549,19 +526,6 @@ namespace Bookstore.API.Migrations
                     b.HasOne("Bookstore.API.Models.AppUser", "AppUser")
                         .WithMany()
                         .HasForeignKey("AppUserFK_SysID");
-                });
-
-            modelBuilder.Entity("Bookstore.API.Models.Rating", b =>
-                {
-                    b.HasOne("Bookstore.API.Models.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserFK_SysID");
-
-                    b.HasOne("Bookstore.API.Models.Book", "Book")
-                        .WithMany()
-                        .HasForeignKey("BookFK_SysID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Bookstore.API.Models.Warehouse", b =>

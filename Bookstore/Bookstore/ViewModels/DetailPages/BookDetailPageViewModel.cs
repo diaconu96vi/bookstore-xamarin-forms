@@ -1,9 +1,12 @@
-﻿using Bookstore.CustomControls;
+﻿using Bookstore.ApplicationUtils;
+using Bookstore.CustomControls;
 using Bookstore.Models;
 using Bookstore.Models.ModelViews;
+using Bookstore.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -13,6 +16,8 @@ namespace Bookstore.ViewModels.DetailPages
     public class BookDetailPageViewModel : BaseViewModel
     {
         public BookView ActiveBook { get; set; }
+        public Favorite UserFavorite { get; set; }
+        public Rating UserRating { get; set; }
 
         public Command AddBasketCommand { get; set; }
         public Command BuyFastCommand { get; set; }
@@ -28,6 +33,8 @@ namespace Bookstore.ViewModels.DetailPages
 
         public ImageSource BookImage { get; set; }
         public ImageSource FavoriteIcon { get; set; }
+        public List<int> QuantityList { get; set; }
+        public int SelectedQuantity { get; set; }
 
         public ObservableCollection<StarView> UserRatingStars { get; set; }
         public ObservableCollection<StarView> GeneralRatingStars { get; set; }
@@ -37,43 +44,144 @@ namespace Bookstore.ViewModels.DetailPages
 
         private bool _isFavorite { get; set; }
 
+        private FavoriteApiService _favoriteApiService { get; set; }
+        private RatingApiService _ratingApiService { get; set; }
+
         public BookDetailPageViewModel(BookView bookView)
         {
+            _favoriteApiService = new FavoriteApiService();
+            _ratingApiService = new RatingApiService();
+            QuantityList = Enumerable.Range(1, 10).ToList();
             ActiveBook = bookView;
             AddBasketCommand = new Command(async () => await ExecuteAddBasketCommand());
             BuyFastCommand = new Command(async () => await ExecuteBuyFastCommand());
+            ConfigureFavoriteStartup();
             ConfigureRatingList();
             ConfigureBookBinding();
-
+            OnPropertyChanged(nameof(QuantityList));
         }
 
+        public async void ConfigureFavoriteStartup()
+        {
+            var favoriteModel = new Favorite()
+            {
+                BookFK_SysID = ActiveBook.SysID,
+                AppUserFK_SysID = ApplicationGeneralSettings.CurrentUser.Id
+            };
+            UserFavorite = await _favoriteApiService.GetFavorite(favoriteModel);
+            if(UserFavorite == null)
+            {
+                _isFavorite = false;
+                FavoriteIcon = "faxList.png";
+            }
+            else
+            {
+                _isFavorite = true;
+                FavoriteIcon = "favFill.png";
+            }
+            OnPropertyChanged(nameof(FavoriteIcon));
+        }
         public async void ConfigureRatingList()
         {
-            List<StarView> userRatings = new List<StarView>();
-            userRatings.Add(new StarView() { StarID = 1, StarClassID = "1", StarImageString = "fillstar.png" } );
-            userRatings.Add(new StarView() { StarID = 2, StarClassID = "2", StarImageString = "fillstar.png" } );
-            userRatings.Add(new StarView() { StarID = 3, StarClassID = "3", StarImageString = "fillstar.png" } );
-            userRatings.Add(new StarView() { StarID = 4, StarClassID = "4", StarImageString = "fillstar.png" } );
-            userRatings.Add(new StarView() { StarID = 5, StarClassID = "5", StarImageString = "emptystar.png" } );
-            UserRatingStars = new ObservableCollection<StarView>(userRatings);
-            OnPropertyChanged(nameof(UserRatingStars));            
-            List<StarView> generalRatings = new List<StarView>();
-            generalRatings.Add(new StarView() { StarID = 1, StarClassID = "1", StarImageString = "fillstar.png" } );
-            generalRatings.Add(new StarView() { StarID = 2, StarClassID = "2", StarImageString = "fillstar.png" } );
-            generalRatings.Add(new StarView() { StarID = 3, StarClassID = "3", StarImageString = "fillstar.png" } );
-            generalRatings.Add(new StarView() { StarID = 4, StarClassID = "4", StarImageString = "emptystar.png" } );
-            generalRatings.Add(new StarView() { StarID = 5, StarClassID = "5", StarImageString = "emptystar.png" } );
-            GeneralRatingStars = new ObservableCollection<StarView>(generalRatings);
-            OnPropertyChanged(nameof(GeneralRatingStars));
+            var ratingModel = new Rating()
+            {
+                BookFK_SysID = ActiveBook.SysID,
+                AppUserFK_SysID = ApplicationGeneralSettings.CurrentUser.Id
+            };
+            var userRating = await _ratingApiService.GetUserBookRating(ratingModel);
+            if(userRating == null)
+            {
+                ConfigureUserRatingList(null);
+            }    
+            else
+            {
+                ConfigureUserRatingList(userRating);
+                UserRating = userRating;
+            }
 
-            //to remove
-            UserRatingText = "4";
-            GeneralRatingText = "2.5";
-            FavoriteIcon = "faxList.png";
+            var bookRatings = await _ratingApiService.GetBookRatings(ActiveBook.SysID);
+            if (bookRatings == null || !bookRatings.Any())
+            {
+                ConfigureBookRatingList(0, 0);
+            }
+            else
+            {
+                int total = 0;
+                foreach(var generalRating in bookRatings.ToList())
+                {
+                    total += generalRating.RatingGrade;
+                }
+                if (total > 0 && bookRatings.Count > 0)
+                {
+                    double averageRating = total / bookRatings.Count;
+                    var finalRating = (int)(Math.Round(averageRating));
+                    ConfigureBookRatingList(finalRating, bookRatings.Count);
+                }
+            }
+        }
 
+        private void ConfigureUserRatingList(Rating userRating)
+        {
+            if (userRating == null)
+            {
+                List<StarView> userRatings = new List<StarView>();
+                userRatings.Add(new StarView() { StarID = 1, StarClassID = "1", StarImageString = "fillstar.png" });
+                userRatings.Add(new StarView() { StarID = 2, StarClassID = "2", StarImageString = "fillstar.png" });
+                userRatings.Add(new StarView() { StarID = 3, StarClassID = "3", StarImageString = "fillstar.png" });
+                userRatings.Add(new StarView() { StarID = 4, StarClassID = "4", StarImageString = "fillstar.png" });
+                userRatings.Add(new StarView() { StarID = 5, StarClassID = "5", StarImageString = "fillstar.png" });
+                UserRatingStars = new ObservableCollection<StarView>(userRatings);
+                UserRatingText = "Please rate";
+            }
+            else
+            {
+                List<StarView> userRatings = new List<StarView>();
+                for (var i = 1; i <= 5; i++)
+                {
+                    var newStarView = new StarView() { StarID = i, StarClassID = i.ToString(), StarImageString = "fillstar.png" };
+                    if (i > userRating.RatingGrade)
+                    {
+                        newStarView.StarImageString = "emptystar.png";
+                    }
+                    userRatings.Add(newStarView);
+                }
+                UserRatingStars = new ObservableCollection<StarView>(userRatings);
+                UserRatingText = userRating.RatingGrade.ToString();
+            }
+            OnPropertyChanged(nameof(UserRatingStars));
             OnPropertyChanged(nameof(UserRatingText));
+        }
+
+        private void ConfigureBookRatingList(int averageRating, int numberOfRatings)
+        {
+            if(numberOfRatings == 0)
+            {
+                List<StarView> generalRatings = new List<StarView>();
+                generalRatings.Add(new StarView() { StarID = 1, StarClassID = "1", StarImageString = "emptystar.png" });
+                generalRatings.Add(new StarView() { StarID = 2, StarClassID = "2", StarImageString = "emptystar.png" });
+                generalRatings.Add(new StarView() { StarID = 3, StarClassID = "3", StarImageString = "emptystar.png" });
+                generalRatings.Add(new StarView() { StarID = 4, StarClassID = "4", StarImageString = "emptystar.png" });
+                generalRatings.Add(new StarView() { StarID = 5, StarClassID = "5", StarImageString = "emptystar.png" });
+                GeneralRatingStars = new ObservableCollection<StarView>(generalRatings);
+                GeneralRatingText = "No ratings";
+            }
+            else
+            {
+                List<StarView> generalRatings = new List<StarView>();
+                for (var i = 1; i <= 5; i++)
+                {
+                    var newStarView = new StarView() { StarID = i, StarClassID = i.ToString(), StarImageString = "fillstar.png" };
+                    if (i > averageRating)
+                    {
+                        newStarView.StarImageString = "emptystar.png";
+                    }
+                    generalRatings.Add(newStarView);
+                }
+                GeneralRatingStars = new ObservableCollection<StarView>(generalRatings);
+                GeneralRatingText = string.Format(string.Format("{0} by {1} users", averageRating.ToString(), numberOfRatings.ToString()));
+            }
+            OnPropertyChanged(nameof(GeneralRatingStars));
             OnPropertyChanged(nameof(GeneralRatingText));
-            OnPropertyChanged(nameof(FavoriteIcon));
         }
 
         private void ConfigureBookBinding()
@@ -119,30 +227,62 @@ namespace Bookstore.ViewModels.DetailPages
             {
                 _isFavorite = false;
                 FavoriteIcon = "faxList.png";
+                await _favoriteApiService.DeleteAsync(UserFavorite.FavoriteSysID);
+                UserFavorite = null;
             }
             else
             {
-                _isFavorite = true;
-                FavoriteIcon = "favFill.png";
+                var favoriteModel = new Favorite()
+                {
+                    BookFK_SysID = ActiveBook.SysID,
+                    AppUserFK_SysID = ApplicationGeneralSettings.CurrentUser.Id
+                };
+                var result = await _favoriteApiService.CreateAsync(favoriteModel);
+                if(result == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Warning", "Something went wrong", "Cancel");
+                }
+                else
+                {
+                    UserFavorite = result;
+                    _isFavorite = true;
+                    FavoriteIcon = "favFill.png";
+                }
             }
             OnPropertyChanged(nameof(FavoriteIcon));
         }        
         public async void UpdateUserRating(string starViewClassID)
         {
-            List<StarView> userRatings = new List<StarView>();
-            for (var i=1; i <= 5; i++)
-            {              
-                var newStarView = new StarView() { StarID = i, StarClassID = i.ToString(), StarImageString = "fillstar.png" };
-                if(i > int.Parse(starViewClassID))
+            if (UserRating != null)
+            {
+                UserRating.RatingGrade = int.Parse(starViewClassID);
+                var newRating = await _ratingApiService.UpdateAsync(UserRating);
+                if (newRating == null)
                 {
-                    newStarView.StarImageString = "emptystar.png";
+                    await Application.Current.MainPage.DisplayAlert("Warning", "Something went wrong", "Cancel");
+                    return;
                 }
-                userRatings.Add(newStarView);
             }
-            UserRatingStars = new ObservableCollection<StarView>(userRatings);
-            UserRatingText = starViewClassID;
-            OnPropertyChanged(nameof(UserRatingStars));
-            OnPropertyChanged(nameof(UserRatingText));
+            else
+            {
+                var newRating = new Rating()
+                {
+                    BookFK_SysID = ActiveBook.SysID,
+                    AppUserFK_SysID = ApplicationGeneralSettings.CurrentUser.Id,
+                    RatingGrade = int.Parse(starViewClassID)
+                };
+                var result = await _ratingApiService.CreateAsync(newRating);
+                if(result == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Warning", "Something went wrong", "Cancel");
+                    return;
+                }
+                else
+                {
+                    UserRating = result;
+                }
+            }
+            ConfigureRatingList();
         }
     }
 }

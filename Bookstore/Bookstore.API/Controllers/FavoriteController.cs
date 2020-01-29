@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Bookstore.API.Data;
 using Bookstore.API.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,11 +16,13 @@ namespace Bookstore.API.Controllers
     [Route("api/[controller]")]
     public class FavoriteController : Controller
     {
+        private readonly UserManager<AppUser> _userManager;
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _environment;
 
-        public FavoriteController(ApplicationDbContext context, IWebHostEnvironment environment)
+        public FavoriteController(ApplicationDbContext context, UserManager<AppUser> userManager, IWebHostEnvironment environment)
         {
+            _userManager = userManager;
             _context = context;
             _environment = environment;
         }
@@ -40,6 +43,17 @@ namespace Bookstore.API.Controllers
         public async Task<IActionResult> GetUserBookFavorites([FromBody]Favorite value)
         {
             var Favorites = await _context.Favorites.Where(x => x.AppUserFK_SysID.Equals(value.AppUserFK_SysID)).ToListAsync();
+            if (Favorites != null)
+            {
+                return Ok(Favorites);
+            }
+            return BadRequest();
+        }
+        
+        [HttpPost("GetFavoriteUserBook")]
+        public async Task<IActionResult> GetFavoriteUserBook([FromBody]Favorite value)
+        {
+            var Favorites = await _context.Favorites.FirstOrDefaultAsync(x => x.AppUserFK_SysID.Equals(value.AppUserFK_SysID) && x.BookFK_SysID == value.BookFK_SysID);
             if (Favorites != null)
             {
                 return Ok(Favorites);
@@ -84,21 +98,6 @@ namespace Bookstore.API.Controllers
         public async Task<IActionResult> DeleteItem(int id)
         {
             var Favorite = await _context.Favorites.FirstOrDefaultAsync(x => x.FavoriteSysID == id);
-            if (Favorite == null)
-            {
-                return NotFound();
-            }
-            _context.Favorites.Remove(Favorite);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-
-        }
-
-        [HttpDelete("DeleteUserFavorite")]
-        public async Task<IActionResult> DeleteItem([FromBody]Favorite value)
-        {
-            var Favorite = await _context.Favorites.FirstOrDefaultAsync(x => x.FavoriteSysID == value.FavoriteSysID && x.AppUserFK_SysID.Equals(value.AppUserFK_SysID));
             if (Favorite == null)
             {
                 return NotFound();

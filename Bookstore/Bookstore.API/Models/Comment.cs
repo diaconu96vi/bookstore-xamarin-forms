@@ -20,6 +20,8 @@ namespace Bookstore.API.Models
         public string AppUserFK_SysID { get; set; }
 
         public string CommentText { get; set; }
+        public DateTime Date { get; set; }
+        public string UserName { get; set; }
 
         //Foreign Keys
         public Book Book { get; set; }

@@ -157,7 +157,9 @@
                                 HorizontalOptions="EndAndExpand"
                                 WidthRequest="50">
                                 <renderers:BorderlessPicker
-                                    Title="1"
+                                    ItemsSource="{Binding QuantityList}"
+                                    SelectedItem="{Binding SelectedQuantity}"
+                                    Title="Chose quantity"
                                     FontFamily="{StaticResource PingFangMedium}"
                                     HorizontalOptions="CenterAndExpand"
                                     TextColor="DarkGray" />
@@ -209,9 +211,9 @@
                                         <ViewCell>
                                             <Image
                                                 Aspect="AspectFit"
-                                                HeightRequest="40"
+                                                HeightRequest="30"
                                                 Source="{Binding StarImageString}"
-                                                WidthRequest="40" />
+                                                WidthRequest="30" />
                                         </ViewCell>
                                     </DataTemplate>
                                 </customControl:RepeaterView.ItemTemplate>
@@ -221,7 +223,7 @@
                             Margin="10,0,10,0"
                             FontAttributes="Bold"
                             FontFamily="{StaticResource PingFangRegular}"
-                            FontSize="40"
+                            FontSize="30"
                             HorizontalOptions="CenterAndExpand"
                             Text="{Binding GeneralRatingText}"
                             TextColor="{StaticResource MainColor}"
@@ -248,9 +250,9 @@
                                             <Image
                                                 ClassId="{Binding StarClassID}"
                                                 Aspect="AspectFit"
-                                                HeightRequest="40"
+                                                HeightRequest="30"
                                                 Source="{Binding StarImageString}"
-                                                WidthRequest="40">
+                                                WidthRequest="30">
                                                 <Image.GestureRecognizers>
                                                     <TapGestureRecognizer Tapped="TapRatingStars">
                                                     </TapGestureRecognizer>

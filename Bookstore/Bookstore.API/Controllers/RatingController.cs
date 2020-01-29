@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Bookstore.API.Data;
 using Bookstore.API.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,11 +16,13 @@ namespace Bookstore.API.Controllers
     [Route("api/[controller]")]
     public class RatingController : Controller
     {
+        private readonly UserManager<AppUser> _userManager;
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _environment;
 
-        public RatingController(ApplicationDbContext context, IWebHostEnvironment environment)
+        public RatingController(ApplicationDbContext context, UserManager<AppUser> userManager, IWebHostEnvironment environment)
         {
+            _userManager = userManager;
             _context = context;
             _environment = environment;
         }
@@ -36,10 +39,32 @@ namespace Bookstore.API.Controllers
         }
 
         // GET api/<controller>/5
-        [HttpGet("GetUserRatings")]
-        public async Task<IActionResult> GetUserBookRatings([FromBody]Rating value)
+        [HttpGet("GetUserRatings/{id}")]
+        public async Task<IActionResult> GetUserRatings(string id)
         {
-            var Ratings = await _context.Ratings.Where(x => x.AppUserFK_SysID.Equals(value.AppUserFK_SysID)).ToListAsync();
+            var Ratings = await _context.Ratings.Where(x => x.AppUserFK_SysID.Equals(id)).ToListAsync();
+            if (Ratings != null)
+            {
+                return Ok(Ratings);
+            }
+            return BadRequest();
+        }
+
+        [HttpGet("GetBookRatings/{id}")]
+        public async Task<IActionResult> GetBookRatings(int id)
+        {
+            var Ratings = await _context.Ratings.Where(x => x.BookFK_SysID.Equals(id)).ToListAsync();
+            if (Ratings != null)
+            {
+                return Ok(Ratings);
+            }
+            return BadRequest();
+        }
+
+        [HttpPost("GetRatingUserBook")]
+        public async Task<IActionResult> GetRatingUserBook([FromBody]Rating value)
+        {
+            var Ratings = await _context.Ratings.FirstOrDefaultAsync(x => x.AppUserFK_SysID.Equals(value.AppUserFK_SysID) && x.BookFK_SysID == value.BookFK_SysID);
             if (Ratings != null)
             {
                 return Ok(Ratings);
@@ -74,6 +99,7 @@ namespace Bookstore.API.Controllers
             {
                 return NotFound();
             }
+            Rating.RatingGrade = value.RatingGrade;
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(UpdateItem), new { id = Rating.RatingSysID }, Rating);
@@ -84,21 +110,6 @@ namespace Bookstore.API.Controllers
         public async Task<IActionResult> DeleteItem(int id)
         {
             var Rating = await _context.Ratings.FirstOrDefaultAsync(x => x.RatingSysID == id);
-            if (Rating == null)
-            {
-                return NotFound();
-            }
-            _context.Ratings.Remove(Rating);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-
-        }
-
-        [HttpDelete("DeleteUserRating")]
-        public async Task<IActionResult> DeleteItem([FromBody]Rating value)
-        {
-            var Rating = await _context.Ratings.FirstOrDefaultAsync(x => x.RatingSysID == value.RatingSysID && x.AppUserFK_SysID.Equals(value.AppUserFK_SysID));
             if (Rating == null)
             {
                 return NotFound();

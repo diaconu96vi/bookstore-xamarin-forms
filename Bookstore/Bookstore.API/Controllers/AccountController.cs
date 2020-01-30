@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Bookstore.API.Controllers
@@ -91,6 +93,11 @@ namespace Bookstore.API.Controllers
         [Route("Register")]
         public async Task<IActionResult> Register([FromBody]SignupModel model)
         {
+            var verifyEmail = await _userManager.FindByEmailAsync(model.Email);
+            if (verifyEmail != null)
+            {
+                return BadRequest(new List<IdentityError>() { new IdentityError() { Description = "Email already exists" } });
+            }
             if (ModelState.IsValid && model.Password.Equals(model.ConfirmPassword))
             {
                 var user = new AppUser

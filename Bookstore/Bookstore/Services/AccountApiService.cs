@@ -62,7 +62,7 @@ namespace Bookstore.Services
             }
         }
         
-        public async Task<bool> GetUser(LoginModel model)
+        public async Task<AppUser> GetUser(LoginModel model)
         {
             var json = JsonConvert.SerializeObject(model);
             HttpContent content = new StringContent(json);
@@ -74,28 +74,12 @@ namespace Bookstore.Services
             {
                 var appUser = JsonConvert.DeserializeObject<AppUser>(str);
                 ApplicationGeneralSettings.CurrentUser = appUser;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        
-        public async Task<AppUser> GetUsetByEmail(string email)
-        {
-            var response = await HttpClient.GetAsync(string.Format("Account/GetUserByEmail/{0}", email));
-            var str = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode)
-            {
-                var appUser = JsonConvert.DeserializeObject<AppUser>(str);
-                ApplicationGeneralSettings.CurrentUser = appUser;
                 return appUser;
             }
             else
             {
                 return null;
             }
-        }
+        }      
     }
 }

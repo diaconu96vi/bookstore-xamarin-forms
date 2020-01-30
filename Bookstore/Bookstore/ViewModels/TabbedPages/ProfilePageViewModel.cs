@@ -19,8 +19,17 @@ namespace Bookstore.ViewModels.TabbedPages
             OnPropertyChanged(nameof(UserName));
             OnPropertyChanged(nameof(UserEmail));
             VerifyAdminPage();
+            CheckUserName();
         }
 
+        private void CheckUserName()
+        {
+            if(ApplicationGeneralSettings.FacebookUser != null)
+            {
+                UserName = ApplicationGeneralSettings.FacebookUser.Name;
+            }
+            OnPropertyChanged(nameof(UserName));
+        }
         private void VerifyAdminPage()
         {
             if(ApplicationGeneralSettings.CurrentUser != null)

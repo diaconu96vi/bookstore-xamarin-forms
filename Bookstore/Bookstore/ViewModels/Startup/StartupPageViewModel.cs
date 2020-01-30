@@ -48,13 +48,15 @@ namespace Bookstore.ViewModels
             string redirectUri = null;
             if(Application.Current.Properties.TryGetValue(nameof(FacebookEmail), out object loggedInUser))
             {
-                var AppUser = new AppUser()
+                LoginModel loginModel = new LoginModel() { Email = (loggedInUser as FacebookEmail).Email };
+                var appUser = await _apiServices.GetUser(loginModel);
+                if(appUser == null)
                 {
-                    UserName = (loggedInUser as FacebookEmail).Name,
-                    Email = (loggedInUser as FacebookEmail).Email,
-                    IsAdmin = false
-                };
-                ApplicationGeneralSettings.CurrentUser = AppUser;
+                    await Application.Current.MainPage.DisplayAlert("Warning", "Something went wrong", "Cancel");
+                    return;
+                }
+                ApplicationGeneralSettings.CurrentUser = appUser;
+                ApplicationGeneralSettings.FacebookUser = loggedInUser as FacebookEmail;
                 await Application.Current.MainPage.Navigation.PushAsync(new ParentTabbedPage());
                 return;
             }
@@ -112,35 +114,8 @@ namespace Bookstore.ViewModels
 
                     facebookEmail = JsonConvert.DeserializeObject<FacebookEmail>(json);
                     ApplicationGeneralSettings.FacebookUser = facebookEmail;
+                    Application.Current.Properties.Add(nameof(FacebookEmail), facebookEmail);
                     ConfigureFacebookLogic(facebookEmail);
-                }
-                else
-                {
-                    GmailUser user = null;
-
-                    // If the user is authenticated, request their basic user data from Google
-                    // UserInfoUrl = https://www.googleapis.com/oauth2/v2/userinfo
-                    var request = new OAuth2Request("GET", new Uri(AuthenticationConstants.GoogleUserInfoUrl), null, e.Account);
-                    var response = await request.GetResponseAsync();
-                    if (response != null)
-                    {
-                        // Deserialize the data and store it in the account store
-                        // The users email address will be used to identify data in SimpleDB
-                        string userJson = await response.GetResponseTextAsync();
-                        user = JsonConvert.DeserializeObject<GmailUser>(userJson);
-                    }
-
-                    Application.Current.Properties.Remove("Id");
-                    Application.Current.Properties.Remove("FirstName");
-                    Application.Current.Properties.Remove("LastName");
-                    Application.Current.Properties.Remove("DisplayName");
-                    Application.Current.Properties.Remove("EmailAddress");
-                    Application.Current.Properties.Remove("ProfilePicture");
-
-                    Application.Current.Properties.Add("Id", user.Id);
-                    Application.Current.Properties.Add("DisplayName", user.Name);
-                    Application.Current.Properties.Add("EmailAddress", user.Email);
-                    Application.Current.Properties.Add("ProfilePicture", user.Picture);
                 }
             }
         }
@@ -158,18 +133,11 @@ namespace Bookstore.ViewModels
 
         private async void ConfigureFacebookLogic(FacebookEmail facebookEmail)
         {
-            var result = await _apiServices.GetUser(new LoginModel() { Email = facebookEmail.Email });
-            if(result)
+            LoginModel loginModel = new LoginModel() { Email = (facebookEmail as FacebookEmail).Email };
+            var result = await _apiServices.GetUser(loginModel);
+            if (result != null)
             {
-                var AppUser = new AppUser()
-                {
-                    //Trebuie un get cu useru pt sysid
-                    UserName = facebookEmail.Name,
-                    Email = facebookEmail.Email,
-                    IsAdmin = false
-                };
-                //Application.Current.Properties.Add(nameof(FacebookEmail), facebookEmail);
-                ApplicationGeneralSettings.CurrentUser = AppUser;
+                ApplicationGeneralSettings.CurrentUser = result;
                 await Application.Current.MainPage.Navigation.PushAsync(new ParentTabbedPage());
             }
             else
@@ -182,7 +150,8 @@ namespace Bookstore.ViewModels
         {
             var model = new SignupModel()
             {
-                UserName = facebookEmail.Name,
+                FullName = facebookEmail.Name,
+                UserName = facebookEmail.Id,
                 Email = facebookEmail.Email,
                 Password = ApplicationGeneralSettings.Token,
                 ConfirmPassword = ApplicationGeneralSettings.Token,
@@ -191,7 +160,6 @@ namespace Bookstore.ViewModels
             var isSuccess = await _apiServices.RegisterAsync(model);
             if (isSuccess.Item1)
             {
-
                 await Application.Current.MainPage.Navigation.PushAsync(new ParentTabbedPage());
             }
             else

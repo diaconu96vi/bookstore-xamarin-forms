@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Bookstore.API.Data;
+﻿using Bookstore.API.Data;
 using Bookstore.API.LookUpEnums;
 using Bookstore.API.Models;
 using Bookstore.API.RequestModels;
@@ -10,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 
 namespace Bookstore.API.Controllers
 {
@@ -44,6 +42,18 @@ namespace Bookstore.API.Controllers
         public async Task<IActionResult> GetUser(string id)
         {
             var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == id);
+            if (user != null)
+            {
+                return Ok(user);
+            }
+            return Unauthorized();
+        }
+        
+        [HttpGet("email")]
+        [Route("GetUserByEmail")]
+        public async Task<IActionResult> GetUserByEmail(string email)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Email == email);
             if (user != null)
             {
                 return Ok(user);

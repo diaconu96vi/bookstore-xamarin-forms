@@ -74,34 +74,6 @@
                             IsPassword="True"
                             TextColor="{StaticResource DarkFontColor}" />
                     </Frame>
-                    <Button
-                        Margin="50,10,50,10"
-                        BackgroundColor="{StaticResource MainColor}"
-                        BorderColor="{StaticResource MainColor}"
-                        BorderWidth="2"
-                        Command="{Binding RequestLoginCommand}"
-                        CornerRadius="30"
-                        FontFamily="{StaticResource PingFangRegular}"
-                        FontSize="20"
-                        HeightRequest="57"
-                        HorizontalOptions="CenterAndExpand"
-                        Text="Log In"
-                        TextColor="White"
-                        WidthRequest="227" />
-                    <Button
-                        Margin="50,10,50,10"
-                        BackgroundColor="#344B88"
-                        BorderColor="#344B88"
-                        BorderWidth="2"
-                        Command="{Binding FacebookLogin}"
-                        CornerRadius="30"
-                        FontFamily="{StaticResource PingFangRegular}"
-                        FontSize="12"
-                        HeightRequest="57"
-                        HorizontalOptions="CenterAndExpand"
-                        Text="Log in with Facebook"
-                        TextColor="White"
-                        WidthRequest="227" />
                 </StackLayout>
             </yummy:PancakeView>
 

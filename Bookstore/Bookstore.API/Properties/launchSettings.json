@@ -4,7 +4,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://192.168.1.104:44301",
+      "applicationUrl": "http://192.168.170.21:44301",
       "sslPort": 44301
     }
   },
@@ -18,7 +18,7 @@
     },
     "Bookstore.API": {
       "commandName": "Project",
-      "applicationUrl": "http://192.168.1.104:44301",
+      "applicationUrl": "http://192.168.170.21:44301",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

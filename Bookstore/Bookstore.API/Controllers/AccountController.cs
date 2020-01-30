@@ -64,6 +64,18 @@ namespace Bookstore.API.Controllers
             }
             return Unauthorized();
         }
+        
+        [HttpPost]
+        [Route("GetUserByEmail")]
+        public async Task<IActionResult> GetUserByEmail([FromBody]LoginModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user != null)
+            {
+                return Ok(user);
+            }
+            return Unauthorized();
+        }
 
         [HttpPost]
         [Route("Register")]

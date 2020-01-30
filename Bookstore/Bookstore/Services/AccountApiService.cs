@@ -61,5 +61,25 @@ namespace Bookstore.Services
                 return false;
             }
         }
+        
+        public async Task<bool> GetUser(LoginModel model)
+        {
+            var json = JsonConvert.SerializeObject(model);
+            HttpContent content = new StringContent(json);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            var response = await HttpClient.PostAsync("Account/GetUserByEmail", content);
+            var str = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                var appUser = JsonConvert.DeserializeObject<AppUser>(str);
+                ApplicationGeneralSettings.CurrentUser = appUser;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

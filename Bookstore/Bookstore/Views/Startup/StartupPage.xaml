@@ -52,6 +52,20 @@
                 Text="Log In"
                 TextColor="White"
                 WidthRequest="227" />
+            <Button
+                Margin="50,10,50,10"
+                BackgroundColor="#344B88"
+                BorderColor="#344B88"
+                BorderWidth="2"
+                Command="{Binding FacebookLogin}"
+                CornerRadius="30"
+                FontFamily="{StaticResource PingFangRegular}"
+                FontSize="12"
+                HeightRequest="57"
+                HorizontalOptions="CenterAndExpand"
+                Text="Sign up with Facebook"
+                TextColor="White"
+                WidthRequest="227" />
         </StackLayout>
     </StackLayout>
 </ContentPage>

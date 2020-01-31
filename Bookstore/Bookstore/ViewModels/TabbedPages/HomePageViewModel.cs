@@ -18,6 +18,7 @@ namespace Bookstore.ViewModels.TabbedPages
         public ObservableCollection<Models.CarouselView> CarouselImages { get; set; }
         public ObservableCollection<GenreView> GenresList { get; set; }
         public ObservableCollection<BookView> BooksList { get; set; }
+        public ObservableCollection<Author> AuthorsList { get; set; }
 
         public BookView SelectedBook { get; set; }
         public GenreView SelectedGenre { get; set; }
@@ -27,28 +28,37 @@ namespace Bookstore.ViewModels.TabbedPages
         public AuthorApiService _authorApiService { get; set; }
         public PublisherApiService _publisherApiService { get; set; }
 
+        public string SearchBarText { get; set; }
+
+        private ObservableCollection<BookView> AllBooks { get; set; }
+
         public HomePageViewModel()
         {
             _genreApiService = new GenreApiService();
             _bookApiService = new BookApiService();
             _authorApiService = new AuthorApiService();
             _publisherApiService = new PublisherApiService();
+
             CarouselImages = RetrieveCarouselImages();
             ConfigureGenresListDataSource();
             ConfigureBooksListDataSource();
-
-            BooksList = new ObservableCollection<BookView>()
-            {
-                new BookView()
-                {
-                    Title = "Morometii",
-                    AuthorName = "Marin Preda",
-                    Price = "30",
-                    Image = "machine.jpg"
-                }
-            };
+            ConfigureAuthorsListDataSource();
         }
-        
+
+        #region DataRetrievalForLists
+
+        private async void ConfigureAuthorsListDataSource()
+        {
+            var allAuthors = await _authorApiService.GetAll();
+            if(allAuthors == null || !allAuthors.Any())
+            {
+                return;
+            }
+            AuthorsList = new ObservableCollection<Author>(allAuthors);
+            OnPropertyChanged(nameof(AuthorsList));
+        }
+
+
         private async void ConfigureGenresListDataSource()
         {
             var allGenres = await _genreApiService.GetAll();
@@ -95,6 +105,7 @@ namespace Bookstore.ViewModels.TabbedPages
                 };
                 convertedList.Add(convertBook);
             }
+            AllBooks = convertedList.CloneJson();
             BooksList = convertedList;
             OnPropertyChanged(nameof(BooksList));
         }
@@ -120,7 +131,9 @@ namespace Bookstore.ViewModels.TabbedPages
                     CarouselImage = "bookshop_carousel4.jpg"
                 }
             };
-        }   
+        }
+
+        #endregion
 
         public async Task ExecuteBookDetail(string bookTitle)
         {
@@ -132,21 +145,56 @@ namespace Bookstore.ViewModels.TabbedPages
             else
             {
                 await Application.Current.MainPage.DisplayAlert("Warning", "No selected book", "Ok");
-            }
-            
+            }            
         }
 
-        public async Task ExecuteGenreDetail(string genreName)
+        #region Filters
+        public void ExecuteGenreDetail(string genreName)
         {
-            var selectedBook = GenresList.FirstOrDefault(x => x.GenreName.Equals(genreName));
-            if (selectedBook != null)
+            var selectedGenre = GenresList.FirstOrDefault(x => x.GenreName.Equals(genreName));
+            if (selectedGenre != null)
             {
                 //await Application.Current.MainPage.Navigation.PushAsync(new BookDetailPage(selectedBook));
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Warning", "No selected book", "Ok");
             }
+        }       
+        
+        public void ApplyAuthorFilter(string authorName)
+        {
+            var filteredBooks = BooksList.Where(x => x.AuthorName.Equals(authorName));
+            if (filteredBooks == null)
+            {
+                BooksList = null;
+            }
+            else
+            {
+                BooksList = new ObservableCollection<BookView>(filteredBooks);
+            }
+            OnPropertyChanged(nameof(BooksList));
         }
+
+        public void FilterSearchBar()
+        {
+            if(string.IsNullOrEmpty(SearchBarText))
+            {
+                return;
+            }
+            else
+            {
+                var filteredBooks = BooksList.Where(x => x.Title.Contains(SearchBarText)).ToList();
+                if(filteredBooks == null)
+                {
+                    BooksList = null;
+                }
+                else
+                {
+                    BooksList = new ObservableCollection<BookView>(filteredBooks);
+                }
+            }
+            OnPropertyChanged(nameof(BooksList));
+        }
+        #endregion
     }
 }

@@ -34,7 +34,7 @@
                     HasShadow="False"
                     HeightRequest="30"
                     Style="{StaticResource FrameStyle}">
-                    <renderers:BorderlessSearchBar BackgroundColor="Transparent" FontFamily="{StaticResource PingFangRegular}" />
+                    <renderers:BorderlessSearchBar Text="{Binding SearchBarText}" Unfocused="BorderlessSearchBar_Unfocused" BackgroundColor="Transparent" FontFamily="{StaticResource PingFangRegular}" />
                 </Frame>
                 <Label
                     Margin="10,5,10,5"
@@ -85,6 +85,60 @@
                         </customControl:RepeaterView.ItemTemplate>
                     </customControl:RepeaterView>
                 </ScrollView>
+                <Label
+                    Margin="10,5,10,5"
+                    FontAttributes="None"
+                    FontFamily="{StaticResource PingFangMedium}"
+                    FontSize="17"
+                    HorizontalOptions="Start"
+                    Text="Authors"
+                    TextColor="#2E2E2E" />
+                <ScrollView
+                    Margin="10,0,10,20"
+                    HorizontalScrollBarVisibility="Never"
+                    Orientation="Horizontal"
+                    VerticalScrollBarVisibility="Never">
+                    <customControl:RepeaterView ItemsSource="{Binding AuthorsList}" Orientation="Horizontal">
+                        <customControl:RepeaterView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout>
+                                        <pancakeView:PancakeView
+                                            Margin="5"
+                                            Padding="0"
+                                            BackgroundColor="White"
+                                            CornerRadius="30"
+                                            Elevation="1"
+                                            HasShadow="False"
+                                            HeightRequest="90"
+                                            WidthRequest="90">
+                                            <Label
+                                            FontSize="12"
+                                            HorizontalOptions="CenterAndExpand"
+                                            HorizontalTextAlignment="Center"
+                                            Style="{StaticResource LabelStyle}"
+                                            Text="{Binding Name}"
+                                            TextColor="#2E2E2E"
+                                            VerticalTextAlignment="Center">
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="AuthorsFilters_Tapped"></TapGestureRecognizer>
+                                                </Label.GestureRecognizers>
+                                            </Label>
+                                        </pancakeView:PancakeView>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </customControl:RepeaterView.ItemTemplate>
+                    </customControl:RepeaterView>
+                </ScrollView>
+                <Label
+                    Margin="10,5,10,5"
+                    FontAttributes="None"
+                    FontFamily="{StaticResource PingFangMedium}"
+                    FontSize="17"
+                    HorizontalOptions="Start"
+                    Text="Prices"
+                    TextColor="#2E2E2E" />
                 <carousel:CarouselViewControl
                     ItemsSource="{Binding CarouselImages}"
                     Margin="10,0,10,20"

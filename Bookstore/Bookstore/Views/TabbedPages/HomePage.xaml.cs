@@ -1,4 +1,5 @@
-﻿using Bookstore.ViewModels.TabbedPages;
+﻿using Bookstore.Renderers;
+using Bookstore.ViewModels.TabbedPages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,18 @@ namespace Bookstore.Views.TabbedPages
 
             HomePageViewModel viewModel = this.BindingContext as HomePageViewModel;
             await viewModel.ExecuteGenreDetail(titleLabel.Text);
+        }
+
+        private async void BorderlessSearchBar_Unfocused(object sender, FocusEventArgs e)
+        {
+            BorderlessSearchBar borderlessSearchBar;
+            if(sender is BorderlessSearchBar)
+            {
+                borderlessSearchBar = sender as BorderlessSearchBar;
+            }
+            HomePageViewModel viewModel = this.BindingContext as HomePageViewModel;
+            await viewModel.FilterSearchBar();
+
         }
     }
 }

@@ -4,52 +4,22 @@ using Bookstore.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bookstore.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200201114745_addedName")]
+    partial class addedName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Bookstore.API.Models.Address", b =>
-                {
-                    b.Property<int>("AddressSysID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AddressTitle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AppUserFK_SysID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FullAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("AddressSysID");
-
-                    b.HasIndex("AppUserFK_SysID");
-
-                    b.ToTable("Addresses");
-                });
 
             modelBuilder.Entity("Bookstore.API.Models.AppUser", b =>
                 {
@@ -398,35 +368,6 @@ namespace Bookstore.API.Migrations
                     b.ToTable("Warehouses");
                 });
 
-            modelBuilder.Entity("Bookstore.Services.Card", b =>
-                {
-                    b.Property<int>("SysID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AppUserFK_SysID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CardCvv")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CardExpirationDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CardNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OwnerName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("SysID");
-
-                    b.HasIndex("AppUserFK_SysID");
-
-                    b.ToTable("Cards");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -558,13 +499,6 @@ namespace Bookstore.API.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Bookstore.API.Models.Address", b =>
-                {
-                    b.HasOne("Bookstore.API.Models.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserFK_SysID");
-                });
-
             modelBuilder.Entity("Bookstore.API.Models.Book", b =>
                 {
                     b.HasOne("Bookstore.API.Models.Author", "Author")
@@ -648,13 +582,6 @@ namespace Bookstore.API.Migrations
                         .HasForeignKey("BookFK_SysID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Bookstore.Services.Card", b =>
-                {
-                    b.HasOne("Bookstore.API.Models.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserFK_SysID");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

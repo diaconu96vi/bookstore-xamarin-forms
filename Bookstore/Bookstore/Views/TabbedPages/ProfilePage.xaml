@@ -163,10 +163,18 @@
                             <TapGestureRecognizer Tapped="OrderInfoClick" />
                         </StackLayout.GestureRecognizers>
                         <customControl:IconView Source="add.png" Style="{StaticResource IconViewStyle}" />
-                        <Label Style="{StaticResource ProfleLabelStyle}" Text="Add new books" />
+                        <Label Style="{StaticResource ProfleLabelStyle}" Text="Manage books" />
                     </StackLayout>
                     <BoxView Style="{StaticResource BoxViewStyle}" />
                     <StackLayout ClassId="ManageGenres" Orientation="Horizontal">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OrderInfoClick" />
+                        </StackLayout.GestureRecognizers>
+                        <customControl:IconView Source="add.png" Style="{StaticResource IconViewStyle}" />
+                        <Label Style="{StaticResource ProfleLabelStyle}" Text="Manage genres " />
+                    </StackLayout>
+                    <BoxView Style="{StaticResource BoxViewStyle}" />
+                    <StackLayout ClassId="ManageBookGenres" Orientation="Horizontal">
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OrderInfoClick" />
                         </StackLayout.GestureRecognizers>

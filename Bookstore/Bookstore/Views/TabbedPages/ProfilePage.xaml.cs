@@ -1,6 +1,7 @@
 ﻿using Bookstore.ApplicationUtils;
 using Bookstore.ViewModels.TabbedPages;
 using Bookstore.Views.Admin;
+using Bookstore.Views.ProfileDetails;
 using Plugin.SharedTransitions;
 using System;
 using System.Collections.Generic;
@@ -46,16 +47,16 @@ namespace Bookstore.Views.TabbedPages
                     break;
                 case "AddBooks":
                     OpenModalPage(new ManageBooksPage());
-                    break;                     
+                    break;
                 case "ManageBookGenres":
                     OpenModalPage(new ManageBookGenresPage());
-                    break;                
+                    break;
                 case "ManageGenres":
                     OpenModalPage(new ManageGenresPage());
                     break;
                 case "ManageAuthors":
                     OpenModalPage(new ManageAuthorsPage());
-                    break;                
+                    break;
                 case "ManagePublishers":
                     OpenModalPage(new ManagePublishersPage());
                     break;
@@ -66,15 +67,18 @@ namespace Bookstore.Views.TabbedPages
         {
             await Navigation.PushAsync(page);
         }
-        
+
         private async void OpenModalPage(Page page)
         {
             await Navigation.PushModalAsync(page, true);
         }
 
-        private void ChancePassClick(object sender, EventArgs e)
+        private async void ChancePassClick(object sender, EventArgs e)
         {
-            //Navigation.PushModalAsync(new ChangePasswordPage(), true);
+            if (ApplicationGeneralSettings.FacebookUser == null)
+                await Navigation.PushModalAsync(new ChangePasswordPage(), true);
+            else
+                await Application.Current.MainPage.DisplayAlert("Warning", "Cannot change password for facebook account!", "Cancel");
         }
 
         private void ContactClick(object sender, EventArgs e)
@@ -90,7 +94,7 @@ namespace Bookstore.Views.TabbedPages
 
         private void SettingClick(object sender, EventArgs e)
         {
-            if(open)
+            if (open)
             {
                 open = false;
             }

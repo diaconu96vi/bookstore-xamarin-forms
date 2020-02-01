@@ -1,5 +1,6 @@
 ﻿using Bookstore.ApplicationUtils;
 using Bookstore.Models;
+using Bookstore.Models.RequestModels;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using System;
@@ -61,7 +62,7 @@ namespace Bookstore.Services
                 return false;
             }
         }
-        
+
         public async Task<AppUser> GetUser(LoginModel model)
         {
             var json = JsonConvert.SerializeObject(model);
@@ -80,6 +81,27 @@ namespace Bookstore.Services
             {
                 return null;
             }
-        }      
+        }
+
+        public async Task<Tuple<AppUser, List<IdentityError>>> ChangePassword(ChangePasswordModel model)
+        {
+            var json = JsonConvert.SerializeObject(model);
+            HttpContent content = new StringContent(json);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            var response = await HttpClient.PostAsync("Account/ChangePassword", content);
+            var str = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                var appUser = JsonConvert.DeserializeObject<AppUser>(str);
+                ApplicationGeneralSettings.CurrentUser = appUser;
+                return new Tuple<AppUser, List<IdentityError>>(appUser, null);
+            }
+            else
+            {
+                var myInstance = JsonConvert.DeserializeObject<List<IdentityError>>(str);
+                return new Tuple<AppUser, List<IdentityError>>(null, myInstance);
+            }
+        }
     }
 }

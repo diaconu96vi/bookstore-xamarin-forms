@@ -64,5 +64,20 @@ namespace Bookstore.Services
                 return false;
             }
         }
+
+        public async Task<List<BookGenre>> GetByGenre(int genreId)
+        {
+            var response = await HttpClient.GetAsync(string.Format("BookGenre/Genre/{0}", genreId));
+            if (response.IsSuccessStatusCode)
+            {
+                var str = await response.Content.ReadAsStringAsync();
+                var genre = JsonConvert.DeserializeObject<List<BookGenre>>(str);
+                return genre;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

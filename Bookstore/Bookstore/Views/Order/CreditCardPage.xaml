@@ -135,7 +135,6 @@
                     Padding="0,2,0,0"
                     sharedTransitions:Transition.Name="OrderButton"
                     BackgroundColor="{StaticResource MainColor}"
-                    Clicked="ContinueOrderButton"
                     CornerRadius="{x:OnPlatform Android=30,
                                                 iOS=23}"
                     Command="{Binding ConfirmOrderCommand}"
@@ -143,7 +142,7 @@
                     FontSize="15"
                     HeightRequest="46"
                     HorizontalOptions="EndAndExpand"
-                    Text="Complete ($175)"
+                    Text="{Binding CompleteButtonText}"
                     TextColor="White"
                     WidthRequest="227" />
             </StackLayout>

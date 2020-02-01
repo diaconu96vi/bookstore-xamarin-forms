@@ -1,4 +1,5 @@
-﻿using Bookstore.Views.TabbedPages;
+﻿using Bookstore.ApplicationUtils;
+using Bookstore.Views.TabbedPages;
 using Plugin.SharedTransitions;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace Bookstore.Views.Order
         }
         private void ContinueClick(object sender, EventArgs e)
         {
+            ShoppingBasket.Instance.Clear();
             Application.Current.MainPage = new SharedTransitionNavigationPage(new ParentTabbedPage());
         }
     }

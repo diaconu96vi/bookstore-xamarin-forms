@@ -30,11 +30,6 @@ namespace Bookstore.Views.Order
 			Navigation.PopAsync(true);
 		}
 
-		private async void ContinueOrderButton(object sender, EventArgs e)
-		{
-			//await Navigation.PushAsync(new SuccessPage());
-		}
-
 		private void DeleteCard_Tapped(object sender, EventArgs e)
 		{
 			string SysID = string.Empty;

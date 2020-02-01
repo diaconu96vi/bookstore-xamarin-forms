@@ -82,27 +82,34 @@
                                             HorizontalOptions="Start">
                                             <Image
                                                 Aspect="AspectFit"
-                                                HeightRequest="60"
+                                                HeightRequest="120"
                                                 Source="{Binding Image}"
-                                                WidthRequest="60" />
+                                                WidthRequest="120" />
                                         </StackLayout>
                                         <StackLayout VerticalOptions="CenterAndExpand">
                                             <Label
                                                 FontFamily="{StaticResource PingFangMedium}"
-                                                FontSize="15"
+                                                FontSize="25"
                                                 Text="{Binding Title}"
                                                 TextColor="#2E2E2E" />
                                             <Label
                                                 FontFamily="{StaticResource PingFangRegular}"
-                                                FontSize="11"
+                                                FontSize="20"
                                                 Text="{Binding AuthorName}"
                                                 TextColor="#917A7A" />
                                             <Label
                                                 FontAttributes="Bold"
                                                 FontFamily="{StaticResource PingFangMedium}"
                                                 FontSize="20"
+                                                Text="{Binding Quantity, StringFormat='{0} X'}"
+                                                TextColor="{StaticResource MainColor}" />
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontFamily="{StaticResource PingFangMedium}"
+                                                FontSize="25"
                                                 Text="{Binding Price, StringFormat='{0} Lei'}"
                                                 TextColor="{StaticResource MainColor}" />
+
                                         </StackLayout>
                                         <Image
                                             HeightRequest="25"
@@ -131,7 +138,7 @@
                     FontFamily="{StaticResource PingFangMedium}"
                     FontSize="18"
                     HorizontalOptions="EndAndExpand"
-                    Text="10 Lei"
+                    Text="{Binding ShippingPrice}"
                     TextColor="{StaticResource MainColor}"
                     VerticalOptions="Center" />
             </StackLayout>

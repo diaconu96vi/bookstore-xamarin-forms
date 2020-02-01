@@ -21,10 +21,14 @@ namespace Bookstore.ViewModels.Order
 
         public CardView SelectedCardView { get; set; }
         private CardApiService _cardApiService { get; set; }
+
+        public string CompleteButtonText { get; set; }
         public CreditCardPageViewModel()
         {
             _cardApiService = new CardApiService();
             ConfirmOrderCommand = new Command(async () => await ExecuteConfirmOrderCommand());
+            CompleteButtonText = string.Format("{0} Lei", ShoppingBasket.Instance.TotalPrice + ShoppingBasket.Instance.ShippingPrice);
+            OnPropertyChanged(nameof(CompleteButtonText));
             MessagingCenter.Subscribe<Card>(this, "AddCard", (card) =>
             {
                 CardView cardView = ConvertCardToCardView(card);               
@@ -61,6 +65,7 @@ namespace Bookstore.ViewModels.Order
                 await Application.Current.MainPage.DisplayAlert("Warning", "No selected card", "Cancel");
                 return;
             }
+            ShoppingBasket.Instance.ActiveCard = SelectedCardView;
             await Application.Current.MainPage.Navigation.PushAsync(new SuccessOrderPage());
         }
 

@@ -14,6 +14,8 @@ namespace Bookstore.Models
         public string AuthorName { get; set; }
         public string PublicationName { get; set; }
 
+        public string Quantity { get; set; }
+
         public ImageSource  Image { get; set; }
     }
 }

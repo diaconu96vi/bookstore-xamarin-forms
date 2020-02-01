@@ -84,6 +84,11 @@ namespace Bookstore.Views.TabbedPages
 
         private void LogOutClick(object sender, EventArgs e)
         {
+            if(ApplicationGeneralSettings.FacebookUser != null)
+            {
+                ApplicationGeneralSettings.FacebookUser = null;
+            }
+            ShoppingBasket.Instance.Clear();
             ApplicationGeneralSettings.CurrentUser = null;
             Application.Current.MainPage = new SharedTransitionNavigationPage(new StartupPage());
         }

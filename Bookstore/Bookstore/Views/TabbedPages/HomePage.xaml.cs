@@ -29,15 +29,27 @@ namespace Bookstore.Views.TabbedPages
             await viewModel.ExecuteBookDetail(titleLabel.Text);
         }
 
-        private async void GenreDetail_Tapped(object sender, EventArgs e)
+        private void GenreDetail_Tapped(object sender, EventArgs e)
         {
             var titleLabel = (sender as Layout<View>).Children[1] as Label;
 
             HomePageViewModel viewModel = this.BindingContext as HomePageViewModel;
-            await viewModel.ExecuteGenreDetail(titleLabel.Text);
+            viewModel.ExecuteGenreDetail(titleLabel.Text);
+        }
+        
+        private void AuthorsFilters_Tapped(object sender, EventArgs e)
+        {
+            string authorLabel = string.Empty;
+            if(sender is Label)
+            {
+                authorLabel = (sender as Label).Text;
+            }
+
+            HomePageViewModel viewModel = this.BindingContext as HomePageViewModel;
+            viewModel.ApplyAuthorFilter(authorLabel);
         }
 
-        private async void BorderlessSearchBar_Unfocused(object sender, FocusEventArgs e)
+        private void BorderlessSearchBar_Unfocused(object sender, FocusEventArgs e)
         {
             BorderlessSearchBar borderlessSearchBar;
             if(sender is BorderlessSearchBar)
@@ -45,7 +57,7 @@ namespace Bookstore.Views.TabbedPages
                 borderlessSearchBar = sender as BorderlessSearchBar;
             }
             HomePageViewModel viewModel = this.BindingContext as HomePageViewModel;
-            await viewModel.FilterSearchBar();
+            viewModel.FilterSearchBar();
 
         }
     }

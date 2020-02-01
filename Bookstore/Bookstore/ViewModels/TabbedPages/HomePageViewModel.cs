@@ -151,6 +151,10 @@ namespace Bookstore.ViewModels.TabbedPages
         #region Filters
         public void ExecuteGenreDetail(string genreName)
         {
+            if(string.IsNullOrEmpty(genreName))
+            {
+                return;
+            }
             var selectedGenre = GenresList.FirstOrDefault(x => x.GenreName.Equals(genreName));
             if (selectedGenre != null)
             {
@@ -163,6 +167,10 @@ namespace Bookstore.ViewModels.TabbedPages
         
         public void ApplyAuthorFilter(string authorName)
         {
+            if(string.IsNullOrEmpty(authorName))
+            {
+                return;
+            }
             var filteredBooks = BooksList.Where(x => x.AuthorName.Equals(authorName));
             if (filteredBooks == null)
             {

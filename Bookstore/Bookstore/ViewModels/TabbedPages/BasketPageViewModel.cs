@@ -20,6 +20,7 @@ namespace Bookstore.ViewModels.TabbedPages
         public ObservableCollection<Address> AddressList { get; set; }
 
         public string TotalPrice { get; set; }
+        public string ShippingPrice { get; set; }
 
         public Address SelectedAddress { get; set; }
 
@@ -28,12 +29,19 @@ namespace Bookstore.ViewModels.TabbedPages
         {
             _addressApiService = new AddressApiService();
             ContinueCommand = new Command(async () => await ExecuteContinueCommand());
-            TotalPrice = "5 Lei";
             MessagingCenter.Subscribe<Address>(this, "AddAddress", (address) =>
             {
                 AddressList.Add(address);
             });
+            MessagingCenter.Subscribe<BookView>(this, "AddBasketRefresh", (card) =>
+            {
+                BooksList = new ObservableCollection<BookView>(ShoppingBasket.Instance.AddedOrderItems);
+                TotalPrice = string.Format("+ {0} Lei", ShoppingBasket.Instance.TotalPrice);
+                OnPropertyChanged(nameof(TotalPrice));
+                OnPropertyChanged(nameof(BooksList));
+            });
             ConfigureAddressList();
+            ConfigureShoppingCart();
         }
 
         public async Task ExecuteContinueCommand()
@@ -43,7 +51,23 @@ namespace Bookstore.ViewModels.TabbedPages
                 await Application.Current.MainPage.DisplayAlert("Warning", "No selected address", "Cancel");
                 return;
             }
+            else if(BooksList == null || !BooksList.Any())
+            {
+                await Application.Current.MainPage.DisplayAlert("Warning", "No books in cart", "Cancel");
+                return;
+            }
+            ShoppingBasket.Instance.ActiveAddress = SelectedAddress;
             await Application.Current.MainPage.Navigation.PushAsync(new CreditCardPage(), true);
+        }
+
+        public void ConfigureShoppingCart()
+        {
+            BooksList = new ObservableCollection<BookView>(ShoppingBasket.Instance.AddedOrderItems);
+            TotalPrice = string.Format("+ {0} Lei", ShoppingBasket.Instance.TotalPrice);
+            ShippingPrice = string.Format("{0} Lei", ShoppingBasket.Instance.ShippingPrice);
+            OnPropertyChanged(nameof(BooksList));
+            OnPropertyChanged(nameof(TotalPrice));
+            OnPropertyChanged(nameof(ShippingPrice));
         }
 
         public async void ConfigureAddressList()

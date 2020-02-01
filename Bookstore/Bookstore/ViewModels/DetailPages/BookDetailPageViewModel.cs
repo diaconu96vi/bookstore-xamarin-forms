@@ -214,7 +214,14 @@ namespace Bookstore.ViewModels.DetailPages
         }
         public async Task ExecuteAddBasketCommand()
         {
-
+            if(SelectedQuantity == 0)
+            {
+                await Application.Current.MainPage.DisplayAlert("Warning", "Please select quantity", "Cancel");
+                return;
+            }
+            ActiveBook.Quantity = SelectedQuantity.ToString();
+            ShoppingBasket.Instance.AddOrderItem(ActiveBook);
+            MessagingCenter.Send<BookView>(ActiveBook, "AddBasketRefresh");
         }
 
         public async Task ExecuteBuyFastCommand()

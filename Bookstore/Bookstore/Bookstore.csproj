@@ -57,6 +57,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Views\Admin\ManageBookGenresPage.xaml.cs">
+      <DependentUpon>ManageBookGenresPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Admin\ManageBooksPage.xaml.cs">
       <DependentUpon>ManageBooksPage.xaml</DependentUpon>
     </Compile>

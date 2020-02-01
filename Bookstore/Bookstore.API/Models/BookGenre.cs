@@ -19,6 +19,8 @@ namespace Bookstore.API.Models
         [ForeignKey("Genre")]
         public int GenreFK_SysID { get; set; }
 
+        public string Name { get; set; }
+
         //Foreign Keys
         public Book Book { get; set; }
 

@@ -50,7 +50,7 @@ namespace Bookstore.API.Controllers
             }
             return Unauthorized();
         }
-        
+
         [HttpGet("email")]
         [Route("GetUserByEmail")]
         public async Task<IActionResult> GetUserByEmail(string email)
@@ -76,7 +76,7 @@ namespace Bookstore.API.Controllers
             }
             return Unauthorized();
         }
-        
+
         [HttpPost]
         [Route("GetUserByEmail")]
         public async Task<IActionResult> GetUserByEmail([FromBody]LoginModel model)
@@ -134,6 +134,31 @@ namespace Bookstore.API.Controllers
                 return BadRequest(result.Errors);
             }
             return BadRequest();
+        }
+
+        [HttpPost]
+        [Route("ChangePassword")]
+        public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return BadRequest(new List<IdentityError>() { new IdentityError() { Description = "User not found!" } });
+            }
+
+            if (!await _userManager.CheckPasswordAsync(user, model.OldPassword))
+            {
+                return BadRequest(new List<IdentityError>() { new IdentityError() { Description = "Old password is wrong!" } });
+            }
+
+            var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return Ok(user);
         }
 
         //[HttpPut]

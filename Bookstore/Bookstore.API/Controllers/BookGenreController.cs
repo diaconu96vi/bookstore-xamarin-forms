@@ -64,5 +64,16 @@ namespace Bookstore.API.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("Genre/{id}")]
+        public async Task<IActionResult> GetByGenre(int id)
+        {
+            var BookGenres = await _context.BookGenres.Where(x=>x.GenreFK_SysID == id).ToListAsync();
+            if (BookGenres != null)
+            {
+                return Ok(BookGenres);
+            }
+            return BadRequest();
+        }
     }
 }

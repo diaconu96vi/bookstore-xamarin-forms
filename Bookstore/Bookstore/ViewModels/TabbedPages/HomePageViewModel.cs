@@ -27,6 +27,7 @@ namespace Bookstore.ViewModels.TabbedPages
         public BookApiService _bookApiService { get; set; }
         public AuthorApiService _authorApiService { get; set; }
         public PublisherApiService _publisherApiService { get; set; }
+        public BookGenreApiService _bookGenreApiService { get; set; }
 
         public string SearchBarText { get; set; }
         public string FromPrice { get; set; }
@@ -40,6 +41,7 @@ namespace Bookstore.ViewModels.TabbedPages
             _bookApiService = new BookApiService();
             _authorApiService = new AuthorApiService();
             _publisherApiService = new PublisherApiService();
+            _bookGenreApiService = new BookGenreApiService();
 
             CarouselImages = RetrieveCarouselImages();
             ConfigureGenresListDataSource();
@@ -52,7 +54,7 @@ namespace Bookstore.ViewModels.TabbedPages
         private async void ConfigureAuthorsListDataSource()
         {
             var allAuthors = await _authorApiService.GetAll();
-            if(allAuthors == null || !allAuthors.Any())
+            if (allAuthors == null || !allAuthors.Any())
             {
                 return;
             }
@@ -64,7 +66,7 @@ namespace Bookstore.ViewModels.TabbedPages
         private async void ConfigureGenresListDataSource()
         {
             var allGenres = await _genreApiService.GetAll();
-            if(allGenres == null && allGenres.Any())
+            if (allGenres == null && allGenres.Any())
             {
                 return;
             }
@@ -86,7 +88,7 @@ namespace Bookstore.ViewModels.TabbedPages
         private async void ConfigureBooksListDataSource()
         {
             var allBooks = await _bookApiService.GetAll();
-            if(allBooks == null && allBooks.Any())
+            if (allBooks == null && allBooks.Any())
             {
                 return;
             }
@@ -140,36 +142,41 @@ namespace Bookstore.ViewModels.TabbedPages
         public async Task ExecuteBookDetail(string bookTitle)
         {
             var selectedBook = BooksList.FirstOrDefault(x => x.Title.Equals(bookTitle));
-            if(selectedBook != null)
+            if (selectedBook != null)
             {
                 await Application.Current.MainPage.Navigation.PushAsync(new BookDetailPage(selectedBook));
             }
             else
             {
                 await Application.Current.MainPage.DisplayAlert("Warning", "No selected book", "Ok");
-            }            
+            }
         }
 
         #region Filters
-        public void ExecuteGenreDetail(string genreName)
+        public async Task ExecuteGenreDetail(string genreName)
         {
-            if(string.IsNullOrEmpty(genreName))
+            if (string.IsNullOrEmpty(genreName))
             {
                 return;
             }
             var selectedGenre = GenresList.FirstOrDefault(x => x.GenreName.Equals(genreName));
-            if (selectedGenre != null)
+            if (selectedGenre == null)
             {
-                //await Application.Current.MainPage.Navigation.PushAsync(new BookDetailPage(selectedBook));
+                BooksList = null;
             }
             else
             {
+                var BookGenres = await _bookGenreApiService.GetByGenre(selectedGenre.SysID);
+                var filteredBooks = BooksList.Where(x => BookGenres.Any(y => y.BookFK_SysID == x.SysID));
+                BooksList = new ObservableCollection<BookView>(filteredBooks);
             }
-        }       
-        
+
+            OnPropertyChanged(nameof(BooksList));
+        }
+
         public void ApplyAuthorFilter(string authorName)
         {
-            if(string.IsNullOrEmpty(authorName))
+            if (string.IsNullOrEmpty(authorName))
             {
                 return;
             }
@@ -187,14 +194,14 @@ namespace Bookstore.ViewModels.TabbedPages
 
         public void FilterSearchBar()
         {
-            if(!string.IsNullOrEmpty(SearchBarText))
+            if (!string.IsNullOrEmpty(SearchBarText))
             {
                 return;
             }
             else
             {
                 var filteredBooks = BooksList.Where(x => x.Title.ToLower().Contains(SearchBarText.ToLower())).ToList();
-                if(filteredBooks == null)
+                if (filteredBooks == null)
                 {
                     BooksList = null;
                 }
@@ -209,11 +216,11 @@ namespace Bookstore.ViewModels.TabbedPages
         public void PriceFilter()
         {
             List<BookView> priceFilteredBooks = new List<BookView>();
-            if(!string.IsNullOrEmpty(FromPrice))
+            if (!string.IsNullOrEmpty(FromPrice))
             {
                 var fromPrice = int.Parse(FromPrice);
                 priceFilteredBooks = BooksList.Where(x => (int.Parse(x.Price)) >= fromPrice).ToList();
-                if(priceFilteredBooks == null)
+                if (priceFilteredBooks == null)
                 {
                     BooksList = null;
                     OnPropertyChanged(nameof(BooksList));
@@ -224,11 +231,11 @@ namespace Bookstore.ViewModels.TabbedPages
                     BooksList = new ObservableCollection<BookView>(priceFilteredBooks);
                 }
             }
-            if(!string.IsNullOrEmpty(ToPrice))
+            if (!string.IsNullOrEmpty(ToPrice))
             {
                 var toPrice = int.Parse(ToPrice);
                 priceFilteredBooks = BooksList.Where(x => (int.Parse(x.Price)) <= toPrice).ToList();
-                if(priceFilteredBooks == null)
+                if (priceFilteredBooks == null)
                 {
                     BooksList = null;
                     OnPropertyChanged(nameof(BooksList));

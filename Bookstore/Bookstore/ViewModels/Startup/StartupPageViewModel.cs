@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Auth;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Bookstore.ViewModels
@@ -32,9 +33,29 @@ namespace Bookstore.ViewModels
             FacebookLogin = new Command(async () => await ExecuteFacebookLogin());
         }
 
+        private async Task<bool> CheckCacheUser()
+        {
+            var result = await SecureStorage.GetAsync("User");
+            if(string.IsNullOrEmpty(result))
+            {
+                return false;
+            }
+            var appUser = JsonConvert.DeserializeObject<AppUser>(result);
+            if(appUser != null)
+            {
+                ApplicationGeneralSettings.CurrentUser = appUser as AppUser;
+                await Application.Current.MainPage.Navigation.PushAsync(new ParentTabbedPage());
+                return true;
+            }
+            return false;
+        }
         public async Task ExecuteLoginCommand()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new LoginPage());
+            if(!await CheckCacheUser())
+            {
+                await Application.Current.MainPage.Navigation.PushAsync(new LoginPage());
+            }
+            
         }        
         public async Task ExecuteSignUpCommand()
         {

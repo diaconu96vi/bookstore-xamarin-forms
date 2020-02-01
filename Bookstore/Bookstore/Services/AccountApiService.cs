@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace Bookstore.Services
 {
@@ -33,6 +34,7 @@ namespace Bookstore.Services
                 var str = await response.Content.ReadAsStringAsync();
                 var appUser = JsonConvert.DeserializeObject<AppUser>(str);
                 ApplicationGeneralSettings.CurrentUser = appUser;
+                await SecureStorage.SetAsync("User", str);
                 return new Tuple<bool, List<IdentityError>>(true, null);
             }
             else
@@ -55,6 +57,7 @@ namespace Bookstore.Services
             {
                 var appUser = JsonConvert.DeserializeObject<AppUser>(str);
                 ApplicationGeneralSettings.CurrentUser = appUser;
+                await SecureStorage.SetAsync("User", str);
                 return true;
             }
             else

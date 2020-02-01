@@ -1,4 +1,5 @@
 ﻿using Bookstore.API.Models;
+using Bookstore.Services;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,6 +19,7 @@ namespace Bookstore.API.Data
         public DbSet<Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<BookGenre> BookGenres { get; set; }
+        public DbSet<Card> Cards { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<Genre> Genres { get; set; }

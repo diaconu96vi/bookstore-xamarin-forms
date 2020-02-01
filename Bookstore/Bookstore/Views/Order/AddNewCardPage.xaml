@@ -58,7 +58,8 @@
                             <renderers:BorderlessEntry
                             FontFamily="{StaticResource PingFangRegular}"
                             HorizontalOptions="FillAndExpand"
-                            Placeholder="Name Surname "
+                            Placeholder="Owner name "
+                            Text="{Binding OwnerName}"
                             Visual="Custom">
                                 <renderers:BorderlessEntry.Behaviors>
                                     <fastEntry:XamarinFastEntryBehaviour MaxLength="15" />
@@ -150,6 +151,7 @@
                     HeightRequest="50"
                     HorizontalOptions="FillAndExpand"
                     Text="Save"
+                    Command="{Binding AddNewCardCommand}"
                     TextColor="White"
                     WidthRequest="227" />
                 </Grid>

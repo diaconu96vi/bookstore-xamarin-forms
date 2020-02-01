@@ -60,5 +60,11 @@ namespace Bookstore.Views.TabbedPages
             viewModel.FilterSearchBar();
 
         }
+
+        private void ResetFilter_Tapped(object sender, EventArgs e)
+        {
+            HomePageViewModel viewModel = this.BindingContext as HomePageViewModel;
+            viewModel.ResetFilter();
+        }
     }
 }

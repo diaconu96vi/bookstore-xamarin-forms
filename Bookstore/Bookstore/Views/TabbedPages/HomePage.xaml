@@ -110,8 +110,8 @@
                                             CornerRadius="30"
                                             Elevation="1"
                                             HasShadow="False"
-                                            HeightRequest="90"
-                                            WidthRequest="90">
+                                            HeightRequest="30"
+                                            WidthRequest="100">
                                             <Label
                                             FontSize="12"
                                             HorizontalOptions="CenterAndExpand"
@@ -177,6 +177,19 @@
                         TextColor="#2E2E2E"
                         VerticalOptions="Center"
                         VerticalTextAlignment="Center" />
+                    <Label
+                        FontAttributes="None"
+                        FontFamily="{StaticResource PingFangMedium}"
+                        FontSize="14"
+                        HorizontalOptions="EndAndExpand"
+                        Text="Reset filters"
+                        TextColor="#2E2E2E"
+                        VerticalOptions="Center"
+                        VerticalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ResetFilter_Tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
                 </StackLayout>
 
                 <ScrollView HorizontalScrollBarVisibility="Never" Orientation="Horizontal">

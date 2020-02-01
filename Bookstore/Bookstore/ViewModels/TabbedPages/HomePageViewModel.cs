@@ -105,7 +105,7 @@ namespace Bookstore.ViewModels.TabbedPages
                 };
                 convertedList.Add(convertBook);
             }
-            AllBooks = convertedList.CloneJson();
+            AllBooks = new ObservableCollection<BookView>(convertedList);
             BooksList = convertedList;
             OnPropertyChanged(nameof(BooksList));
         }
@@ -191,7 +191,7 @@ namespace Bookstore.ViewModels.TabbedPages
             }
             else
             {
-                var filteredBooks = BooksList.Where(x => x.Title.Contains(SearchBarText)).ToList();
+                var filteredBooks = BooksList.Where(x => x.Title.ToLower().Contains(SearchBarText.ToLower())).ToList();
                 if(filteredBooks == null)
                 {
                     BooksList = null;
@@ -201,6 +201,12 @@ namespace Bookstore.ViewModels.TabbedPages
                     BooksList = new ObservableCollection<BookView>(filteredBooks);
                 }
             }
+            OnPropertyChanged(nameof(BooksList));
+        }
+
+        public void ResetFilter()
+        {
+            BooksList = new ObservableCollection<BookView>(AllBooks);
             OnPropertyChanged(nameof(BooksList));
         }
         #endregion

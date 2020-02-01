@@ -27,7 +27,7 @@
                     <abstractions:CircleImage
                         FillColor="LightGray"
                         HeightRequest="85"
-                        Source="bookstorelogo.png"
+                        Source="{Binding UserImage}"
                         WidthRequest="85" />
                     <StackLayout VerticalOptions="CenterAndExpand">
                         <Label

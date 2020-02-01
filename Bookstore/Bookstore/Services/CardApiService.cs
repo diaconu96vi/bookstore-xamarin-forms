@@ -49,5 +49,18 @@ namespace Bookstore.Services
                 return null;
             }
         }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var response = await HttpClient.DeleteAsync(string.Format("Card/{0}", id));
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

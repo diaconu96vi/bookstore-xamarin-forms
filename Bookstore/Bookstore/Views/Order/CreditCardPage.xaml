@@ -61,13 +61,18 @@
                                 <ViewCell>
                                     <StackLayout Orientation="Horizontal" VerticalOptions="Start">
                                         <customcontrol:IconView
+                                            ClassId="{Binding SysID}"
                                 BackgroundColor="White"
                                 Foreground="{StaticResource MainColor}"
                                 HeightRequest="20"
                                 HorizontalOptions="Start"
                                 Source="{Binding CheckedImage}"
                                 VerticalOptions="Center"
-                                WidthRequest="20" />
+                                WidthRequest="20" >
+                                            <customcontrol:IconView.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="SelectCard_Tapped"></TapGestureRecognizer>
+                                            </customcontrol:IconView.GestureRecognizers>
+                                        </customcontrol:IconView>
                                         <StackLayout
                                 Padding="10"
                                 BackgroundColor="#f7f7f7"
@@ -98,10 +103,15 @@
                                     TextColor="{StaticResource MainColor}" />
                                         </StackLayout>
                                         <Image
+                                            ClassId="{Binding SysID}"                                            
                                 HeightRequest="25"
                                 HorizontalOptions="EndAndExpand"
                                 Source="close"
-                                WidthRequest="25" />
+                                WidthRequest="25" >
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="DeleteCard_Tapped"></TapGestureRecognizer>
+                                            </Image.GestureRecognizers>
+                                        </Image>
                                     </StackLayout>
                                 </ViewCell>
                             </DataTemplate>

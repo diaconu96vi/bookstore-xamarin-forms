@@ -59,7 +59,7 @@ namespace Bookstore.API.Controllers
             }
             if (_context.Addresses.Any())
             {
-                var Address = await _context.Addresses.FirstOrDefaultAsync(x => x.AddressTitle.Equals(value.AddressTitle));
+                var Address = await _context.Addresses.FirstOrDefaultAsync(x => x.AddressTitle.Equals(value.AddressTitle) && x.AppUserFK_SysID.Equals(value.AppUserFK_SysID));
                 if (Address != null)
                 {
                     return BadRequest();

@@ -1,4 +1,5 @@
 ﻿using Bookstore.ApplicationUtils;
+using Bookstore.Converters;
 using Bookstore.Services;
 using System;
 using System.Collections.Generic;
@@ -73,6 +74,12 @@ namespace Bookstore.ViewModels.Order
                 CardCvv = CardCvv,
                 AppUserFK_SysID = ApplicationGeneralSettings.CurrentUser.Id
             };
+            var cardConverter = new CardNumberToImageSourceConverter();
+            if(cardConverter.ConvertToString(model.CardNumber).ToString().Equals("Not recognised"))
+            {
+                await Application.Current.MainPage.DisplayAlert("Warning", "Card is not valid", "Cancel");
+                return;
+            }
             var result = await _cardApiService.CreateAsync(model);
             if (result != null)
             {

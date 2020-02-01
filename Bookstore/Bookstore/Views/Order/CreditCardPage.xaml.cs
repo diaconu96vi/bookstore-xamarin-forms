@@ -1,4 +1,5 @@
-﻿using Bookstore.ViewModels.Order;
+﻿using Bookstore.CustomControls;
+using Bookstore.ViewModels.Order;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,28 @@ namespace Bookstore.Views.Order
 		private async void ContinueOrderButton(object sender, EventArgs e)
 		{
 			//await Navigation.PushAsync(new SuccessPage());
+		}
+
+		private void DeleteCard_Tapped(object sender, EventArgs e)
+		{
+			string SysID = string.Empty;
+			if(sender is Image)
+			{
+				SysID = (sender as Image).ClassId;
+			}
+			CreditCardPageViewModel viewModel = this.BindingContext as CreditCardPageViewModel;
+			viewModel.DeleteSelectedCard(SysID);
+		}
+
+		private void SelectCard_Tapped(object sender, EventArgs e)
+		{
+			string SysID = string.Empty;
+			if (sender is IconView)
+			{
+				SysID = (sender as IconView).ClassId;
+			}
+			CreditCardPageViewModel viewModel = this.BindingContext as CreditCardPageViewModel;
+			viewModel.SelectCardCheck(SysID);
 		}
 	}
 }

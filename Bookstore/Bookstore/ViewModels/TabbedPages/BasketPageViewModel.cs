@@ -1,4 +1,5 @@
-﻿using Bookstore.Models;
+﻿using Bookstore.ApplicationUtils;
+using Bookstore.Models;
 using Bookstore.Services;
 using Bookstore.ViewModels.Order;
 using Bookstore.Views.Order;
@@ -37,13 +38,18 @@ namespace Bookstore.ViewModels.TabbedPages
 
         public async Task ExecuteContinueCommand()
         {
+            if(SelectedAddress == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Warning", "No selected address", "Cancel");
+                return;
+            }
             await Application.Current.MainPage.Navigation.PushAsync(new CreditCardPage(), true);
         }
 
         public async void ConfigureAddressList()
         {
             var addresses = await _addressApiService.GetAll();
-            AddressList = new ObservableCollection<Address>(addresses);
+            AddressList = new ObservableCollection<Address>(addresses.Where(x => x.AppUserFK_SysID.Equals(ApplicationGeneralSettings.CurrentUser.Id)).ToList());
             OnPropertyChanged(nameof(AddressList));
         }
     }

@@ -1,4 +1,5 @@
-﻿using Bookstore.Converters;
+﻿using Bookstore.ApplicationUtils;
+using Bookstore.Converters;
 using Bookstore.Models;
 using Bookstore.Models.ModelViews;
 using Bookstore.Services;
@@ -18,6 +19,7 @@ namespace Bookstore.ViewModels.Order
         public ObservableCollection<CardView> CardsList { get; set; }
         public Command ConfirmOrderCommand { get; set; }
 
+        public CardView SelectedCardView { get; set; }
         private CardApiService _cardApiService { get; set; }
         public CreditCardPageViewModel()
         {
@@ -34,20 +36,68 @@ namespace Bookstore.ViewModels.Order
             ConfigureCardList();
         }
 
+        public void SelectCardCheck(string cardID)
+        {
+            if (string.IsNullOrEmpty(cardID))
+            {
+                return;
+            }
+            if(SelectedCardView != null)
+            {
+                SelectedCardView.CheckedImage = "unchecked.png";
+            }
+            var cardSysID = int.Parse(cardID);
+            SelectedCardView = CardsList.FirstOrDefault(x => x.SysID == cardSysID);
+            SelectedCardView.CheckedImage = "checked.png";
+
+            var newCardList = CardsList;
+            CardsList = new ObservableCollection<CardView>(newCardList);
+            OnPropertyChanged(nameof(CardsList));
+        }
         public async Task ExecuteConfirmOrderCommand()
         {
+            if(SelectedCardView == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Warning", "No selected card", "Cancel");
+                return;
+            }
             await Application.Current.MainPage.Navigation.PushAsync(new SuccessOrderPage());
+        }
+
+        public async void DeleteSelectedCard(string cardID)
+        {
+            if(string.IsNullOrEmpty(cardID))
+            {
+                await Application.Current.MainPage.DisplayAlert("Warning", "No selected card", "Cancel");
+                return;
+            }
+            var cardSysID = int.Parse(cardID);
+            var result = await _cardApiService.DeleteAsync(cardSysID);
+            if(result)
+            {
+                var deletedCard = CardsList.FirstOrDefault(x => x.SysID == cardSysID);
+                var newCardList = CardsList;
+                newCardList.Remove(deletedCard);
+                CardsList = new ObservableCollection<CardView>(newCardList);
+                OnPropertyChanged(nameof(CardsList));
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Warning", "Something went wrong", "Cancel");
+            }
+            
         }
 
         public async void ConfigureCardList()
         {
             var cards = await _cardApiService.GetAll();
-            if(!cards.Any())
+            var userCards = cards.Where(x => x.AppUserFK_SysID.Equals(ApplicationGeneralSettings.CurrentUser.Id)).ToList();
+            if(!userCards.Any())
             {
                 return;
             }
             List<CardView> allCardViews = new List<CardView>();
-            foreach(var card in cards.ToList())
+            foreach(var card in userCards.ToList())
             {
                 CardView cardView = ConvertCardToCardView(card);
                 allCardViews.Add(cardView);

@@ -60,7 +60,7 @@ namespace Bookstore.API.Controllers
             }
             if (_context.Cards.Any())
             {
-                var Card = await _context.Cards.FirstOrDefaultAsync(x => x.CardNumber.Equals(value.CardNumber));
+                var Card = await _context.Cards.FirstOrDefaultAsync(x => x.CardNumber.Equals(value.CardNumber) && x.AppUserFK_SysID.Equals(value.AppUserFK_SysID));
                 if (Card != null)
                 {
                     return BadRequest();

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Bookstore.ViewModels.TabbedPages;
+using Bookstore.Views.Order;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +17,22 @@ namespace Bookstore.Views.TabbedPages
         public BasketPage()
         {
             InitializeComponent();
+            this.BindingContext = new BasketPageViewModel();
+        }
+
+        private void Button_OnPressed(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void AddAddressClick(object sender, EventArgs e)
+        {
+            Navigation.PushModalAsync(new AddressPage());
+        }
+
+        private void ContinueClick(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new CreditCardPage(), true);
         }
     }
 }

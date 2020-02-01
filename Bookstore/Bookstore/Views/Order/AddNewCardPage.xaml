@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Bookstore.Views.Order.AddNewCardPage"
+             xmlns:fastEntry="clr-namespace:XamarinFastEntrySample.FastEntry;assembly=XamarinFastEntry.Behaviors"
+             xmlns:partialViews="clr-namespace:Bookstore.Views.PartialViews"
+             xmlns:renderers="clr-namespace:Bookstore.Renderers"
+             BackgroundColor="White"
+             NavigationPage.HasNavigationBar="False"
+             Visual="Material">
+    <ContentPage.Content>
+        <StackLayout>
+            <partialViews:NavigationBarPartialView>
+                <x:Arguments>
+                    <x:String>Add Credit Card</x:String>
+                    <x:Boolean>True</x:Boolean>
+                    <x:Boolean>True</x:Boolean>
+                </x:Arguments>
+            </partialViews:NavigationBarPartialView>
+            <ScrollView>
+                <Grid
+                ColumnSpacing="20"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition Width="5*" />
+                    </Grid.ColumnDefinitions>
+
+                    <partialViews:CreditCardDisplayView
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3" />
+                    <Frame
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Margin="30,30,30,0"
+                    Padding="10"
+                    BorderColor="{StaticResource LightColor}"
+                    HasShadow="false"
+                    Style="{StaticResource FrameStyle}">
+                        <StackLayout Orientation="Horizontal" Spacing="20">
+
+                            <renderers:BorderlessEntry
+                            FontFamily="{StaticResource PingFangRegular}"
+                            HorizontalOptions="FillAndExpand"
+                            Placeholder="Name Surname "
+                            Visual="Custom">
+                                <renderers:BorderlessEntry.Behaviors>
+                                    <fastEntry:XamarinFastEntryBehaviour MaxLength="15" />
+                                </renderers:BorderlessEntry.Behaviors>
+                            </renderers:BorderlessEntry>
+                        </StackLayout>
+                    </Frame>
+                    <Frame
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Margin="30,10,30,10"
+                    Padding="10"
+                    BorderColor="{StaticResource LightColor}"
+                    HasShadow="false"
+                    Style="{StaticResource FrameStyle}">
+                        <StackLayout Orientation="Horizontal" Spacing="20">
+                            <Image HeightRequest="30" Source="{Binding CardNumber, Converter={StaticResource CardConverter}}" />
+
+                            <renderers:BorderlessEntry
+                            FontFamily="{StaticResource PingFangRegular}"
+                            HorizontalOptions="FillAndExpand"
+                            Keyboard="Numeric"
+                            Text="{Binding CardNumber}"
+                            Visual="Custom">
+                                <renderers:BorderlessEntry.Behaviors>
+                                    <fastEntry:XamarinFastEntryBehaviour Mask="####-####-####-####" MaxLength="19" />
+                                </renderers:BorderlessEntry.Behaviors>
+                            </renderers:BorderlessEntry>
+                        </StackLayout>
+                    </Frame>
+
+                    <Frame
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Margin="30,0,0,0"
+                    Padding="10"
+                    BorderColor="{StaticResource LightColor}"
+                    HasShadow="false"
+                    Style="{StaticResource FrameStyle}">
+                        <StackLayout Orientation="Horizontal">
+                            <Image HeightRequest="25" Source="ic_date" />
+                            <renderers:BorderlessEntry
+                            FontFamily="{StaticResource PingFangRegular}"
+                            HorizontalOptions="FillAndExpand"
+                            Keyboard="Numeric"
+                            Text="{Binding CardExpirationDate}"
+                            Visual="Custom">
+                                <renderers:BorderlessEntry.Behaviors>
+                                    <fastEntry:XamarinFastEntryBehaviour Mask="##/##" MaxLength="19" />
+                                </renderers:BorderlessEntry.Behaviors>
+                            </renderers:BorderlessEntry>
+                        </StackLayout>
+                    </Frame>
+
+                    <Frame
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    Margin="0,0,30,0"
+                    Padding="10"
+                    BorderColor="{StaticResource LightColor}"
+                    HasShadow="false"
+                    Style="{StaticResource FrameStyle}">
+                        <StackLayout Orientation="Horizontal">
+                            <Image HeightRequest="25" Source="ic_cvv" />
+                            <renderers:BorderlessEntry
+                            FontFamily="{StaticResource PingFangRegular}"
+                            HorizontalOptions="FillAndExpand"
+                            Keyboard="Numeric"
+                            Text="{Binding CardCvv}"
+                            Visual="Custom">
+                                <renderers:BorderlessEntry.Behaviors>
+                                    <fastEntry:XamarinFastEntryBehaviour Mask="###" MaxLength="3" />
+                                </renderers:BorderlessEntry.Behaviors>
+                            </renderers:BorderlessEntry>
+                        </StackLayout>
+                    </Frame>
+                    <Button
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Margin="30,10,30,30"
+                    Padding="0,2,0,0"
+                    BackgroundColor="{Binding CardNumber, Converter={StaticResource CardColorConverter}}"
+                    CornerRadius="{x:OnPlatform Android=30,iOS=25}"
+                    FontFamily="{StaticResource PingFangMedium}"
+                    FontSize="20"
+                    HeightRequest="50"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Save"
+                    TextColor="White"
+                    WidthRequest="227" />
+                </Grid>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

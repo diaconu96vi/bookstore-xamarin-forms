@@ -1,15 +1,209 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-             x:Class="Bookstore.Views.TabbedPages.BasketPage">
+<ContentPage
+    x:Class="Bookstore.Views.TabbedPages.BasketPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:carousel="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
+    xmlns:customcontrol="clr-namespace:Bookstore.CustomControls"
+    xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:partialViews="clr-namespace:Bookstore.Views.PartialViews"
+    xmlns:renderers="clr-namespace:Bookstore.Renderers"
+    xmlns:sharedTransitions="clr-namespace:Plugin.SharedTransitions;assembly=Plugin.SharedTransitions"
+    sharedTransitions:SharedTransitionNavigationPage.BackgroundAnimation="SlideFromRight"
+    BackgroundColor="White"
+     NavigationPage.HasNavigationBar="False"
+    Visual="Material">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="MainStackLayout" TargetType="StackLayout">
+                <Setter Property="Margin" Value="10,0,10,20" />
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="HeightRequest" Value="210" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="WidthRequest" Value="150" />
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Margin="20,0,20,10">
+            <partialViews:NavigationBarPartialView BackgroundColor="White">
+                <x:Arguments>
+                    <x:String>My Basket</x:String>
+                    <x:Boolean>False</x:Boolean>
+                    <x:Boolean>False</x:Boolean>
+                </x:Arguments>
+            </partialViews:NavigationBarPartialView>
+            <StackLayout
+                Orientation="Horizontal"
+                Spacing="0"
+                HeightRequest="20"
+               
+                VerticalOptions="Start">
+                <BoxView
+                    BackgroundColor="{StaticResource MainColor}"
+                    HeightRequest="1"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="CenterAndExpand" />
+                <Frame
+                    Padding="0"
+                    BackgroundColor="{StaticResource MainColor}"
+                    CornerRadius="5"
+                    HasShadow="False"
+                    HeightRequest="10"
+                    VerticalOptions="CenterAndExpand"
+                    WidthRequest="10" />
+                <BoxView
+                    BackgroundColor="Gainsboro"
+                    HeightRequest="1"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="CenterAndExpand" />
+                <Frame
+                    Padding="0"
+                    BackgroundColor="Gainsboro"
+                    CornerRadius="5"
+                    HasShadow="False"
+                    HeightRequest="10"
+                    VerticalOptions="CenterAndExpand"
+                    WidthRequest="10" />
+            </StackLayout>
+            <StackLayout Margin="0,20,0,0">
+                <ScrollView  >
+                    <customcontrol:RepeaterView VerticalOptions="Start" ItemsSource="{Binding BooksList}" Spacing="10" BackgroundColor="White"  >
+                        <customcontrol:RepeaterView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Orientation="Horizontal" VerticalOptions="Start">
+                                        <StackLayout
+                                            Padding="10"
+                                            BackgroundColor="#f7f7f7"
+                                            HorizontalOptions="Start">
+                                            <Image
+                                                Aspect="AspectFit"
+                                                HeightRequest="60"
+                                                Source="{Binding Image}"
+                                                WidthRequest="60" />
+                                        </StackLayout>
+                                        <StackLayout VerticalOptions="CenterAndExpand">
+                                            <Label
+                                                FontFamily="{StaticResource PingFangMedium}"
+                                                FontSize="15"
+                                                Text="{Binding Title}"
+                                                TextColor="#2E2E2E" />
+                                            <Label
+                                                FontFamily="{StaticResource PingFangRegular}"
+                                                FontSize="11"
+                                                Text="{Binding AuthorName}"
+                                                TextColor="#917A7A" />
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontFamily="{StaticResource PingFangMedium}"
+                                                FontSize="20"
+                                                Text="{Binding Price, StringFormat='{0} Lei'}"
+                                                TextColor="{StaticResource MainColor}" />
+                                        </StackLayout>
+                                        <Image
+                                            HeightRequest="25"
+                                            HorizontalOptions="EndAndExpand"
+                                            Source="close"
+                                            WidthRequest="25" />
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </customcontrol:RepeaterView.ItemTemplate>
+                    </customcontrol:RepeaterView>
+
+                </ScrollView>
+            </StackLayout>
+            <BoxView Style="{StaticResource BoxViewStyle}" />
+            <StackLayout Margin="0,10,0,20" Orientation="Horizontal">
+                <Label
+                    FontFamily="{StaticResource PingFangRegular}"
+                    FontSize="18"
+                    HorizontalOptions="Start"
+                    Text="Shipping Cost"
+                    TextColor="#2E2E2E"
+                    VerticalOptions="Center" />
+                <Label
+                    FontAttributes="Bold"
+                    FontFamily="{StaticResource PingFangMedium}"
+                    FontSize="18"
+                    HorizontalOptions="EndAndExpand"
+                    Text="10 Lei"
+                    TextColor="{StaticResource MainColor}"
+                    VerticalOptions="Center" />
+            </StackLayout>
+            <BoxView Style="{StaticResource BoxViewStyle}" />
+            <StackLayout Margin="0,10,0,20" Orientation="Horizontal">
+                <Label
+                    FontFamily="{StaticResource PingFangRegular}"
+                    FontSize="18"
+                    HorizontalOptions="Start"
+                    Text="Total"
+                    TextColor="#2E2E2E"
+                    VerticalOptions="Center" />
+                <Label
+                    FontAttributes="Bold"
+                    FontFamily="{StaticResource PingFangMedium}"
+                    FontSize="18"
+                    HorizontalOptions="EndAndExpand"
+                    Text="{Binding TotalPrice}"
+                    TextColor="{StaticResource MainColor}"
+                    VerticalOptions="Center" />
+            </StackLayout>
+            <BoxView Style="{StaticResource BoxViewStyle}" />
+            <StackLayout
+                Margin="0,10,0,0"
+                Orientation="Horizontal"
+                VerticalOptions="Center">
+                <Label
+                    FontFamily="{StaticResource PingFangRegular}"
+                    FontSize="18"
+                    HorizontalOptions="Start"
+                    Text="Select Address"
+                    TextColor="#2E2E2E"
+                    VerticalOptions="Center" />
+                <Label
+                    FontFamily="{StaticResource PingFangRegular}"
+                    FontSize="15"
+                    HorizontalOptions="EndAndExpand"
+                    Text="Add Address"
+                    TextColor="#2E2E2E"
+                    VerticalOptions="Center" >
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="AddAddressClick" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Image
+                    HeightRequest="30"
+                    Source="add"
+                    WidthRequest="30" />
+            </StackLayout>
+            <Frame
+                Margin="0,5,0,10"
+                HasShadow="False"
+                HeightRequest="50"
+                Style="{StaticResource FrameStyle}">
+                <renderers:BorderlessPicker
+                    Title="Istanbul/Turkey"
+                    FontFamily="{StaticResource PingFangMedium}"
+                    FontSize="15"
+                    TitleColor="#252525"
+                    VerticalOptions="CenterAndExpand" />
+            </Frame>
+            <Button
+                BackgroundColor="{StaticResource MainColor}"
+                Command="{Binding ContinueCommand}"
+                CornerRadius="{x:OnPlatform Android=30,
+                                            iOS=23}"
+                FontSize="15"
+                HeightRequest="46"
+                HorizontalOptions="EndAndExpand"
+                Text="Continue"
+                TextColor="White"
+                WidthRequest="200" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

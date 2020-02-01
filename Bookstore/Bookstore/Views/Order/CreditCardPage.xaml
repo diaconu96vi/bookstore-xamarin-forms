@@ -166,6 +166,7 @@
                     Clicked="ContinueOrderButton"
                     CornerRadius="{x:OnPlatform Android=30,
                                                 iOS=23}"
+                    Command="{Binding ConfirmOrderCommand}"
                     FontFamily="{StaticResource PingFangBold}"
                     FontSize="15"
                     HeightRequest="46"

@@ -187,7 +187,10 @@
                 HeightRequest="50"
                 Style="{StaticResource FrameStyle}">
                 <renderers:BorderlessPicker
-                    Title="Istanbul/Turkey"
+                    ItemsSource="{Binding AddressList}"
+                    Title="Select an address"
+                    ItemDisplayBinding="{Binding AddressTitle}"
+                    SelectedItem="{Binding SelectedAddress}"
                     FontFamily="{StaticResource PingFangMedium}"
                     FontSize="15"
                     TitleColor="#252525"

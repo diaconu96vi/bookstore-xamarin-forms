@@ -28,22 +28,24 @@
                         Text="Address Title"
                         TextColor="{StaticResource DarkFontColor}" />
                     <Frame Style="{StaticResource FrameStyle}">
-                        <renderers:BorderlessEntry TextColor="{StaticResource DarkFontColor}" />
+                        <renderers:BorderlessEntry TextColor="{StaticResource DarkFontColor}"
+                                                   Text="{Binding AddressTitle}"/>
                     </Frame>
                     <Label
                         FontFamily="{StaticResource PingFangRegular}"
                         Text="Full name"
                         TextColor="{StaticResource DarkFontColor}" />
                     <Frame Style="{StaticResource FrameStyle}">
-                        <renderers:BorderlessEntry TextColor="{StaticResource DarkFontColor}" />
+                        <renderers:BorderlessEntry TextColor="{StaticResource DarkFontColor}" 
+                                                   Text="{Binding FullName}"/>
                     </Frame>
                     <Label
                         FontFamily="{StaticResource PingFangRegular}"
                         Text="City"
                         TextColor="{StaticResource DarkFontColor}" />
                     <Frame Style="{StaticResource FrameStyle}">
-                        <renderers:BorderlessPicker
-                            Title="Istalbul"
+                        <renderers:BorderlessEntry
+                            Text="{Binding City}"
                             FontFamily="{StaticResource PingFangRegular}"
                             TextColor="{StaticResource DarkFontColor}" />
                     </Frame>
@@ -52,8 +54,8 @@
                         Text="Country"
                         TextColor="{StaticResource DarkFontColor}" />
                     <Frame Style="{StaticResource FrameStyle}">
-                        <renderers:BorderlessPicker
-                            Title="Atasehir"
+                        <renderers:BorderlessEntry
+                            Text="{Binding Country}"
                             FontFamily="{StaticResource PingFangRegular}"
                             TextColor="{StaticResource DarkFontColor}" />
                     </Frame>
@@ -62,7 +64,8 @@
                         Text="Full address"
                         TextColor="{StaticResource DarkFontColor}" />
                     <Frame HeightRequest="100" Style="{StaticResource FrameStyle}">
-                        <renderers:BorderlessEditor BackgroundColor="Transparent" TextColor="{StaticResource DarkFontColor}" />
+                        <renderers:BorderlessEditor BackgroundColor="Transparent" TextColor="{StaticResource DarkFontColor}" 
+                                                    Text="{Binding FullAddress}"/>
                     </Frame>
                     <Button
                         Margin="0,10,0,10"
@@ -74,6 +77,7 @@
                         HorizontalOptions="EndAndExpand"
                         Text="Add Address"
                         TextColor="White"
+                        Command="{Binding AddNewAddress}"
                         WidthRequest="200" />
                 </StackLayout>
             </ScrollView>

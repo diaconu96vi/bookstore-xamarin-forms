@@ -115,11 +115,19 @@
                 IsVisible="False">
                 <StackLayout
                     Padding="5"
-                    Spacing="10"
+                    Spacing="4"
                     VerticalOptions="CenterAndExpand">
                     <StackLayout ClassId="MyOder" Orientation="Horizontal">
                         <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="ChancePassClick" />
+                            <TapGestureRecognizer Tapped="ChangeDetailsClick" />
+                        </StackLayout.GestureRecognizers>
+                        <customControl:IconView Source="Profile" Style="{StaticResource IconViewStyle}" />
+                        <Label Style="{StaticResource ProfleLabelStyle}" Text="Change User Details" />
+                    </StackLayout>
+                    <BoxView Style="{StaticResource BoxViewStyle}" />
+                    <StackLayout ClassId="MyOder" Orientation="Horizontal">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ChangePassClick" />
                         </StackLayout.GestureRecognizers>
                         <customControl:IconView Source="passIcon" Style="{StaticResource IconViewStyle}" />
                         <Label Style="{StaticResource ProfleLabelStyle}" Text="Change Password" />
@@ -156,7 +164,7 @@
                 HasShadow="False">
                 <StackLayout
                     Padding="5"
-                    Spacing="2"
+                    Spacing="1"
                     VerticalOptions="CenterAndExpand">
                     <StackLayout ClassId="AddBooks" Orientation="Horizontal">
                         <StackLayout.GestureRecognizers>

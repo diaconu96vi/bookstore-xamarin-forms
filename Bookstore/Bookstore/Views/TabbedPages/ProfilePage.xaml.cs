@@ -73,12 +73,16 @@ namespace Bookstore.Views.TabbedPages
             await Navigation.PushModalAsync(page, true);
         }
 
-        private async void ChancePassClick(object sender, EventArgs e)
+        private async void ChangePassClick(object sender, EventArgs e)
         {
             if (ApplicationGeneralSettings.FacebookUser == null)
                 await Navigation.PushModalAsync(new ChangePasswordPage(), true);
             else
                 await Application.Current.MainPage.DisplayAlert("Warning", "Cannot change password for facebook account!", "Cancel");
+        }
+
+        private void ChangeDetailsClick(object sender, EventArgs e)
+        {
         }
 
         private void ContactClick(object sender, EventArgs e)

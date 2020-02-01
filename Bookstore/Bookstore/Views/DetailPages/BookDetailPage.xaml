@@ -155,11 +155,11 @@
                                 Elevation="2"
                                 HeightRequest="50"
                                 HorizontalOptions="EndAndExpand"
-                                WidthRequest="50">
+                                WidthRequest="100">
                                 <renderers:BorderlessPicker
                                     ItemsSource="{Binding QuantityList}"
                                     SelectedItem="{Binding SelectedQuantity}"
-                                    Title="Chose quantity"
+                                    Title="Chose"
                                     FontFamily="{StaticResource PingFangMedium}"
                                     HorizontalOptions="CenterAndExpand"
                                     TextColor="DarkGray" />

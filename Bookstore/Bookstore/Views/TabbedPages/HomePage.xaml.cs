@@ -66,5 +66,11 @@ namespace Bookstore.Views.TabbedPages
             HomePageViewModel viewModel = this.BindingContext as HomePageViewModel;
             viewModel.ResetFilter();
         }
+
+        private void PriceFilter_Tapped(object sender, EventArgs e)
+        {
+            HomePageViewModel viewModel = this.BindingContext as HomePageViewModel;
+            viewModel.PriceFilter();
+        }
     }
 }

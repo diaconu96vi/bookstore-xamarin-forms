@@ -137,8 +137,70 @@
                     FontFamily="{StaticResource PingFangMedium}"
                     FontSize="17"
                     HorizontalOptions="Start"
-                    Text="Prices"
+                    Text="Price"
                     TextColor="#2E2E2E" />
+                <ScrollView
+                        Margin="10,0,10,0"
+                        HorizontalOptions="FillAndExpand"
+                        Orientation="Horizontal">
+                    <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                        <Label
+                                    FontSize="13"
+                                    Text="From"
+                                    VerticalOptions="CenterAndExpand"
+                                    FontFamily="{StaticResource PingFangMedium}"
+                                    HorizontalOptions="StartAndExpand"
+                                    TextColor="DarkGray" />
+                        <pancakeView:PancakeView
+                                Margin="0.5,0.5,0.5,0.5"
+                                BackgroundColor="White"
+                                CornerRadius="8"
+                                Elevation="2"
+                                HeightRequest="40"
+                                HorizontalOptions="StartAndExpand"
+                                WidthRequest="60">
+                            <renderers:BorderlessEntry 
+                            Margin="0,0,0,0"
+                            FontSize="13"
+                            Keyboard="Numeric"
+                            Text="{Binding FromPrice}"
+                            TextColor="{StaticResource DarkFontColor}" />
+                        </pancakeView:PancakeView>
+                        <Label
+                                    FontSize="13"
+                                    Text="To"
+                                    VerticalOptions="CenterAndExpand"
+                                    FontFamily="{StaticResource PingFangMedium}"
+                                    HorizontalOptions="StartAndExpand"
+                                    TextColor="DarkGray" />
+                        <pancakeView:PancakeView
+                                Margin="0.5,0.5,0.5,0.5"
+                                BackgroundColor="White"
+                                CornerRadius="8"
+                                Elevation="2"
+                                HeightRequest="40"
+                                HorizontalOptions="StartAndExpand"
+                                WidthRequest="60">
+                            <renderers:BorderlessEntry 
+                            Margin="0,0,0,0"
+                            FontSize="13"
+                            Keyboard="Numeric"
+                            Text="{Binding ToPrice}"
+                            TextColor="{StaticResource DarkFontColor}" />
+                        </pancakeView:PancakeView>
+                        <Label
+                        FontAttributes="None"
+                        FontFamily="{StaticResource PingFangMedium}"
+                        FontSize="15"
+                        HorizontalOptions="EndAndExpand"
+                        Text="Apply price"
+                        TextColor="#2E2E2E" >
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="PriceFilter_Tapped"></TapGestureRecognizer>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
+                </ScrollView>
                 <carousel:CarouselViewControl
                     ItemsSource="{Binding CarouselImages}"
                     Margin="10,0,10,20"

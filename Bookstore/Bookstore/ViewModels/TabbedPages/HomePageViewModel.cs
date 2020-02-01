@@ -29,6 +29,8 @@ namespace Bookstore.ViewModels.TabbedPages
         public PublisherApiService _publisherApiService { get; set; }
 
         public string SearchBarText { get; set; }
+        public string FromPrice { get; set; }
+        public string ToPrice { get; set; }
 
         private ObservableCollection<BookView> AllBooks { get; set; }
 
@@ -185,7 +187,7 @@ namespace Bookstore.ViewModels.TabbedPages
 
         public void FilterSearchBar()
         {
-            if(string.IsNullOrEmpty(SearchBarText))
+            if(!string.IsNullOrEmpty(SearchBarText))
             {
                 return;
             }
@@ -204,10 +206,51 @@ namespace Bookstore.ViewModels.TabbedPages
             OnPropertyChanged(nameof(BooksList));
         }
 
+        public void PriceFilter()
+        {
+            List<BookView> priceFilteredBooks = new List<BookView>();
+            if(!string.IsNullOrEmpty(FromPrice))
+            {
+                var fromPrice = int.Parse(FromPrice);
+                priceFilteredBooks = BooksList.Where(x => (int.Parse(x.Price)) >= fromPrice).ToList();
+                if(priceFilteredBooks == null)
+                {
+                    BooksList = null;
+                    OnPropertyChanged(nameof(BooksList));
+                    return;
+                }
+                else
+                {
+                    BooksList = new ObservableCollection<BookView>(priceFilteredBooks);
+                }
+            }
+            if(!string.IsNullOrEmpty(ToPrice))
+            {
+                var toPrice = int.Parse(ToPrice);
+                priceFilteredBooks = BooksList.Where(x => (int.Parse(x.Price)) <= toPrice).ToList();
+                if(priceFilteredBooks == null)
+                {
+                    BooksList = null;
+                    OnPropertyChanged(nameof(BooksList));
+                    return;
+                }
+                else
+                {
+                    BooksList = new ObservableCollection<BookView>(priceFilteredBooks);
+                }
+            }
+            OnPropertyChanged(nameof(BooksList));
+        }
+
         public void ResetFilter()
         {
             BooksList = new ObservableCollection<BookView>(AllBooks);
+            SearchBarText = string.Empty;
+            FromPrice = string.Empty;
+            ToPrice = string.Empty;
             OnPropertyChanged(nameof(BooksList));
+            OnPropertyChanged(nameof(FromPrice));
+            OnPropertyChanged(nameof(ToPrice));
         }
         #endregion
     }

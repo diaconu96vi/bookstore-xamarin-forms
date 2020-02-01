@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Bookstore.Views.Order.SuccessOrderPage"
+             xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             xmlns:sharedTransitions="clr-namespace:Plugin.SharedTransitions;assembly=Plugin.SharedTransitions"
+             BackgroundColor="{StaticResource MainColor}"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <Frame
+            sharedTransitions:Transition.Name="OrderButton"
+            BackgroundColor="{StaticResource MainColor}"
+            CornerRadius="30"
+            HasShadow="False"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand">
+            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <StackLayout
+                    HorizontalOptions="FillAndExpand"
+                    Spacing="20"
+                    VerticalOptions="CenterAndExpand">
+                    <Label
+                        FontFamily="{StaticResource PingFangMedium}"
+                        FontSize="30"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="Order Completed"
+                        TextColor="{StaticResource FontColor}" />
+                    <forms:AnimationView
+                        x:Name="AnimationView"
+                        Animation="success.json"
+                        HeightRequest="60"
+                        HorizontalOptions="CenterAndExpand"
+                        IsPlaying="True"
+                        Loop="False"
+                        WidthRequest="60" />
+                </StackLayout>
+
+
+                <Button
+                    Margin="0,15,0,0"
+                    Padding="0,2,0,0"
+                    BackgroundColor="{StaticResource MainColor}"
+                    BorderColor="White"
+                    BorderWidth="1"
+                    Clicked="ContinueClick"
+                    CornerRadius="{x:OnPlatform Android=30,
+                                                iOS=23}"
+                    FontFamily="{StaticResource PingFangRegular}"
+                    FontSize="15"
+                    HeightRequest="46"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="Continue Shopping"
+                    TextColor="{StaticResource FontColor}"
+                    VerticalOptions="EndAndExpand"
+                    WidthRequest="227" />
+            </StackLayout>
+        </Frame>
+    </ContentPage.Content>
+</ContentPage>

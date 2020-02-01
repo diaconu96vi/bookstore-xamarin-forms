@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:renderers="clr-namespace:Bookstore.Renderers"
+             x:Class="Bookstore.Views.Order.AddressPage"
+             xmlns:partialViews="clr-namespace:Bookstore.Views.PartialViews"   
+             BackgroundColor="White"
+             Visual="Material">
+    <ContentPage.Content>
+        <StackLayout>
+            <partialViews:NavigationBarPartialView>
+                <x:Arguments>
+                    <x:String>Add New Address</x:String>
+                    <x:Boolean>True</x:Boolean>
+                    <x:Boolean>True</x:Boolean>
+                </x:Arguments>
+            </partialViews:NavigationBarPartialView>
+            <ScrollView
+                Margin="15,10,15,0"
+                HorizontalScrollBarVisibility="Never"
+                VerticalScrollBarVisibility="Never">
+                <StackLayout>
+                    <Label
+                        FontFamily="{StaticResource PingFangRegular}"
+                        Text="Address Title"
+                        TextColor="{StaticResource DarkFontColor}" />
+                    <Frame Style="{StaticResource FrameStyle}">
+                        <renderers:BorderlessEntry TextColor="{StaticResource DarkFontColor}"
+                                                   Text="{Binding AddressTitle}"/>
+                    </Frame>
+                    <Label
+                        FontFamily="{StaticResource PingFangRegular}"
+                        Text="Full name"
+                        TextColor="{StaticResource DarkFontColor}" />
+                    <Frame Style="{StaticResource FrameStyle}">
+                        <renderers:BorderlessEntry TextColor="{StaticResource DarkFontColor}" 
+                                                   Text="{Binding FullName}"/>
+                    </Frame>
+                    <Label
+                        FontFamily="{StaticResource PingFangRegular}"
+                        Text="City"
+                        TextColor="{StaticResource DarkFontColor}" />
+                    <Frame Style="{StaticResource FrameStyle}">
+                        <renderers:BorderlessEntry
+                            Text="{Binding City}"
+                            FontFamily="{StaticResource PingFangRegular}"
+                            TextColor="{StaticResource DarkFontColor}" />
+                    </Frame>
+                    <Label
+                        FontFamily="{StaticResource PingFangRegular}"
+                        Text="Country"
+                        TextColor="{StaticResource DarkFontColor}" />
+                    <Frame Style="{StaticResource FrameStyle}">
+                        <renderers:BorderlessEntry
+                            Text="{Binding Country}"
+                            FontFamily="{StaticResource PingFangRegular}"
+                            TextColor="{StaticResource DarkFontColor}" />
+                    </Frame>
+                    <Label
+                        FontFamily="{StaticResource PingFangRegular}"
+                        Text="Full address"
+                        TextColor="{StaticResource DarkFontColor}" />
+                    <Frame HeightRequest="100" Style="{StaticResource FrameStyle}">
+                        <renderers:BorderlessEditor BackgroundColor="Transparent" TextColor="{StaticResource DarkFontColor}" 
+                                                    Text="{Binding FullAddress}"/>
+                    </Frame>
+                    <Button
+                        Margin="0,10,0,10"
+                        BackgroundColor="{StaticResource MainColor}"
+                        CornerRadius="{x:OnPlatform Android=30,
+                                                    iOS=23}"
+                        FontSize="15"
+                        HeightRequest="46"
+                        HorizontalOptions="EndAndExpand"
+                        Text="Add Address"
+                        TextColor="White"
+                        Command="{Binding AddNewAddress}"
+                        WidthRequest="200" />
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

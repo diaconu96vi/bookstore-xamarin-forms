@@ -161,6 +161,27 @@ namespace Bookstore.API.Controllers
             return Ok(user);
         }
 
+        [HttpPut]
+        [Route("ChangeUserDetails")]
+        public async Task<IActionResult> ChangeUserDetails([FromBody]UserDetailsModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.OldEmail);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            var token = await _userManager.GenerateChangeEmailTokenAsync(user, model.Email);
+            var emailResult = await _userManager.ChangeEmailAsync(user, model.Email, token);
+            var nameResult = await _userManager.SetUserNameAsync(user, model.UserName);
+
+            if (!emailResult.Succeeded && !nameResult.Succeeded)
+            {
+                return BadRequest();
+            }
+            return Ok(user);
+        }
+
         //[HttpPut]
         //[Route("UpdateUser")]
         //public async Task<IActionResult> UpdateUser([FromBody] UpdateUserModel appUser)

@@ -106,5 +106,23 @@ namespace Bookstore.Services
                 return new Tuple<AppUser, List<IdentityError>>(null, myInstance);
             }
         }
+
+        public async Task<bool> ChangeUserDetails(UserDetailsModel model)
+        {
+            var json = JsonConvert.SerializeObject(model);
+            HttpContent content = new StringContent(json);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            var response = await HttpClient.PutAsync("Account/ChangeUserDetails", content);
+            var str = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                var appUser = JsonConvert.DeserializeObject<AppUser>(str);
+                ApplicationGeneralSettings.CurrentUser = appUser;
+                return true;
+            }
+
+            return false;
+        }
     }
 }

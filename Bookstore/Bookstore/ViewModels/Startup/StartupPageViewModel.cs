@@ -35,18 +35,18 @@ namespace Bookstore.ViewModels
 
         private async Task<bool> CheckCacheUser()
         {
-            var result = await SecureStorage.GetAsync("User");
-            if(string.IsNullOrEmpty(result))
-            {
-                return false;
-            }
-            var appUser = JsonConvert.DeserializeObject<AppUser>(result);
-            if(appUser != null)
-            {
-                ApplicationGeneralSettings.CurrentUser = appUser as AppUser;
-                await Application.Current.MainPage.Navigation.PushAsync(new ParentTabbedPage());
-                return true;
-            }
+            //var result = await SecureStorage.GetAsync("User");
+            //if(string.IsNullOrEmpty(result))
+            //{
+            //    return false;
+            //}
+            //var appUser = JsonConvert.DeserializeObject<AppUser>(result);
+            //if(appUser != null)
+            //{
+            //    ApplicationGeneralSettings.CurrentUser = appUser as AppUser;
+            //    await Application.Current.MainPage.Navigation.PushAsync(new ParentTabbedPage());
+            //    return true;
+            //}
             return false;
         }
         public async Task ExecuteLoginCommand()

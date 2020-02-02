@@ -298,8 +298,14 @@ namespace Bookstore.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("AddressFK_SysID")
+                        .HasColumnType("int");
+
                     b.Property<string>("AppUserFK_SysID")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CardFK_Sys")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -312,7 +318,11 @@ namespace Bookstore.API.Migrations
 
                     b.HasKey("OrderSysID");
 
+                    b.HasIndex("AddressFK_SysID");
+
                     b.HasIndex("AppUserFK_SysID");
+
+                    b.HasIndex("CardFK_Sys");
 
                     b.ToTable("Orders");
                 });
@@ -334,6 +344,10 @@ namespace Bookstore.API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("OrderDetailSysID");
+
+                    b.HasIndex("BookFK_SysID");
+
+                    b.HasIndex("OrderFK_SysID");
 
                     b.ToTable("OrderDetails");
                 });
@@ -623,9 +637,36 @@ namespace Bookstore.API.Migrations
 
             modelBuilder.Entity("Bookstore.API.Models.Order", b =>
                 {
+                    b.HasOne("Bookstore.API.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressFK_SysID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Bookstore.API.Models.AppUser", "AppUser")
                         .WithMany()
                         .HasForeignKey("AppUserFK_SysID");
+
+                    b.HasOne("Bookstore.Services.Card", "Card")
+                        .WithMany()
+                        .HasForeignKey("CardFK_Sys")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Bookstore.API.Models.OrderDetail", b =>
+                {
+                    b.HasOne("Bookstore.API.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookFK_SysID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Bookstore.API.Models.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderFK_SysID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Bookstore.API.Models.Rating", b =>

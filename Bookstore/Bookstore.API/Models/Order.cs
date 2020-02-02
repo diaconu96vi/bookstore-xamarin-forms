@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bookstore.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,6 +16,10 @@ namespace Bookstore.API.Models
 
         [ForeignKey("AppUser")]
         public string AppUserFK_SysID { get; set; }
+        [ForeignKey("Address")]
+        public int AddressFK_SysID { get; set; }
+        [ForeignKey("Card")]
+        public int CardFK_Sys { get; set; }
 
         public DateTime Date { get; set; }
 
@@ -24,5 +29,7 @@ namespace Bookstore.API.Models
 
         //Foreign Keys
         public AppUser AppUser { get; set; }
+        public Card Card { get; set; }
+        public Address Address { get; set; }
     }
 }

@@ -20,5 +20,9 @@ namespace Bookstore.API.Models
         public int OrderFK_SysID { get; set; }
 
         public int Quantity { get; set; }
+
+        //Reverse
+        public Book Book { get; set; }
+        public Order Order { get; set; }
     }
 }

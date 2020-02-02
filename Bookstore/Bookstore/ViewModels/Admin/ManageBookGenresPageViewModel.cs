@@ -123,8 +123,9 @@ namespace Bookstore.ViewModels.Admin
         private async void ConfigureBookGenresDataSource()
         {
             var bookGenresList = await _bookGenreApiService.GetAll();
-            if (bookGenresList != null && !bookGenresList.Any())
+            if (bookGenresList == null)
             {
+                BookGenres = new ObservableCollection<BookGenre>();
                 return;
             }
             BookGenres = new ObservableCollection<BookGenre>(bookGenresList);

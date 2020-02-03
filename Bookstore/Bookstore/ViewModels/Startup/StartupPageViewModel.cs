@@ -51,7 +51,7 @@ namespace Bookstore.ViewModels
         }
         public async Task ExecuteLoginCommand()
         {
-            if(!await CheckCacheUser())
+            if(true)
             {
                 await Application.Current.MainPage.Navigation.PushAsync(new LoginPage());
             }

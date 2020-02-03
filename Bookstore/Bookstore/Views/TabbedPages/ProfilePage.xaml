@@ -81,15 +81,7 @@
                             <TapGestureRecognizer Tapped="OrderInfoClick" />
                         </StackLayout.GestureRecognizers>
                         <customControl:IconView Source="faxList" Style="{StaticResource IconViewStyle}" />
-                        <Label Style="{StaticResource ProfleLabelStyle}" Text="Favori Products " />
-                    </StackLayout>
-                    <BoxView Style="{StaticResource BoxViewStyle}" />
-                    <StackLayout ClassId="LastView" Orientation="Horizontal">
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OrderInfoClick" />
-                        </StackLayout.GestureRecognizers>
-                        <customControl:IconView Source="lastViewsIcon" Style="{StaticResource IconViewStyle}" />
-                        <Label Style="{StaticResource ProfleLabelStyle}" Text="Last Viewed Products" />
+                        <Label Style="{StaticResource ProfleLabelStyle}" Text="Favorite Products " />
                     </StackLayout>
                     <BoxView Style="{StaticResource BoxViewStyle}" />
                     <StackLayout ClassId="MyComments" Orientation="Horizontal">
@@ -117,7 +109,7 @@
                     Padding="5"
                     Spacing="4"
                     VerticalOptions="CenterAndExpand">
-                    <StackLayout ClassId="MyOder" Orientation="Horizontal">
+                    <StackLayout ClassId="ChangeDetails" Orientation="Horizontal" IsVisible="{Binding ChangeDetailsVisibile}">
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Tapped="ChangeDetailsClick" />
                         </StackLayout.GestureRecognizers>
@@ -125,7 +117,7 @@
                         <Label Style="{StaticResource ProfleLabelStyle}" Text="Change User Details" />
                     </StackLayout>
                     <BoxView Style="{StaticResource BoxViewStyle}" />
-                    <StackLayout ClassId="MyOder" Orientation="Horizontal">
+                    <StackLayout ClassId="ChangePass" Orientation="Horizontal" IsVisible="{Binding ChangeDetailsVisible}">
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Tapped="ChangePassClick" />
                         </StackLayout.GestureRecognizers>
@@ -133,7 +125,7 @@
                         <Label Style="{StaticResource ProfleLabelStyle}" Text="Change Password" />
                     </StackLayout>
                     <BoxView Style="{StaticResource BoxViewStyle}" />
-                    <StackLayout ClassId="MyFav" Orientation="Horizontal">
+                    <StackLayout ClassId="Contact" Orientation="Horizontal">
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Tapped="ContactClick" />
                         </StackLayout.GestureRecognizers>
@@ -141,7 +133,7 @@
                         <Label Style="{StaticResource ProfleLabelStyle}" Text="Contact " />
                     </StackLayout>
                     <BoxView Style="{StaticResource BoxViewStyle}" />
-                    <StackLayout ClassId="LastView" Orientation="Horizontal">
+                    <StackLayout ClassId="Logout" Orientation="Horizontal">
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Tapped="LogOutClick" />
                         </StackLayout.GestureRecognizers>

@@ -13,6 +13,7 @@ namespace Bookstore.ViewModels.TabbedPages
 
         public string UserName { get; set; }
         public string UserEmail { get; set; }
+        public bool ChangeDetailsVisible { get; set; }
 
         public ProfilePageViewModel()
         {
@@ -21,28 +22,23 @@ namespace Bookstore.ViewModels.TabbedPages
             OnPropertyChanged(nameof(UserName));
             OnPropertyChanged(nameof(UserEmail));
             VerifyAdminPage();
-            CheckUserName();
-            UpdateUserImage();
+            UpdateFacebookDetails();
         }
-
-        private void UpdateUserImage()
+        private void UpdateFacebookDetails()
         {
             if(ApplicationGeneralSettings.FacebookUser != null)
             {
                 UserImage = ApplicationGeneralSettings.FacebookUser.Picture.Data.Url;
+                ChangeDetailsVisible = false;
+                UserName = ApplicationGeneralSettings.FacebookUser.Name;
             }
             else
             {
                 UserImage = "bookstorelogo.png";
+                ChangeDetailsVisible = true;
             }
             OnPropertyChanged(nameof(UserImage));
-        }
-        private void CheckUserName()
-        {
-            if(ApplicationGeneralSettings.FacebookUser != null)
-            {
-                UserName = ApplicationGeneralSettings.FacebookUser.Name;
-            }
+            OnPropertyChanged(nameof(ChangeDetailsVisible));
             OnPropertyChanged(nameof(UserName));
         }
         private void VerifyAdminPage()

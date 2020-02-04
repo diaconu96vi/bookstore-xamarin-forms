@@ -284,6 +284,7 @@
                                             Source="{Binding Image}" />
                                             </StackLayout>
                                             <Label
+                                                HeightRequest="40"
                                                 FontFamily="{StaticResource PingFangMedium}"
                                                 FontSize="15"
                                                 Text="{Binding Title}"

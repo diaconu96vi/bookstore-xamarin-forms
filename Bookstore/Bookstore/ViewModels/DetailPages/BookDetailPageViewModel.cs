@@ -98,7 +98,7 @@ namespace Bookstore.ViewModels.DetailPages
                     {
                         CommentSysID = comment.CommentSysID,
                         CommentText = comment.CommentText,
-                        Date = comment.ToString(),
+                        Date = comment.Date.ToString(),
                         UserName = comment.UserName
                     };
                     commentViews.Add(newCommentView);
@@ -263,9 +263,12 @@ namespace Bookstore.ViewModels.DetailPages
                 BookFK_SysID = ActiveBook.SysID,
                 CommentText = AddCommentText,
                 UserName = ApplicationGeneralSettings.CurrentUser.UserName,
-                Date = DateTime.Today
+                Date = DateTime.Today.Date
             };
-
+            if(ApplicationGeneralSettings.FacebookUser != null)
+            {
+                newComment.UserName = ApplicationGeneralSettings.FacebookUser.Name;
+            }
             var result = await _commentApiService.CreateAsync(newComment);
             if(result != null)
             {

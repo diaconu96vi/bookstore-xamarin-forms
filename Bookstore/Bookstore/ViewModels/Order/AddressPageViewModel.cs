@@ -51,7 +51,7 @@ namespace Bookstore.ViewModels.Order
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Warning", "Something went wrong", "Cancel");
+                await Application.Current.MainPage.DisplayAlert("Warning", "Address name already exists", "Cancel");
             }
         }
 

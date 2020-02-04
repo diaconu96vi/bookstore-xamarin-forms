@@ -109,22 +109,24 @@
                     Padding="5"
                     Spacing="4"
                     VerticalOptions="CenterAndExpand">
-                    <StackLayout ClassId="ChangeDetails" Orientation="Horizontal" IsVisible="{Binding ChangeDetailsVisibile}">
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="ChangeDetailsClick" />
-                        </StackLayout.GestureRecognizers>
-                        <customControl:IconView Source="Profile" Style="{StaticResource IconViewStyle}" />
-                        <Label Style="{StaticResource ProfleLabelStyle}" Text="Change User Details" />
+                    <StackLayout IsVisible="{Binding ChangeDetailsVisible}">
+                        <StackLayout ClassId="ChangeDetails" Orientation="Horizontal" >
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ChangeDetailsClick" />
+                            </StackLayout.GestureRecognizers>
+                            <customControl:IconView Source="Profile" Style="{StaticResource IconViewStyle}" />
+                            <Label Style="{StaticResource ProfleLabelStyle}" Text="Change User Details" />
+                        </StackLayout>
+                        <BoxView Style="{StaticResource BoxViewStyle}" />
+                        <StackLayout ClassId="ChangePass" Orientation="Horizontal">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ChangePassClick" />
+                            </StackLayout.GestureRecognizers>
+                            <customControl:IconView Source="passIcon" Style="{StaticResource IconViewStyle}" />
+                            <Label Style="{StaticResource ProfleLabelStyle}" Text="Change Password" />
+                        </StackLayout>
+                        <BoxView Style="{StaticResource BoxViewStyle}" />
                     </StackLayout>
-                    <BoxView Style="{StaticResource BoxViewStyle}" />
-                    <StackLayout ClassId="ChangePass" Orientation="Horizontal" IsVisible="{Binding ChangeDetailsVisible}">
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="ChangePassClick" />
-                        </StackLayout.GestureRecognizers>
-                        <customControl:IconView Source="passIcon" Style="{StaticResource IconViewStyle}" />
-                        <Label Style="{StaticResource ProfleLabelStyle}" Text="Change Password" />
-                    </StackLayout>
-                    <BoxView Style="{StaticResource BoxViewStyle}" />
                     <StackLayout ClassId="Contact" Orientation="Horizontal">
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Tapped="ContactClick" />

@@ -49,6 +49,29 @@ namespace Bookstore.ViewModels
             }
             return false;
         }
+        
+        private async Task<bool> CheckFacebookCacheUser()
+        {
+            var facebookResult = await SecureStorage.GetAsync("Facebook");
+            if (string.IsNullOrEmpty(facebookResult))
+            {
+                return false;
+            }            
+            var userResult = await SecureStorage.GetAsync("User");
+            if (string.IsNullOrEmpty(userResult))
+            {
+                return false;
+            }
+            var facebookUser = JsonConvert.DeserializeObject<FacebookEmail>(facebookResult);
+            var appUser = JsonConvert.DeserializeObject<AppUser>(userResult);
+            if (facebookUser != null && appUser != null)
+            {
+                ApplicationGeneralSettings.FacebookUser = facebookUser;
+                ApplicationGeneralSettings.CurrentUser = appUser;              
+                return true;
+            }
+            return false;
+        }
         public async Task ExecuteLoginCommand()
         {
             var result = await CheckCacheUser();
@@ -70,22 +93,14 @@ namespace Bookstore.ViewModels
         [Obsolete]
         public async Task ExecuteFacebookLogin()
         {
-            string clientId = null;
-            string redirectUri = null;
-            if(Application.Current.Properties.TryGetValue(nameof(FacebookEmail), out object loggedInUser))
+            var result = await CheckFacebookCacheUser();
+            if (result)
             {
-                LoginModel loginModel = new LoginModel() { Email = (loggedInUser as FacebookEmail).Email };
-                var appUser = await _apiServices.GetUser(loginModel);
-                if(appUser == null)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Warning", "Something went wrong", "Cancel");
-                    return;
-                }
-                ApplicationGeneralSettings.CurrentUser = appUser;
-                ApplicationGeneralSettings.FacebookUser = loggedInUser as FacebookEmail;
                 await Application.Current.MainPage.Navigation.PushAsync(new ParentTabbedPage());
                 return;
             }
+            string clientId = null;
+            string redirectUri = null;
 
 
             switch (Device.RuntimePlatform)
@@ -139,8 +154,12 @@ namespace Bookstore.ViewModels
                     var json = await httpClient.GetStringAsync($"https://graph.facebook.com/me?fields=id,name,first_name,last_name,email,picture.type(large)&access_token=" + e.Account.Properties["access_token"]);
 
                     facebookEmail = JsonConvert.DeserializeObject<FacebookEmail>(json);
+                    if(!string.IsNullOrEmpty(await SecureStorage.GetAsync("Facebook")))
+                    {
+                        SecureStorage.Remove("Facebook");
+                    }
                     ApplicationGeneralSettings.FacebookUser = facebookEmail;
-                    Application.Current.Properties.Add(nameof(FacebookEmail), facebookEmail);
+                    await SecureStorage.SetAsync("Facebook", JsonConvert.SerializeObject(ApplicationGeneralSettings.FacebookUser));
                     ConfigureFacebookLogic(facebookEmail);
                 }
             }
@@ -164,6 +183,11 @@ namespace Bookstore.ViewModels
             if (result != null)
             {
                 ApplicationGeneralSettings.CurrentUser = result;
+                if(!string.IsNullOrEmpty(await SecureStorage.GetAsync("User")))
+                {
+                    SecureStorage.Remove("User");
+                }
+                await SecureStorage.SetAsync("User", JsonConvert.SerializeObject(ApplicationGeneralSettings.CurrentUser));
                 await Application.Current.MainPage.Navigation.PushAsync(new ParentTabbedPage());
             }
             else

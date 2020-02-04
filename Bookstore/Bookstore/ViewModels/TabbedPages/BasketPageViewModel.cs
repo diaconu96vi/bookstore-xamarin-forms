@@ -33,17 +33,20 @@ namespace Bookstore.ViewModels.TabbedPages
             {
                 AddressList.Add(address);
             });
-            MessagingCenter.Subscribe<BookView>(this, "AddBasketRefresh", (card) =>
+            MessagingCenter.Subscribe<BookView>(this, "AddBasketRefresh", (bookView) =>
             {
-                BooksList = new ObservableCollection<BookView>(ShoppingBasket.Instance.AddedOrderItems);
-                TotalPrice = string.Format("+ {0} Lei", ShoppingBasket.Instance.TotalPrice);
-                OnPropertyChanged(nameof(TotalPrice));
-                OnPropertyChanged(nameof(BooksList));
+                RefreshBasket();
             });
             ConfigureAddressList();
             ConfigureShoppingCart();
         }
-
+        private void RefreshBasket()
+        {
+            BooksList = new ObservableCollection<BookView>(ShoppingBasket.Instance.AddedOrderItems);
+            TotalPrice = string.Format("+ {0} Lei", ShoppingBasket.Instance.TotalPrice);
+            OnPropertyChanged(nameof(TotalPrice));
+            OnPropertyChanged(nameof(BooksList));
+        }
         public async Task ExecuteContinueCommand()
         {
             if(SelectedAddress == null)
@@ -75,6 +78,21 @@ namespace Bookstore.ViewModels.TabbedPages
             var addresses = await _addressApiService.GetAll();
             AddressList = new ObservableCollection<Address>(addresses.Where(x => x.AppUserFK_SysID.Equals(ApplicationGeneralSettings.CurrentUser.Id)).ToList());
             OnPropertyChanged(nameof(AddressList));
+        }
+
+        public async void RemoveProduct(string bookSysID)
+        {
+            if(string.IsNullOrEmpty(bookSysID))
+            {
+                await Application.Current.MainPage.DisplayAlert("Warning", "No selected book", "Cancel");
+            }
+            var bookView = BooksList.FirstOrDefault(x => x.SysID == int.Parse(bookSysID));
+            if(bookView == null)
+            {
+                return;
+            }
+            ShoppingBasket.Instance.Delete(bookView);
+            RefreshBasket();
         }
     }
 }

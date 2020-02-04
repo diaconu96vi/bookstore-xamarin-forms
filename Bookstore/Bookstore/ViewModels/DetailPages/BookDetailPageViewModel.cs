@@ -98,7 +98,7 @@ namespace Bookstore.ViewModels.DetailPages
                     {
                         CommentSysID = comment.CommentSysID,
                         CommentText = comment.CommentText,
-                        Date = comment.Date.ToString(),
+                        Date = comment.ToString(),
                         UserName = comment.UserName
                     };
                     commentViews.Add(newCommentView);
@@ -263,7 +263,7 @@ namespace Bookstore.ViewModels.DetailPages
                 BookFK_SysID = ActiveBook.SysID,
                 CommentText = AddCommentText,
                 UserName = ApplicationGeneralSettings.CurrentUser.UserName,
-                Date = DateTime.Today.Date
+                Date = DateTime.Today
             };
 
             var result = await _commentApiService.CreateAsync(newComment);

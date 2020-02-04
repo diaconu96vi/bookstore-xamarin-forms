@@ -16,7 +16,7 @@
             <StackLayout>
                 <partialViews:NavigationBarPartialView>
                     <x:Arguments>
-                        <x:String>Manage books</x:String>
+                        <x:String>Manage genres</x:String>
                         <x:Boolean>True</x:Boolean>
                         <x:Boolean>True</x:Boolean>
                     </x:Arguments>

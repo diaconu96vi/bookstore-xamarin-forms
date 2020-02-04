@@ -61,6 +61,7 @@ namespace Bookstore.ViewModels.Admin
                 AddGenreName = string.Empty;
                 OnPropertyChanged(nameof(Genres));
                 OnPropertyChanged(nameof(AddGenreName));
+                MessageSender();
             }
             else
             {
@@ -130,6 +131,7 @@ namespace Bookstore.ViewModels.Admin
                     OnPropertyChanged(nameof(Genres));
                     OnPropertyChanged(nameof(SelectedUpdateGenre));
                     OnPropertyChanged(nameof(UpdateGenreName));
+                    MessageSender();
                 }
             }
         }
@@ -157,6 +159,7 @@ namespace Bookstore.ViewModels.Admin
                     SelectedDeleteGenre = null;
                     OnPropertyChanged(nameof(Genres));
                     OnPropertyChanged(nameof(SelectedDeleteGenre));
+                    MessageSender();
                 }
                 else
                 {
@@ -171,6 +174,11 @@ namespace Bookstore.ViewModels.Admin
                 return true;
             }
             return false;
-        }              
+        }
+        
+        private void MessageSender()
+        {
+            MessagingCenter.Send<Genre>(new Genre(), "RefreshGenres");
+        }
     }
 }

@@ -46,7 +46,7 @@ namespace Bookstore.ViewModels.ProfileDetails
                         AppUserFK_SysID = comment.AppUserFK_SysID,
                         BookFK_SysID = comment.BookFK_SysID,
                         CommentText = comment.CommentText,
-                        Date = comment.Date.ToString(),
+                        Date = comment.ToString(),
                         UserName = comment.UserName
                     };
                     commentsViews.Add(newCommentView);

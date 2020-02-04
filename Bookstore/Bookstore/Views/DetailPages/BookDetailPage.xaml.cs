@@ -26,11 +26,6 @@ namespace Bookstore.Views.DetailPages
             Navigation.PopAsync();
         }
 
-        private void MoreCommentsClick(object sender, EventArgs e)
-        {
-            //Navigation.PushModalAsync(new CommentsPage());
-        }
-
         private void TapFavoriteIcon(object sender, EventArgs e)
         {
             BookDetailPageViewModel viewModel = this.BindingContext as BookDetailPageViewModel;

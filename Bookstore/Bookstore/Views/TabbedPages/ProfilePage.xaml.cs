@@ -33,12 +33,11 @@ namespace Bookstore.Views.TabbedPages
                 case "MyOder":
                     //OpenPage(new MyOrderPage());
                     break;
-
                 case "MyFav":
                     OpenPage(new FavoritePage());
                     break;
                 case "MyComments":
-                    //OpenPage(new CommentsPage());
+                    OpenPage(new CommentPage());
                     break;
                 case "AddBooks":
                     OpenModalPage(new ManageBooksPage());

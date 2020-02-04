@@ -2,12 +2,14 @@
 using Bookstore.Converters;
 using Bookstore.Models;
 using Bookstore.Services;
+using Bookstore.Views.DetailPages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Bookstore.ViewModels.ProfileDetails
 {
@@ -62,6 +64,19 @@ namespace Bookstore.ViewModels.ProfileDetails
                 var book = BooksList.FirstOrDefault(x => x.SysID == int.Parse(bookSysID));
                 BooksList.Remove(book);
                 OnPropertyChanged(nameof(book));
+            }
+        }
+
+        public async Task ExecuteBookDetail(string SysID)
+        {
+            var selectedBook = BooksList.FirstOrDefault(x => x.SysID.Equals(int.Parse(SysID)));
+            if (selectedBook != null)
+            {
+                await Application.Current.MainPage.Navigation.PushAsync(new BookDetailPage(selectedBook));
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Warning", "No selected book", "Ok");
             }
         }
     }

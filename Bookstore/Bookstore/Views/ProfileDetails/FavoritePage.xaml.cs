@@ -29,5 +29,16 @@ namespace Bookstore.Views.ProfileDetails
             var viewModel = this.BindingContext as FavoritePageViewModel;
             viewModel.RemoveFavorite(SysID);
         }
+
+        private async void OpenBookDetail_Tapped(object sender, EventArgs e)
+        {
+            string SysID = string.Empty;
+            if (sender is StackLayout)
+            {
+                SysID = (sender as StackLayout).ClassId;
+            }
+            var viewModel = this.BindingContext as FavoritePageViewModel;
+            await viewModel.ExecuteBookDetail(SysID);
+        }
     }
 }

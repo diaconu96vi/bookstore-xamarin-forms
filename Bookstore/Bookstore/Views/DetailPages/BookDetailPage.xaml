@@ -179,18 +179,6 @@
                             Command="{Binding AddBasketCommand}"
                             TextColor="White"
                             WidthRequest="100" />
-                        <Button
-                            BackgroundColor="{StaticResource MainColor}"
-                            CornerRadius="{x:OnPlatform Android=30,
-                                                        iOS=23}"
-                            FontFamily="{StaticResource PingFangMedium}"
-                            FontSize="15"
-                            HeightRequest="46"
-                            HorizontalOptions="FillAndExpand"
-                            Text="Buy Fast"
-                            Command="{Binding BuyFastCommand}"
-                            TextColor="White"
-                            WidthRequest="100" />
                     </StackLayout>
                     <StackLayout Margin="10,0,10,10" Orientation="Horizontal">
                         <Label
@@ -274,40 +262,65 @@
                             VerticalOptions="CenterAndExpand" />
                         <StackLayout/>
                     </StackLayout>
-                    <pancakeView:PancakeView
-                        Margin="10,0,10,10"
-                        Padding="10"
-                        BackgroundColor="White"
-                        Elevation="3">
-                        <StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <StackLayout>
-                                    <Label
-                                        FontFamily="{StaticResource PingFangBold}"
-                                        FontSize="15"
-                                        Text="Comment"
-                                        TextColor="#252525" />
-                                </StackLayout>
-                                <StackLayout HorizontalOptions="EndAndExpand">
-                                    <Label
-                                        FontFamily="{StaticResource PingFangRegular}"
-                                        FontSize="12"
-                                        Text="Ufuk Sahin"
-                                        TextColor="#252525" />
-                                    <Label
-                                        FontFamily="{StaticResource PingFangRegular}"
-                                        FontSize="10"
-                                        Text="12/09/2019"
-                                        TextColor="DarkGray" />
-                                </StackLayout>
-                            </StackLayout>
-                            <Label
-                                FontFamily="{StaticResource PingFangRegular}"
-                                FontSize="15"
-                                Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.... "
-                                TextColor="DarkGray" />
-                        </StackLayout>
-                    </pancakeView:PancakeView>
+                    <ScrollView>
+                        <customControl:RepeaterView VerticalOptions="Start" ItemsSource="{Binding CommentsList}" Spacing="10" BackgroundColor="White"  >
+                            <customControl:RepeaterView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <pancakeView:PancakeView
+                                            Margin="10,0,10,10"
+                                            Padding="10"
+                                            BackgroundColor="White"
+                                            Elevation="3">
+                                            <StackLayout>
+                                                <StackLayout Orientation="Horizontal">
+                                                    <StackLayout>
+                                                        <Label
+                                            FontFamily="{StaticResource PingFangBold}"
+                                            FontSize="15"
+                                            Text="{Binding UserName}"
+                                            TextColor="#252525" />
+                                                    </StackLayout>
+                                                    <StackLayout HorizontalOptions="EndAndExpand">
+                                                        <Label
+                                            FontFamily="{StaticResource PingFangRegular}"
+                                            FontSize="10"
+                                            Text="{Binding Date}"
+                                            TextColor="DarkGray" />
+                                                    </StackLayout>
+                                                </StackLayout>
+                                                <Label
+                                            FontFamily="{StaticResource PingFangRegular}"
+                                            FontSize="15"
+                                            Text="{Binding CommentText}"
+                                            TextColor="DarkGray" />
+                                            </StackLayout>
+                                        </pancakeView:PancakeView>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </customControl:RepeaterView.ItemTemplate>
+                        </customControl:RepeaterView>
+                    </ScrollView>
+                    <Label
+                        FontFamily="{StaticResource PingFangRegular}"
+                        Text="Add comment"
+                        TextColor="{StaticResource DarkFontColor}" />
+                    <Frame HeightRequest="100" Style="{StaticResource FrameStyle}">
+                        <renderers:BorderlessEditor BackgroundColor="Transparent" TextColor="{StaticResource DarkFontColor}" 
+                                                    Text="{Binding AddCommentText}"/>
+                    </Frame>
+                    <Button
+                        Margin="0,10,0,10"
+                        BackgroundColor="{StaticResource MainColor}"
+                        CornerRadius="{x:OnPlatform Android=30,
+                                                    iOS=23}"
+                        FontSize="15"
+                        HeightRequest="46"
+                        HorizontalOptions="EndAndExpand"
+                        Text="Add Comment"
+                        TextColor="White"
+                        Command="{Binding AddNewComment}"
+                        WidthRequest="200" />
                 </StackLayout>
             </ScrollView>
         </StackLayout>

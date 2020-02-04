@@ -29,6 +29,21 @@ namespace Bookstore.Services
             {
                 return new List<Book>();
             }
+        }     
+        
+        public async Task<Book> GetBook(int BookID)
+        {
+            var response = await HttpClient.GetAsync(string.Format("Book/GetBook{0}", BookID));
+            if (response.IsSuccessStatusCode)
+            {
+                var str = await response.Content.ReadAsStringAsync();
+                var Book = JsonConvert.DeserializeObject<Book>(str);
+                return Book;
+            }
+            else
+            {
+                return null;
+            }
         }
         public async Task<Book> CreateAsync(Book model)
         {

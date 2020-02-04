@@ -58,9 +58,13 @@
                                 <ViewCell>
                                     <StackLayout Orientation="Horizontal" VerticalOptions="Start">
                                         <StackLayout
+                                            ClassId="{Binding SysID}"
                                             Padding="10"
                                             BackgroundColor="#f7f7f7"
                                             HorizontalOptions="Start">
+                                            <StackLayout.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OpenBookDetail_Tapped"></TapGestureRecognizer>
+                                            </StackLayout.GestureRecognizers>
                                             <Image
                                                 Aspect="AspectFit"
                                                 HeightRequest="150"
@@ -84,7 +88,6 @@
                                                 FontSize="25"
                                                 Text="{Binding Price, StringFormat='{0} Lei'}"
                                                 TextColor="{StaticResource MainColor}" />
-
                                         </StackLayout>
                                         <Image
                                             ClassId="{Binding SysID}"

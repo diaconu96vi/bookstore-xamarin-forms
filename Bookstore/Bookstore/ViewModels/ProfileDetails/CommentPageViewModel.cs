@@ -67,6 +67,7 @@ namespace Bookstore.ViewModels.ProfileDetails
             {
                 var commentView = CommentsList.FirstOrDefault(x => x.CommentSysID == int.Parse(commentSysID));
                 CommentsList.Remove(commentView);
+                CommentsList = new ObservableCollection<CommentView>(CommentsList);
                 OnPropertyChanged(nameof(CommentsList));
             }
         }

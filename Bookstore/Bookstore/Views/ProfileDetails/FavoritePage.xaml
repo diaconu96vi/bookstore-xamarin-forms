@@ -8,13 +8,14 @@
              xmlns:partialViews="clr-namespace:Bookstore.Views.PartialViews"
              BackgroundColor="White"
              mc:Ignorable="d"
-             x:Class="Bookstore.Views.ProfileDetails.FavoritePage">
+             x:Class="Bookstore.Views.ProfileDetails.FavoritePage"
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
         <StackLayout Margin="20,0,20,10">
             <partialViews:NavigationBarPartialView BackgroundColor="White">
                 <x:Arguments>
-                    <x:String>My Basket</x:String>
-                    <x:Boolean>False</x:Boolean>
+                    <x:String>My Favorites</x:String>
+                    <x:Boolean>True</x:Boolean>
                     <x:Boolean>False</x:Boolean>
                 </x:Arguments>
             </partialViews:NavigationBarPartialView>
@@ -43,7 +44,7 @@
                     VerticalOptions="CenterAndExpand" />
                 <Frame
                     Padding="0"
-                    BackgroundColor="Gainsboro"
+                    BackgroundColor="{StaticResource MainColor}"
                     CornerRadius="5"
                     HasShadow="False"
                     HeightRequest="10"

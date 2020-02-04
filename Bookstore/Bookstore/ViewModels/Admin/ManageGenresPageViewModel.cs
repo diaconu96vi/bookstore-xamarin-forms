@@ -19,20 +19,11 @@ namespace Bookstore.ViewModels.Admin
         public Command UpdateGenresCommand { get; set; }
         public Command DeleteGenresCommand { get; set; }
 
-        public Command AddGenreImageCommand { get; set; }
-        public Command UpdateGenreImageCommand { get; set; }
-
         public GenreView SelectedUpdateGenre { get; set; }
         public GenreView SelectedDeleteGenre { get; set; }
 
-        public ImageSource SelectedAddGenreImage { get; set; }
-        public ImageSource SelectedUpdateGenreImage { get; set; }
-
         public string AddGenreName { get; set; }
         public string UpdateGenreName { get; set; }
-
-        private byte[] _addGenreImage;
-        private byte[] _updateGenreImage;
 
         private GenreApiService _apiService;
         private List<Genre> apiGenres { get; set; }
@@ -46,9 +37,6 @@ namespace Bookstore.ViewModels.Admin
             AddGenresCommand = new Command(async () => await ExecuteAddGenresCommand());
             UpdateGenresCommand = new Command(async () => await ExecuteUpdateGenresCommand());
             DeleteGenresCommand = new Command(async () => await ExecuteDeleteGenresCommand());
-
-            AddGenreImageCommand = new Command(async () => await ExecuteAddGenreImageCommand());
-            UpdateGenreImageCommand = new Command(async () => await ExecuteUpdateGenreImageCommand());
         }
 
         public async Task ExecuteAddGenresCommand()
@@ -59,8 +47,7 @@ namespace Bookstore.ViewModels.Admin
             }
             var model = new Genre()
             {
-                Name = AddGenreName,
-                Image = _addGenreImage,
+                Name = AddGenreName
             };
             var result = await _apiService.CreateAsync(model);
             if (result != null)
@@ -68,15 +55,12 @@ namespace Bookstore.ViewModels.Admin
                 GenreView newGenre = new GenreView()
                 {
                     SysID = result.GenreSysID,
-                    GenreName = result.Name,
-                    Image = SelectedAddGenreImage
+                    GenreName = result.Name
                 };
                 Genres.Add(newGenre);
                 AddGenreName = string.Empty;
-                SelectedAddGenreImage = null;
                 OnPropertyChanged(nameof(Genres));
                 OnPropertyChanged(nameof(AddGenreName));
-                OnPropertyChanged(nameof(SelectedAddGenreImage));
             }
             else
             {
@@ -86,7 +70,7 @@ namespace Bookstore.ViewModels.Admin
 
         private bool CheckAddValuesEmpty()
         {
-            if (string.IsNullOrEmpty(AddGenreName) || _addGenreImage == null)
+            if (string.IsNullOrEmpty(AddGenreName))
             {
                 return true;
             }
@@ -106,14 +90,12 @@ namespace Bookstore.ViewModels.Admin
                 var convertGenre = new GenreView()
                 {
                     SysID = genre.GenreSysID,
-                    GenreName = genre.Name,
-                    Image = BitmapConverter.ByteToImageSource(genre.Image)
+                    GenreName = genre.Name
                 };
                 convertGenres.Add(convertGenre);
             }
             Genres = convertGenres;
             OnPropertyChanged(nameof(Genres));
-            OnPropertyChanged(nameof(SelectedAddGenreImage));
         }
         public async Task ExecuteUpdateGenresCommand()
         {
@@ -126,8 +108,7 @@ namespace Bookstore.ViewModels.Admin
                 var model = new Genre()
                 {
                     GenreSysID = SelectedUpdateGenre.SysID,
-                    Name = UpdateGenreName,
-                    Image = _updateGenreImage
+                    Name = UpdateGenreName
                 };
                 var result = await _apiService.UpdateAsync(model);
                 if (result == null)
@@ -139,7 +120,6 @@ namespace Bookstore.ViewModels.Admin
                     Genres.Remove(SelectedUpdateGenre);
                     SelectedUpdateGenre = null;
                     UpdateGenreName = string.Empty;
-                    SelectedUpdateGenreImage = null;
                     var genreView = new GenreView()
                     {
                         SysID = result.GenreSysID,
@@ -150,14 +130,13 @@ namespace Bookstore.ViewModels.Admin
                     OnPropertyChanged(nameof(Genres));
                     OnPropertyChanged(nameof(SelectedUpdateGenre));
                     OnPropertyChanged(nameof(UpdateGenreName));
-                    OnPropertyChanged(nameof(SelectedUpdateGenreImage));
                 }
             }
         }
 
         private bool CheckUpdateValuesEmpty()
         {
-            if(string.IsNullOrEmpty(UpdateGenreName) || SelectedUpdateGenre == null || SelectedUpdateGenreImage == null)
+            if(string.IsNullOrEmpty(UpdateGenreName) || SelectedUpdateGenre == null)
             {
                 return true;
             }
@@ -192,53 +171,6 @@ namespace Bookstore.ViewModels.Admin
                 return true;
             }
             return false;
-        }
-        
-        public async Task ExecuteAddGenreImageCommand()
-        {
-            await CrossMedia.Current.Initialize();
-            if (!CrossMedia.Current.IsPickPhotoSupported)
-            {
-                await Application.Current.MainPage.DisplayAlert("Error", "Media not supported on this device", "Ok");
-                return;
-            }
-            var mediaOptions = new PickMediaOptions()
-            {
-                MaxWidthHeight = 30,
-                PhotoSize = PhotoSize.MaxWidthHeight
-            };
-            var selectedFileImage = await CrossMedia.Current.PickPhotoAsync(mediaOptions);
-            if (selectedFileImage == null)
-            {
-                return;
-            }
-            var stream = selectedFileImage.GetStream();
-            SelectedAddGenreImage = ImageSource.FromStream(() => stream);
-            OnPropertyChanged(nameof(SelectedAddGenreImage));
-            _addGenreImage = BitmapConverter.StreamToByte(stream);
-        }
-        public async Task ExecuteUpdateGenreImageCommand()
-        {
-            await CrossMedia.Current.Initialize();
-            if (!CrossMedia.Current.IsPickPhotoSupported)
-            {
-                await Application.Current.MainPage.DisplayAlert("Error", "Media not supported on this device", "Ok");
-                return;
-            }
-            var mediaOptions = new PickMediaOptions()
-            {
-                MaxWidthHeight = 30,
-                PhotoSize = PhotoSize.MaxWidthHeight
-            };
-            var selectedFileImage = await CrossMedia.Current.PickPhotoAsync(mediaOptions);
-            if (selectedFileImage == null)
-            {
-                return;
-            }
-            var stream = selectedFileImage.GetStream();
-            SelectedUpdateGenreImage = ImageSource.FromStream(() => stream);
-            OnPropertyChanged(nameof(SelectedUpdateGenreImage));
-            _updateGenreImage = BitmapConverter.StreamToByte(stream);
-        }
+        }              
     }
 }

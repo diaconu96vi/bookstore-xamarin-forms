@@ -33,7 +33,7 @@ namespace Bookstore.Services
         
         public async Task<Book> GetBook(int BookID)
         {
-            var response = await HttpClient.GetAsync(string.Format("Book/GetBook{0}", BookID));
+            var response = await HttpClient.GetAsync(string.Format("Book/{0}", BookID));
             if (response.IsSuccessStatusCode)
             {
                 var str = await response.Content.ReadAsStringAsync();

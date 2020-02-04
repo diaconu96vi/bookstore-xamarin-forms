@@ -279,6 +279,7 @@ namespace Bookstore.ViewModels.DetailPages
                     CommentText = result.CommentText
                 };
                 CommentsList.Add(commentView);
+                CommentsList = new ObservableCollection<CommentView>(CommentsList);
                 AddCommentText = string.Empty;
                 OnPropertyChanged(nameof(CommentsList));
                 OnPropertyChanged(nameof(AddCommentText));

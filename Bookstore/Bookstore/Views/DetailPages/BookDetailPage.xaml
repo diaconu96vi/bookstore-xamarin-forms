@@ -301,10 +301,12 @@
                             </customControl:RepeaterView.ItemTemplate>
                         </customControl:RepeaterView>
                     </ScrollView>
-                    <Label
+                    <StackLayout Margin="10,0,10,10" Orientation="Horizontal">
+                        <Label
                         FontFamily="{StaticResource PingFangRegular}"
                         Text="Add comment"
                         TextColor="{StaticResource DarkFontColor}" />
+                    </StackLayout>
                     <Frame HeightRequest="100" Style="{StaticResource FrameStyle}">
                         <renderers:BorderlessEditor BackgroundColor="Transparent" TextColor="{StaticResource DarkFontColor}" 
                                                     Text="{Binding AddCommentText}"/>

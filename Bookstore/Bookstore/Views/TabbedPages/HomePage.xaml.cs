@@ -31,10 +31,14 @@ namespace Bookstore.Views.TabbedPages
 
         private void GenreDetail_Tapped(object sender, EventArgs e)
         {
-            var titleLabel = (sender as Layout<View>).Children[1] as Label;
+            string titleLabel = string.Empty;
+            if(sender is Label)
+            {
+                titleLabel = (sender as Label).Text;
+            }
 
             HomePageViewModel viewModel = this.BindingContext as HomePageViewModel;
-            viewModel.ExecuteGenreDetail(titleLabel.Text);
+            viewModel.ExecuteGenreDetail(titleLabel);
         }
         
         private void AuthorsFilters_Tapped(object sender, EventArgs e)

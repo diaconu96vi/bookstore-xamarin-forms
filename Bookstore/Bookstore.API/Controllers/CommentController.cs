@@ -34,7 +34,18 @@ namespace Bookstore.API.Controllers
             }
             return BadRequest();
         }
-
+        // GET api/<controller>/5
+        [HttpGet("GetBookComments/{bookSysID}")]
+        public async Task<IActionResult> GetRecord(int bookSysID)
+        {
+            var Book = await _context.Comments.Where(x => x.BookFK_SysID == bookSysID).ToListAsync();
+            if (Book != null)
+            {
+                
+                return Ok(Book);
+            }
+            return BadRequest();
+        }
         // GET api/<controller>/5
         [HttpGet("GetUserComments")]
         public async Task<IActionResult> GetUserBookComments([FromBody]Comment value)

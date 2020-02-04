@@ -93,6 +93,7 @@ namespace Bookstore.Views.TabbedPages
             {
                 ApplicationGeneralSettings.FacebookUser = null;
             }
+            SecureStorage.RemoveAll();
             Application.Current.MainPage = new SharedTransitionNavigationPage(new StartupPage());
         }
 

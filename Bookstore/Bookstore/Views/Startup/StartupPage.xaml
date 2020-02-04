@@ -22,7 +22,7 @@
                 FontFamily="{StaticResource PingFangRegular}"
                 FontSize="10"
                 HorizontalOptions="CenterAndExpand"
-                Text="Let is spark"
+                Text="Let it spark - Be creative !"
                 TextColor="{StaticResource MainColor}" />
             <Button
                 Margin="50,10,50,10"

@@ -12,7 +12,7 @@
              SelectedTabColor="{StaticResource MainColor}"
              x:Class="Bookstore.Views.TabbedPages.ParentTabbedPage">  
     <!--  Pages can be added as references or inline  -->
-    <tabbedPages:HomePage  IconImageSource="Home.png" />
     <tabbedPages:BasketPage IconImageSource="Basket.png" />
+    <tabbedPages:HomePage  IconImageSource="Home.png" />
     <tabbedPages:ProfilePage IconImageSource="Profile.png" />
 </TabbedPage>

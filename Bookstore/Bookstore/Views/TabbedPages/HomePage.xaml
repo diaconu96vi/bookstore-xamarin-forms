@@ -269,7 +269,7 @@
                                     CornerRadius="8"
                                     Elevation="2"
                                     HasShadow="False"
-                                    HeightRequest="250"
+                                    HeightRequest="270"
                                     HorizontalOptions="StartAndExpand"
                                     VerticalOptions="StartAndExpand"
                                     WidthRequest="130">

@@ -47,18 +47,29 @@ namespace Bookstore.ViewModels.ProfileDetails
                     Title = orderDetail.Book.Title,
                     Image = BitmapConverter.ByteToImageSource(orderDetail.Book.Image),
                     Price = orderDetail.Book.Price.ToString(),
+                    PublicationDate = orderDetail.Book.PublicationDate
+                };
+                var _initialBookView = new BookView()
+                {
+                    SysID = orderDetail.Book.BookSysID,
+                    Title = orderDetail.Book.Title,
+                    Image = BitmapConverter.ByteToImageSource(orderDetail.Book.Image),
+                    Price = orderDetail.Book.Price.ToString(),
+                    PublicationDate = orderDetail.Book.PublicationDate
                 };
                 var author = await _authorApiService.GetRecordAsync(orderDetail.Book.AuthorFK_SysID);
                 var publisher = await _publisherApiService.GetRecordAsync(orderDetail.Book.PublisherFK_SysID);
                 if (author != null)
                 {
+                    _initialBookView.AuthorName = author.Name;
                     bookView.AuthorName = author.Name;
                 }
                 if (publisher != null)
                 {
+                    _initialBookView.PublicationName = author.Name;
                     bookView.PublicationName = publisher.Name;
                 }
-                var _initialBookView = bookView.CloneJson();
+
                 _initialBookList.Add(_initialBookView);
                 bookView.Price = string.Format("{0} x {1}", orderDetail.Book.Price.ToString(), orderDetail.Quantity.ToString());
                 booksCopy.Add(bookView);

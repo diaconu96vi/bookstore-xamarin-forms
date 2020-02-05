@@ -45,7 +45,8 @@ namespace Bookstore.ViewModels.ProfileDetails
                         SysID = favorite.Book.BookSysID,
                         Title = favorite.Book.Title,
                         Price = favorite.Book.Price.ToString(),
-                        Image = BitmapConverter.ByteToImageSource(favorite.Book.Image)
+                        Image = BitmapConverter.ByteToImageSource(favorite.Book.Image),
+                        PublicationDate = favorite.Book.PublicationDate
                     };
                     var author = await _authorApiService.GetRecordAsync(favorite.Book.AuthorFK_SysID);
                     var publisher = await _publisherApiService.GetRecordAsync(favorite.Book.PublisherFK_SysID);

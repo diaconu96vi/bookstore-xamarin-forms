@@ -14,7 +14,7 @@
         <StackLayout Margin="20,0,20,10">
             <partialViews:NavigationBarPartialView BackgroundColor="White">
                 <x:Arguments>
-                    <x:String>My Favorites</x:String>
+                    <x:String>Order products</x:String>
                     <x:Boolean>True</x:Boolean>
                     <x:Boolean>False</x:Boolean>
                 </x:Arguments>
@@ -87,7 +87,7 @@
                                                 FontAttributes="Bold"
                                                 FontFamily="{StaticResource PingFangMedium}"
                                                 FontSize="25"
-                                                Text="{Binding Price, StringFormat='{0} Lei'}"
+                                                Text="{Binding Price}"
                                                 TextColor="{StaticResource MainColor}" />
                                         </StackLayout>
                                     </StackLayout>

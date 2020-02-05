@@ -71,7 +71,7 @@ namespace Bookstore.ViewModels.ProfileDetails
                 }
 
                 _initialBookList.Add(_initialBookView);
-                bookView.Price = string.Format("{0} x {1}", orderDetail.Book.Price.ToString(), orderDetail.Quantity.ToString());
+                bookView.Price = string.Format("{0} Lei x{1}", orderDetail.Book.Price.ToString(), orderDetail.Quantity.ToString());
                 booksCopy.Add(bookView);
                 
             }

@@ -7,7 +7,7 @@ namespace Bookstore.ApplicationUtils
 {
     public static class ApplicationGeneralSettings
     {
-        public static string ApiUrl => "http://192.168.1.104:44301/api/";
+        public static string ApiUrl => "http://192.168.1.102:44301/api/";
 
         public static AppUser CurrentUser { get; set; } 
 

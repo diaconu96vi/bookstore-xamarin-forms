@@ -133,7 +133,6 @@
                 <Button
                     Margin="0,15,0,0"
                     Padding="0,2,0,0"
-                    sharedTransitions:Transition.Name="OrderButton"
                     BackgroundColor="{StaticResource MainColor}"
                     CornerRadius="{x:OnPlatform Android=30,
                                                 iOS=23}"
@@ -143,6 +142,21 @@
                     HeightRequest="46"
                     HorizontalOptions="EndAndExpand"
                     Text="{Binding CompleteButtonText}"
+                    TextColor="White"
+                    WidthRequest="227" />                
+                <BoxView Margin="20,0,20,0" Style="{StaticResource BoxViewStyle}" />
+                <Button
+                    Margin="0,15,0,0"
+                    Padding="0,2,0,0"
+                    BackgroundColor="{StaticResource MainColor}"
+                    CornerRadius="{x:OnPlatform Android=30,
+                                                iOS=23}"
+                    Command="{Binding ConfirmPayPalCommand}"
+                    FontFamily="{StaticResource PingFangBold}"
+                    FontSize="15"
+                    HeightRequest="46"
+                    HorizontalOptions="EndAndExpand"
+                    Text="{Binding CompleteButtonText, StringFormat='{0} PayPal'}"
                     TextColor="White"
                     WidthRequest="227" />
             </StackLayout>

@@ -4,10 +4,12 @@ using Bookstore.Models;
 using Bookstore.Models.ModelViews;
 using Bookstore.Services;
 using Bookstore.Views.Order;
+using PayPal.Forms;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -18,6 +20,7 @@ namespace Bookstore.ViewModels.Order
     {
         public ObservableCollection<CardView> CardsList { get; set; }
         public Command ConfirmOrderCommand { get; set; }
+        public Command ConfirmPayPalCommand { get; set; }
 
         public CardView SelectedCardView { get; set; }
         private CardApiService _cardApiService { get; set; }
@@ -31,6 +34,7 @@ namespace Bookstore.ViewModels.Order
             _orderApiService = new OrderApiService();
             _orderDetailApiService = new OrderDetailApiService();
             ConfirmOrderCommand = new Command(async () => await ExecuteConfirmOrderCommand());
+            ConfirmPayPalCommand = new Command(async () => await ExecuteConfirmPayPalCommand());
             CompleteButtonText = string.Format("{0} Lei", ShoppingBasket.Instance.TotalPrice + ShoppingBasket.Instance.ShippingPrice);
             OnPropertyChanged(nameof(CompleteButtonText));
             MessagingCenter.Subscribe<Card>(this, "AddCard", (card) =>
@@ -61,6 +65,76 @@ namespace Bookstore.ViewModels.Order
             var newCardList = CardsList;
             CardsList = new ObservableCollection<CardView>(newCardList);
             OnPropertyChanged(nameof(CardsList));
+        }
+        public async Task ExecuteConfirmPayPalCommand()
+        {
+            decimal usd = (decimal)(ShoppingBasket.Instance.TotalPrice / 4.77);
+            var resultPayPal = await CrossPayPalManager.Current.Buy(new PayPal.Forms.Abstractions.PayPalItem("Order-" + "Bookstore", usd, "USD"), new Decimal(0));
+            if (resultPayPal.Status == PayPal.Forms.Abstractions.PayPalStatus.Cancelled)
+            {
+                await Application.Current.MainPage.DisplayAlert("Warning", "Cancelled", "Cancel");
+                return;
+            }
+            else if (resultPayPal.Status == PayPal.Forms.Abstractions.PayPalStatus.Error)
+            {
+                await Application.Current.MainPage.DisplayAlert("Warning", "Error", "Cancel");
+                return;
+            }
+            else if (resultPayPal.Status == PayPal.Forms.Abstractions.PayPalStatus.Successful)
+            {
+                var mockCard = new Card()
+                {
+                    AppUserFK_SysID = ApplicationGeneralSettings.CurrentUser.Id,
+                };
+                var newCard = await _cardApiService.CreateAsync(mockCard);
+                if(newCard == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Warning", "Could not create mock up card", "Cancel");
+                    return;
+                }
+
+                var neworder = new Models.Order()
+                {
+                    AppUserFK_SysID = ApplicationGeneralSettings.CurrentUser.Id,
+                    AddressFK_SysID = ShoppingBasket.Instance.ActiveAddress.AddressSysID,
+                    CardFK_Sys = newCard.SysID,
+                    TotalPrice = ShoppingBasket.Instance.TotalPrice,
+                    Date = DateTime.Now,
+                    State = "In progress",
+                    UserName = ApplicationGeneralSettings.CurrentUser.UserName
+                };
+                if (ApplicationGeneralSettings.FacebookUser != null)
+                {
+                    neworder.UserName = ApplicationGeneralSettings.FacebookUser.Name;
+                }
+                var result = await _orderApiService.CreateAsync(neworder);
+                if (result != null)
+                {
+                    var orderDetails = new List<OrderDetail>();
+                    foreach (var book in ShoppingBasket.Instance.AddedOrderItems.ToList())
+                    {
+                        var newOrderDetail = new OrderDetail()
+                        {
+                            OrderFK_SysID = result.OrderSysID,
+                            BookFK_SysID = book.SysID,
+                            Quantity = int.Parse(book.Quantity)
+                        };
+                        orderDetails.Add(newOrderDetail);
+                    }
+                    var resultOrderDetails = await _orderDetailApiService.CreateAsync(orderDetails);
+                    if (resultOrderDetails == null || !resultOrderDetails.Any())
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Warning", "OrderDetails could not be created", "Cancel");
+                        return;
+                    }
+                    await Application.Current.MainPage.Navigation.PushAsync(new SuccessOrderPage());
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Warning", "Order could not be created", "Cancel");
+                    return;
+                }
+            }           
         }
         public async Task ExecuteConfirmOrderCommand()
         {

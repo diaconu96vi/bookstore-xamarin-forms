@@ -316,6 +316,9 @@ namespace Bookstore.API.Migrations
                     b.Property<int>("TotalPrice")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("OrderSysID");
 
                     b.HasIndex("AddressFK_SysID");

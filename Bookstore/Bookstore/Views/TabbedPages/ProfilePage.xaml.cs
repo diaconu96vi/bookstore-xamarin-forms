@@ -31,19 +31,13 @@ namespace Bookstore.Views.TabbedPages
             switch (stack.ClassId)
             {
                 case "MyOder":
-                    //OpenPage(new MyOrderPage());
+                    OpenPage(new OrderPage());
                     break;
-
                 case "MyFav":
-                    //OpenPage(new MyFavoritePage());
+                    OpenPage(new FavoritePage());
                     break;
-
-                case "LastView":
-                    //OpenPage(new LastViewPage());
-                    break;
-
                 case "MyComments":
-                    //OpenPage(new MyCommentsPage());
+                    OpenPage(new CommentPage());
                     break;
                 case "AddBooks":
                     OpenModalPage(new ManageBooksPage());
@@ -93,12 +87,13 @@ namespace Bookstore.Views.TabbedPages
 
         private void LogOutClick(object sender, EventArgs e)
         {
-            if(ApplicationGeneralSettings.FacebookUser != null)
+            ShoppingBasket.Instance.Clear();
+            ApplicationGeneralSettings.CurrentUser = null;
+            if (ApplicationGeneralSettings.FacebookUser != null)
             {
                 ApplicationGeneralSettings.FacebookUser = null;
             }
-            ShoppingBasket.Instance.Clear();
-            ApplicationGeneralSettings.CurrentUser = null;
+            SecureStorage.RemoveAll();
             Application.Current.MainPage = new SharedTransitionNavigationPage(new StartupPage());
         }
 

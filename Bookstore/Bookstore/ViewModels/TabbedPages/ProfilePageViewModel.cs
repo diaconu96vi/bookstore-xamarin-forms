@@ -1,7 +1,10 @@
 ﻿using Bookstore.ApplicationUtils;
+using Bookstore.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Bookstore.ViewModels.TabbedPages
@@ -13,6 +16,7 @@ namespace Bookstore.ViewModels.TabbedPages
 
         public string UserName { get; set; }
         public string UserEmail { get; set; }
+        public bool ChangeDetailsVisible { get; set; }
 
         public ProfilePageViewModel()
         {
@@ -21,28 +25,36 @@ namespace Bookstore.ViewModels.TabbedPages
             OnPropertyChanged(nameof(UserName));
             OnPropertyChanged(nameof(UserEmail));
             VerifyAdminPage();
-            CheckUserName();
-            UpdateUserImage();
+            UpdateFacebookDetails();
+            MessagingCenter.Subscribe<AppUser>(this, "RefreshProfile", (card) =>
+            {
+                UserName = ApplicationGeneralSettings.CurrentUser.UserName;
+                UserEmail = ApplicationGeneralSettings.CurrentUser.Email;
+                OnPropertyChanged(nameof(UserName));
+                OnPropertyChanged(nameof(UserEmail));
+                UpdateCache();
+            });
         }
-
-        private void UpdateUserImage()
+        private async void UpdateCache()
+        {
+            SecureStorage.Remove("AppUser");
+            await SecureStorage.SetAsync("AppUser", JsonConvert.SerializeObject(ApplicationGeneralSettings.CurrentUser));
+        }
+        private void UpdateFacebookDetails()
         {
             if(ApplicationGeneralSettings.FacebookUser != null)
             {
                 UserImage = ApplicationGeneralSettings.FacebookUser.Picture.Data.Url;
+                ChangeDetailsVisible = false;
+                UserName = ApplicationGeneralSettings.FacebookUser.Name;
             }
             else
             {
                 UserImage = "bookstorelogo.png";
+                ChangeDetailsVisible = true;
             }
             OnPropertyChanged(nameof(UserImage));
-        }
-        private void CheckUserName()
-        {
-            if(ApplicationGeneralSettings.FacebookUser != null)
-            {
-                UserName = ApplicationGeneralSettings.FacebookUser.Name;
-            }
+            OnPropertyChanged(nameof(ChangeDetailsVisible));
             OnPropertyChanged(nameof(UserName));
         }
         private void VerifyAdminPage()

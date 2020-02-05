@@ -17,6 +17,7 @@ namespace Bookstore.Views.TabbedPages
         public ParentTabbedPage()
         {
             InitializeComponent();
+            CurrentPage = Children[1];
             On<Android>().SetToolbarPlacement(ToolbarPlacement.Bottom);
         }
     }

@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:customControl="clr-namespace:Bookstore.CustomControls"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:partialViews="clr-namespace:Bookstore.Views.PartialViews"
+             BackgroundColor="White"
+             mc:Ignorable="d"
+             x:Class="Bookstore.Views.ProfileDetails.FavoritePage"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <StackLayout Margin="20,0,20,10">
+            <partialViews:NavigationBarPartialView BackgroundColor="White">
+                <x:Arguments>
+                    <x:String>My Favorites</x:String>
+                    <x:Boolean>True</x:Boolean>
+                    <x:Boolean>False</x:Boolean>
+                </x:Arguments>
+            </partialViews:NavigationBarPartialView>
+            <StackLayout
+                Orientation="Horizontal"
+                Spacing="0"
+                HeightRequest="20"             
+                VerticalOptions="Start">
+                <BoxView
+                    BackgroundColor="{StaticResource MainColor}"
+                    HeightRequest="1"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="CenterAndExpand" />
+                <Frame
+                    Padding="0"
+                    BackgroundColor="{StaticResource MainColor}"
+                    CornerRadius="5"
+                    HasShadow="False"
+                    HeightRequest="10"
+                    VerticalOptions="CenterAndExpand"
+                    WidthRequest="10" />
+                <BoxView
+                    BackgroundColor="Gainsboro"
+                    HeightRequest="1"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="CenterAndExpand" />
+                <Frame
+                    Padding="0"
+                    BackgroundColor="{StaticResource MainColor}"
+                    CornerRadius="5"
+                    HasShadow="False"
+                    HeightRequest="10"
+                    VerticalOptions="CenterAndExpand"
+                    WidthRequest="10" />
+            </StackLayout>
+            <StackLayout Margin="0,20,0,0">
+                <ScrollView  >
+                    <customControl:RepeaterView VerticalOptions="Start" ItemsSource="{Binding BooksList}" Spacing="10" BackgroundColor="White"  >
+                        <customControl:RepeaterView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Orientation="Horizontal" VerticalOptions="Start">
+                                        <StackLayout
+                                            ClassId="{Binding SysID}"
+                                            Padding="10"
+                                            BackgroundColor="#f7f7f7"
+                                            HorizontalOptions="Start">
+                                            <StackLayout.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OpenBookDetail_Tapped"></TapGestureRecognizer>
+                                            </StackLayout.GestureRecognizers>
+                                            <Image
+                                                Aspect="AspectFit"
+                                                HeightRequest="150"
+                                                Source="{Binding Image}"
+                                                WidthRequest="150" />
+                                        </StackLayout>
+                                        <StackLayout VerticalOptions="CenterAndExpand">
+                                            <Label
+                                                FontFamily="{StaticResource PingFangMedium}"
+                                                FontSize="25"
+                                                Text="{Binding Title}"
+                                                TextColor="#2E2E2E" />
+                                            <Label
+                                                FontFamily="{StaticResource PingFangRegular}"
+                                                FontSize="20"
+                                                Text="{Binding AuthorName}"
+                                                TextColor="#917A7A" />
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontFamily="{StaticResource PingFangMedium}"
+                                                FontSize="25"
+                                                Text="{Binding Price, StringFormat='{0} Lei'}"
+                                                TextColor="{StaticResource MainColor}" />
+                                        </StackLayout>
+                                        <Image
+                                            ClassId="{Binding SysID}"
+                                            HeightRequest="25"
+                                            HorizontalOptions="EndAndExpand"
+                                            Source="favfill"
+                                            WidthRequest="25" >
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="RemoveFavorite_Tapped" ></TapGestureRecognizer>
+                                            </Image.GestureRecognizers>
+                                        </Image>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </customControl:RepeaterView.ItemTemplate>
+                    </customControl:RepeaterView>
+                </ScrollView>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

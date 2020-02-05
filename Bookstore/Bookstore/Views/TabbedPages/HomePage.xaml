@@ -61,24 +61,21 @@
                                             CornerRadius="30"
                                             Elevation="1"
                                             HasShadow="False"
-                                            HeightRequest="90"
-                                            WidthRequest="90">
-                                            <forms:CachedImage
-                                                Aspect="AspectFit"
-                                                HeightRequest="50"
-                                                Source="{Binding Image}" />
-                                        </pancakeView:PancakeView>
-                                        <Label
+                                            HeightRequest="30"
+                                            WidthRequest="100">
+                                            <Label
                                             FontSize="12"
                                             HorizontalOptions="CenterAndExpand"
                                             HorizontalTextAlignment="Center"
                                             Style="{StaticResource LabelStyle}"
                                             Text="{Binding GenreName}"
                                             TextColor="#2E2E2E"
-                                            VerticalTextAlignment="Center" />
-                                        <StackLayout.GestureRecognizers>
-                                            <TapGestureRecognizer Tapped="GenreDetail_Tapped"></TapGestureRecognizer>
-                                        </StackLayout.GestureRecognizers>
+                                            VerticalTextAlignment="Center" >
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="GenreDetail_Tapped"></TapGestureRecognizer>
+                                                </Label.GestureRecognizers>
+                                            </Label>
+                                        </pancakeView:PancakeView>
                                     </StackLayout>
                                 </ViewCell>
                             </DataTemplate>
@@ -191,8 +188,9 @@
                         <Label
                         FontAttributes="None"
                         FontFamily="{StaticResource PingFangMedium}"
-                        FontSize="15"
+                        FontSize="13"
                         HorizontalOptions="EndAndExpand"
+                        VerticalOptions="CenterAndExpand"
                         Text="Apply price"
                         TextColor="#2E2E2E" >
                             <Label.GestureRecognizers>
@@ -201,6 +199,8 @@
                         </Label>
                     </StackLayout>
                 </ScrollView>
+                <StackLayout
+                    HeightRequest="10"/>
                 <carousel:CarouselViewControl
                     ItemsSource="{Binding CarouselImages}"
                     Margin="10,0,10,20"
@@ -269,7 +269,7 @@
                                     CornerRadius="8"
                                     Elevation="2"
                                     HasShadow="False"
-                                    HeightRequest="250"
+                                    HeightRequest="270"
                                     HorizontalOptions="StartAndExpand"
                                     VerticalOptions="StartAndExpand"
                                     WidthRequest="130">
@@ -284,6 +284,7 @@
                                             Source="{Binding Image}" />
                                             </StackLayout>
                                             <Label
+                                                HeightRequest="40"
                                                 FontFamily="{StaticResource PingFangMedium}"
                                                 FontSize="15"
                                                 Text="{Binding Title}"

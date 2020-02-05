@@ -71,6 +71,7 @@ namespace Bookstore.ViewModels.Admin
                     SelectedBook = null;
                     OnPropertyChanged(nameof(Books));
                     OnPropertyChanged(nameof(SelectedBook));
+                    MessageSender();
                 }
                 else
                 {
@@ -114,6 +115,7 @@ namespace Bookstore.ViewModels.Admin
                 Books.Add(newBook);
                 OnPropertyChanged(nameof(Books));
                 ClearElements();
+                MessageSender();
             }
             else
             {
@@ -212,6 +214,11 @@ namespace Bookstore.ViewModels.Admin
             }
             Books = newBooks;
             OnPropertyChanged(nameof(Books));
+        }
+
+        private void MessageSender()
+        {
+            MessagingCenter.Send<Book>(new Book(), "RefreshBooks");
         }
     }
 }

@@ -53,6 +53,7 @@ namespace Bookstore.ViewModels.Admin
                 AddAuthorName = string.Empty;
                 OnPropertyChanged(nameof(Authors));
                 OnPropertyChanged(nameof(AddAuthorName));
+                MessageSender();
             }
             else
             {
@@ -118,6 +119,7 @@ namespace Bookstore.ViewModels.Admin
                     OnPropertyChanged(nameof(Authors));
                     OnPropertyChanged(nameof(SelectedUpdateAuthor));
                     OnPropertyChanged(nameof(UpdateAuthorName));
+                    MessageSender();
                 }
             }
         }        
@@ -136,6 +138,7 @@ namespace Bookstore.ViewModels.Admin
                     SelectedDeleteAuthor = null;
                     OnPropertyChanged(nameof(Authors));
                     OnPropertyChanged(nameof(SelectedDeleteAuthor));
+                    MessageSender();
                 }
             }
         }
@@ -147,6 +150,11 @@ namespace Bookstore.ViewModels.Admin
                 return true;
             }
             return false;
+        }
+
+        private void MessageSender()
+        {
+            MessagingCenter.Send<Author>(new Author(), "RefreshAuthors");
         }
     }
 }

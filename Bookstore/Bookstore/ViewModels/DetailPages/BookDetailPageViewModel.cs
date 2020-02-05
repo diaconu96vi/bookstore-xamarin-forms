@@ -20,7 +20,7 @@ namespace Bookstore.ViewModels.DetailPages
         public Rating UserRating { get; set; }
 
         public Command AddBasketCommand { get; set; }
-        public Command BuyFastCommand { get; set; }
+        public Command AddNewComment { get; set; }
         public string TopLabel { get; set; }
         public string BookTitleTop { get; set; }
         public string AuthorTop { get; set; }
@@ -30,6 +30,7 @@ namespace Bookstore.ViewModels.DetailPages
         public string Price { get; set; }
         public string Publisher { get; set; }
         public string Date { get; set; }
+        public string AddCommentText { get; set; }
 
         public ImageSource BookImage { get; set; }
         public ImageSource FavoriteIcon { get; set; }
@@ -38,6 +39,7 @@ namespace Bookstore.ViewModels.DetailPages
 
         public ObservableCollection<StarView> UserRatingStars { get; set; }
         public ObservableCollection<StarView> GeneralRatingStars { get; set; }
+        public ObservableCollection<CommentView> CommentsList { get; set; }
 
         public string UserRatingText { get; set; }
         public string GeneralRatingText { get; set; }
@@ -46,21 +48,24 @@ namespace Bookstore.ViewModels.DetailPages
 
         private FavoriteApiService _favoriteApiService { get; set; }
         private RatingApiService _ratingApiService { get; set; }
+        private CommentApiService _commentApiService { get; set; }
 
         public BookDetailPageViewModel(BookView bookView)
         {
             _favoriteApiService = new FavoriteApiService();
             _ratingApiService = new RatingApiService();
+            _commentApiService = new CommentApiService();
             QuantityList = Enumerable.Range(1, 10).ToList();
             ActiveBook = bookView;
             AddBasketCommand = new Command(async () => await ExecuteAddBasketCommand());
-            BuyFastCommand = new Command(async () => await ExecuteBuyFastCommand());
+            AddNewComment = new Command(async () => await ExecuteAddNewCommentCommand());
             ConfigureFavoriteStartup();
             ConfigureRatingList();
             ConfigureBookBinding();
+            ConfigureCommentsList();
             OnPropertyChanged(nameof(QuantityList));
         }
-
+        #region Configures
         public async void ConfigureFavoriteStartup()
         {
             var favoriteModel = new Favorite()
@@ -80,6 +85,27 @@ namespace Bookstore.ViewModels.DetailPages
                 FavoriteIcon = "favFill.png";
             }
             OnPropertyChanged(nameof(FavoriteIcon));
+        }        
+        public async void ConfigureCommentsList()
+        {
+            var bookComments = await _commentApiService.GetBookComments(ActiveBook.SysID);
+            List<CommentView> commentViews = new List<CommentView>();
+            if(bookComments.Any())
+            {
+                foreach(var comment in bookComments)
+                {
+                    var newCommentView = new CommentView()
+                    {
+                        CommentSysID = comment.CommentSysID,
+                        CommentText = comment.CommentText,
+                        Date = comment.Date.ToString(),
+                        UserName = comment.UserName
+                    };
+                    commentViews.Add(newCommentView);
+                }               
+            }
+            CommentsList = new ObservableCollection<CommentView>(commentViews);
+            OnPropertyChanged(nameof(CommentsList));
         }
         public async void ConfigureRatingList()
         {
@@ -119,7 +145,6 @@ namespace Bookstore.ViewModels.DetailPages
                 }
             }
         }
-
         private void ConfigureUserRatingList(Rating userRating)
         {
             if (userRating == null)
@@ -183,7 +208,6 @@ namespace Bookstore.ViewModels.DetailPages
             OnPropertyChanged(nameof(GeneralRatingStars));
             OnPropertyChanged(nameof(GeneralRatingText));
         }
-
         private void ConfigureBookBinding()
         {
             BookImage = ActiveBook.Image;
@@ -212,6 +236,8 @@ namespace Bookstore.ViewModels.DetailPages
             OnPropertyChanged(nameof(Publisher));
             OnPropertyChanged(nameof(Date));
         }
+        #endregion
+        #region Commands
         public async Task ExecuteAddBasketCommand()
         {
             if(SelectedQuantity == 0)
@@ -222,12 +248,47 @@ namespace Bookstore.ViewModels.DetailPages
             ActiveBook.Quantity = SelectedQuantity.ToString();
             ShoppingBasket.Instance.AddOrderItem(ActiveBook);
             MessagingCenter.Send<BookView>(ActiveBook, "AddBasketRefresh");
-        }
-
-        public async Task ExecuteBuyFastCommand()
+        } 
+        
+        public async Task ExecuteAddNewCommentCommand()
         {
-
+            if(string.IsNullOrEmpty(AddCommentText))
+            {
+                await Application.Current.MainPage.DisplayAlert("Warning", "Comment is empty", "Cancel");
+                return;
+            }
+            var newComment = new Comment()
+            {
+                AppUserFK_SysID = ApplicationGeneralSettings.CurrentUser.Id,
+                BookFK_SysID = ActiveBook.SysID,
+                CommentText = AddCommentText,
+                UserName = ApplicationGeneralSettings.CurrentUser.UserName,
+                Date = DateTime.Now
+            };
+            if(ApplicationGeneralSettings.FacebookUser != null)
+            {
+                newComment.UserName = ApplicationGeneralSettings.FacebookUser.Name;
+            }
+            var result = await _commentApiService.CreateAsync(newComment);
+            if(result != null)
+            {
+                var commentView = new CommentView()
+                {
+                    CommentSysID = result.CommentSysID,
+                    UserName = result.UserName,
+                    AppUserFK_SysID = result.AppUserFK_SysID,
+                    BookFK_SysID = result.BookFK_SysID,
+                    Date = result.Date.ToString(),
+                    CommentText = result.CommentText
+                };
+                CommentsList.Add(commentView);
+                CommentsList = new ObservableCollection<CommentView>(CommentsList);
+                AddCommentText = string.Empty;
+                OnPropertyChanged(nameof(CommentsList));
+                OnPropertyChanged(nameof(AddCommentText));
+            }
         }
+        #endregion
         public async void ConfigureFavoriteIcon()
         {
             if(_isFavorite)

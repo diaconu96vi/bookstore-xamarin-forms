@@ -34,6 +34,10 @@ namespace Bookstore.Services
                 var str = await response.Content.ReadAsStringAsync();
                 var appUser = JsonConvert.DeserializeObject<AppUser>(str);
                 ApplicationGeneralSettings.CurrentUser = appUser;
+                if (!string.IsNullOrEmpty(await SecureStorage.GetAsync("User")))
+                {
+                    SecureStorage.Remove("User");
+                }
                 await SecureStorage.SetAsync("User", str);
                 return new Tuple<bool, List<IdentityError>>(true, null);
             }
@@ -57,6 +61,10 @@ namespace Bookstore.Services
             {
                 var appUser = JsonConvert.DeserializeObject<AppUser>(str);
                 ApplicationGeneralSettings.CurrentUser = appUser;
+                if(!string.IsNullOrEmpty(await SecureStorage.GetAsync("User")))
+                {
+                    SecureStorage.Remove("User");
+                }
                 await SecureStorage.SetAsync("User", str);
                 return true;
             }

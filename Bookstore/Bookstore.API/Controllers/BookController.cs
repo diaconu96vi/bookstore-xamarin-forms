@@ -42,9 +42,9 @@ namespace Bookstore.API.Controllers
             var Book = await _context.Books.FirstOrDefaultAsync(x => x.BookSysID == id);
             if(Book != null)
             {
-                return BadRequest();
+                return Ok(Book);
             }
-            return Ok(Book);
+            return BadRequest(); 
         }
 
         // POST api/<controller>

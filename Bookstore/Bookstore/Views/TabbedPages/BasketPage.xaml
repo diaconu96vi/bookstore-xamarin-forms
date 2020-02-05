@@ -112,10 +112,15 @@
 
                                         </StackLayout>
                                         <Image
+                                            ClassId="{Binding SysID}"
                                             HeightRequest="25"
                                             HorizontalOptions="EndAndExpand"
                                             Source="close"
-                                            WidthRequest="25" />
+                                            WidthRequest="25" >
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="RemoveProduct_Tapped"></TapGestureRecognizer>
+                                            </Image.GestureRecognizers>
+                                        </Image>
                                     </StackLayout>
                                 </ViewCell>
                             </DataTemplate>

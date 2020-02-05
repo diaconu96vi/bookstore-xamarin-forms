@@ -30,7 +30,7 @@ namespace Bookstore.API.Controllers
             {
                 return BadRequest();
             }
-            var Cards = await _context.Cards.ToListAsync();
+            var Cards = await _context.Cards.Where(x => string.IsNullOrEmpty(x.CardNumber) == false).ToListAsync();
             if (Cards != null)
             {
                 return Ok(Cards);
@@ -61,7 +61,7 @@ namespace Bookstore.API.Controllers
             if (_context.Cards.Any())
             {
                 var Card = await _context.Cards.FirstOrDefaultAsync(x => x.CardNumber.Equals(value.CardNumber) && x.AppUserFK_SysID.Equals(value.AppUserFK_SysID));
-                if (Card != null)
+                if (Card != null && !string.IsNullOrEmpty(Card.CardNumber))
                 {
                     return BadRequest();
                 }

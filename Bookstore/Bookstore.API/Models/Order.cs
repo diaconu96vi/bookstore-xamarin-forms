@@ -27,6 +27,8 @@ namespace Bookstore.API.Models
 
         public int TotalPrice { get; set; }
 
+        public string UserName { get; set; }
+
         //Foreign Keys
         public AppUser AppUser { get; set; }
         public Card Card { get; set; }

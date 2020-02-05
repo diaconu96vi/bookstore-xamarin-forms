@@ -1,12 +1,15 @@
 ﻿using Bookstore.ApplicationUtils;
 using Bookstore.Converters;
+using Bookstore.Models;
 using Bookstore.Models.RequestModels;
 using Bookstore.Services;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Bookstore.ViewModels.ProfileDetails
@@ -47,6 +50,9 @@ namespace Bookstore.ViewModels.ProfileDetails
 
                 if (result.Item1 != null)
                 {
+                    ApplicationGeneralSettings.CurrentUser.PasswordHash = result.Item1.PasswordHash;
+                    SecureStorage.Remove("AppUser");
+                    await SecureStorage.SetAsync("AppUser", JsonConvert.SerializeObject(ApplicationGeneralSettings.CurrentUser));
                     await Application.Current.MainPage.Navigation.PopModalAsync(true);
                 }
                 else

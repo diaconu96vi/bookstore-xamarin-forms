@@ -34,5 +34,16 @@ namespace Bookstore.Views.TabbedPages
         {
             Navigation.PushAsync(new CreditCardPage(), true);
         }
+
+        private void RemoveProduct_Tapped(object sender, EventArgs e)
+        {
+            string SysID = string.Empty;
+            if (sender is Image)
+            {
+                SysID = (sender as Image).ClassId;
+            }
+            var viewModel = this.BindingContext as BasketPageViewModel;
+            viewModel.RemoveProduct(SysID);
+        }
     }
 }

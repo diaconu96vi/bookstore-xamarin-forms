@@ -47,6 +47,24 @@ namespace Bookstore.ViewModels.TabbedPages
             ConfigureGenresListDataSource();
             ConfigureBooksListDataSource();
             ConfigureAuthorsListDataSource();
+
+            RegisterMessage();
+        }
+
+        private void RegisterMessage()
+        {
+            MessagingCenter.Subscribe<Genre>(this, "RefreshGenres", (genre) =>
+            {
+                ConfigureGenresListDataSource();
+            });            
+            MessagingCenter.Subscribe<Book>(this, "RefreshBooks", (book) =>
+            {
+                ConfigureBooksListDataSource();
+            });
+            MessagingCenter.Subscribe<Author>(this, "RefreshAuthors", (author) =>
+            {
+                ConfigureAuthorsListDataSource();
+            });
         }
 
         #region DataRetrievalForLists
@@ -76,8 +94,7 @@ namespace Bookstore.ViewModels.TabbedPages
                 var convertGenre = new GenreView()
                 {
                     SysID = genre.GenreSysID,
-                    GenreName = genre.Name,
-                    Image = BitmapConverter.ByteToImageSource(genre.Image)
+                    GenreName = genre.Name
                 };
                 convertedList.Add(convertGenre);
             }
@@ -153,7 +170,7 @@ namespace Bookstore.ViewModels.TabbedPages
         }
 
         #region Filters
-        public async Task ExecuteGenreDetail(string genreName)
+        public async void ExecuteGenreDetail(string genreName)
         {
             if (string.IsNullOrEmpty(genreName))
             {
@@ -194,7 +211,7 @@ namespace Bookstore.ViewModels.TabbedPages
 
         public void FilterSearchBar()
         {
-            if (!string.IsNullOrEmpty(SearchBarText))
+            if (string.IsNullOrEmpty(SearchBarText))
             {
                 return;
             }

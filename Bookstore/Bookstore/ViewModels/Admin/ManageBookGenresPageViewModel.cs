@@ -54,6 +54,7 @@ namespace Bookstore.ViewModels.Admin
             if (CheckAddValuesEmpty())
             {
                 await Application.Current.MainPage.DisplayAlert("Warning", "Values are empty", "Cancel");
+                return;
             }
             var model = new BookGenre()
             {
@@ -65,6 +66,7 @@ namespace Bookstore.ViewModels.Admin
             if (CheckExistingItem(model))
             {
                 await Application.Current.MainPage.DisplayAlert("Duplicate Item", "A book genre with the selected values already exists", "OK");
+                return;
             }
 
             var result = await _bookGenreApiService.CreateAsync(model);

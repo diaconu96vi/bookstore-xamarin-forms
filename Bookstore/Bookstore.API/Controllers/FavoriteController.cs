@@ -30,7 +30,7 @@ namespace Bookstore.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var Favorites = await _context.Favorites.ToListAsync();
+            var Favorites = await _context.Favorites.Include(x => x.Book).ToListAsync();
             if (Favorites != null)
             {
                 return Ok(Favorites);

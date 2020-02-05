@@ -1,4 +1,5 @@
-﻿using Bookstore.Services;
+﻿using Bookstore.Models;
+using Bookstore.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bookstore.API.Models
+namespace Bookstore.Models
 {
     public class Order
     {

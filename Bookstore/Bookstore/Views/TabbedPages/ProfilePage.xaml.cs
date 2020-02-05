@@ -31,7 +31,7 @@ namespace Bookstore.Views.TabbedPages
             switch (stack.ClassId)
             {
                 case "MyOder":
-                    //OpenPage(new MyOrderPage());
+                    OpenPage(new OrderPage());
                     break;
                 case "MyFav":
                     OpenPage(new FavoritePage());

@@ -263,7 +263,7 @@ namespace Bookstore.ViewModels.DetailPages
                 BookFK_SysID = ActiveBook.SysID,
                 CommentText = AddCommentText,
                 UserName = ApplicationGeneralSettings.CurrentUser.UserName,
-                Date = DateTime.Today.Date
+                Date = DateTime.Now
             };
             if(ApplicationGeneralSettings.FacebookUser != null)
             {

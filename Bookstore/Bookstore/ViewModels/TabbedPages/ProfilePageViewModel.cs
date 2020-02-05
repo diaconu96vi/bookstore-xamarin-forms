@@ -1,7 +1,10 @@
 ﻿using Bookstore.ApplicationUtils;
+using Bookstore.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Bookstore.ViewModels.TabbedPages
@@ -23,6 +26,19 @@ namespace Bookstore.ViewModels.TabbedPages
             OnPropertyChanged(nameof(UserEmail));
             VerifyAdminPage();
             UpdateFacebookDetails();
+            MessagingCenter.Subscribe<AppUser>(this, "RefreshProfile", (card) =>
+            {
+                UserName = ApplicationGeneralSettings.CurrentUser.UserName;
+                UserEmail = ApplicationGeneralSettings.CurrentUser.Email;
+                OnPropertyChanged(nameof(UserName));
+                OnPropertyChanged(nameof(UserEmail));
+                UpdateCache();
+            });
+        }
+        private async void UpdateCache()
+        {
+            SecureStorage.Remove("AppUser");
+            await SecureStorage.SetAsync("AppUser", JsonConvert.SerializeObject(ApplicationGeneralSettings.CurrentUser));
         }
         private void UpdateFacebookDetails()
         {

@@ -1,4 +1,5 @@
 ﻿using Bookstore.ApplicationUtils;
+using Bookstore.Models;
 using Bookstore.Models.RequestModels;
 using Bookstore.Services;
 using System;
@@ -48,7 +49,9 @@ namespace Bookstore.ViewModels.ProfileDetails
                 if (!success)
                     await Application.Current.MainPage.DisplayAlert("Warning", "Changes could not be performed performed", "Cancel");
             }
-
+            ApplicationGeneralSettings.CurrentUser.Email = EmailEntry;
+            ApplicationGeneralSettings.CurrentUser.UserName = UserNameEntry;
+            MessagingCenter.Send<AppUser>(new AppUser(), "RefreshProfile");
             await Application.Current.MainPage.Navigation.PopModalAsync(true);
         }
     }

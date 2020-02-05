@@ -18,10 +18,12 @@ namespace Bookstore.ViewModels.ProfileDetails
         public ObservableCollection<BookView> BooksList { get; set; }
         private FavoriteApiService _favoriteApiService { get; set; }
         private AuthorApiService _authorApiService { get; set; }
+        private PublisherApiService _publisherApiService { get; set; }
         private List<Favorite> _userFavorites { get; set; }
         public FavoritePageViewModel()
         {
             _favoriteApiService = new FavoriteApiService();
+            _publisherApiService = new PublisherApiService();
             _authorApiService = new AuthorApiService();
             ConfigureFavoriteList();
         }
@@ -46,10 +48,15 @@ namespace Bookstore.ViewModels.ProfileDetails
                         Image = BitmapConverter.ByteToImageSource(favorite.Book.Image)
                     };
                     var author = await _authorApiService.GetRecordAsync(favorite.Book.AuthorFK_SysID);
+                    var publisher = await _publisherApiService.GetRecordAsync(favorite.Book.PublisherFK_SysID);
                     if(author != null)
                     {
                         bookView.AuthorName = author.Name;
-                    }                   
+                    }             
+                    if(publisher != null)
+                    {
+                        bookView.PublicationName = publisher.Name;
+                    }
                     booksCopy.Add(bookView);
                 }
                 BooksList = new ObservableCollection<BookView>(booksCopy);

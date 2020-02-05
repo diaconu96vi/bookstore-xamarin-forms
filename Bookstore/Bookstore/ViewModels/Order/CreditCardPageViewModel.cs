@@ -21,11 +21,15 @@ namespace Bookstore.ViewModels.Order
 
         public CardView SelectedCardView { get; set; }
         private CardApiService _cardApiService { get; set; }
+        private OrderApiService _orderApiService { get; set; }
+        private OrderDetailApiService _orderDetailApiService { get; set; }
 
         public string CompleteButtonText { get; set; }
         public CreditCardPageViewModel()
         {
             _cardApiService = new CardApiService();
+            _orderApiService = new OrderApiService();
+            _orderDetailApiService = new OrderDetailApiService();
             ConfirmOrderCommand = new Command(async () => await ExecuteConfirmOrderCommand());
             CompleteButtonText = string.Format("{0} Lei", ShoppingBasket.Instance.TotalPrice + ShoppingBasket.Instance.ShippingPrice);
             OnPropertyChanged(nameof(CompleteButtonText));
@@ -66,7 +70,47 @@ namespace Bookstore.ViewModels.Order
                 return;
             }
             ShoppingBasket.Instance.ActiveCard = SelectedCardView;
-            await Application.Current.MainPage.Navigation.PushAsync(new SuccessOrderPage());
+            var neworder = new Models.Order()
+            {
+                AppUserFK_SysID = ApplicationGeneralSettings.CurrentUser.Id,
+                CardFK_Sys = ShoppingBasket.Instance.ActiveCard.SysID,
+                AddressFK_SysID = ShoppingBasket.Instance.ActiveAddress.AddressSysID,
+                TotalPrice = ShoppingBasket.Instance.TotalPrice,
+                Date = DateTime.Now,
+                State = "In progress",
+                UserName = ApplicationGeneralSettings.CurrentUser.UserName
+            };            
+            if(ApplicationGeneralSettings.FacebookUser != null)
+            {
+                neworder.UserName = ApplicationGeneralSettings.FacebookUser.Name;
+            }
+            var result = await _orderApiService.CreateAsync(neworder);
+            if (result != null)
+            {
+                var orderDetails = new List<OrderDetail>();
+                foreach(var book in ShoppingBasket.Instance.AddedOrderItems.ToList())
+                {
+                    var newOrderDetail = new OrderDetail()
+                    {
+                        OrderFK_SysID = result.OrderSysID,
+                        BookFK_SysID = book.SysID,
+                        Quantity = int.Parse(book.Quantity)
+                    };
+                    orderDetails.Add(newOrderDetail);
+                }
+                var resultOrderDetails = await _orderDetailApiService.CreateAsync(orderDetails);
+                if(resultOrderDetails == null || !resultOrderDetails.Any())
+                {
+                    await Application.Current.MainPage.DisplayAlert("Warning", "OrderDetails could not be created", "Cancel");
+                    return;
+                }
+                await Application.Current.MainPage.Navigation.PushAsync(new SuccessOrderPage());
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Warning", "Order could not be created", "Cancel");
+                return;
+            }
         }
 
         public async void DeleteSelectedCard(string cardID)

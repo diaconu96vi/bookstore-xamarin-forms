@@ -11,7 +11,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using Xamarin.Auth;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -31,59 +33,44 @@ namespace Bookstore.ViewModels
             LoginCommand = new Command(async () => await ExecuteLoginCommand());
             SignUpCommand = new Command(async () => await ExecuteSignUpCommand());
             FacebookLogin = new Command(async () => await ExecuteFacebookLogin());
+            SetThreadSleep();
         }
+        private async void SetThreadSleep()
+        {
+            await Task.Delay(1000);
+            CheckGenelCacheUser();
+        }
+        private async void CheckGenelCacheUser()
+        {
 
-        private async Task<bool> CheckCacheUser()
-        {
-            var result = await SecureStorage.GetAsync("User");
-            if (string.IsNullOrEmpty(result))
-            {
-                return false;
-            }
-            var appUser = JsonConvert.DeserializeObject<AppUser>(result);
-            if (appUser != null)
-            {
-                ApplicationGeneralSettings.CurrentUser = appUser as AppUser;
-                
-                return true;
-            }
-            return false;
-        }
-        
-        private async Task<bool> CheckFacebookCacheUser()
-        {
             var facebookResult = await SecureStorage.GetAsync("Facebook");
-            if (string.IsNullOrEmpty(facebookResult))
-            {
-                return false;
-            }            
             var userResult = await SecureStorage.GetAsync("User");
             if (string.IsNullOrEmpty(userResult))
             {
-                return false;
+                return;
             }
-            var facebookUser = JsonConvert.DeserializeObject<FacebookEmail>(facebookResult);
+
             var appUser = JsonConvert.DeserializeObject<AppUser>(userResult);
-            if (facebookUser != null && appUser != null)
+            if (appUser != null)
             {
-                ApplicationGeneralSettings.FacebookUser = facebookUser;
-                ApplicationGeneralSettings.CurrentUser = appUser;              
-                return true;
-            }
-            return false;
-        }
-        public async Task ExecuteLoginCommand()
-        {
-            var result = await CheckCacheUser();
-            if(!result)
-            {
-                await Application.Current.MainPage.Navigation.PushAsync(new LoginPage());
-            }
-            else
-            {
+
+                ApplicationGeneralSettings.CurrentUser = appUser;
+                if (!string.IsNullOrEmpty(facebookResult))
+                {
+                    var facebookUser = JsonConvert.DeserializeObject<FacebookEmail>(facebookResult);
+                    if (facebookUser != null)
+                    {
+                        ApplicationGeneralSettings.FacebookUser = facebookUser;
+                    }
+                }
                 await Application.Current.MainPage.Navigation.PushAsync(new ParentTabbedPage());
             }
-            
+            return;
+        }
+
+        public async Task ExecuteLoginCommand()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new LoginPage());  
         }        
         public async Task ExecuteSignUpCommand()
         {
@@ -92,13 +79,7 @@ namespace Bookstore.ViewModels
 
         [Obsolete]
         public async Task ExecuteFacebookLogin()
-        {
-            var result = await CheckFacebookCacheUser();
-            if (result)
-            {
-                await Application.Current.MainPage.Navigation.PushAsync(new ParentTabbedPage());
-                return;
-            }
+        {            
             string clientId = null;
             string redirectUri = null;
 

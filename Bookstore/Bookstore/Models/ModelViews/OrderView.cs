@@ -3,12 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace Bookstore.API.Models
+namespace Bookstore.Models.ModelViews
 {
-    public class Order
+    public class OrderView
     {
         [Required]
         [Key]
@@ -21,13 +20,15 @@ namespace Bookstore.API.Models
         [ForeignKey("Card")]
         public int CardFK_Sys { get; set; }
 
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
 
         public string State { get; set; }
 
-        public int TotalPrice { get; set; }
+        public string TotalPrice { get; set; }
 
         public string UserName { get; set; }
+
+        public string DisplayText { get; set; }
 
         //Foreign Keys
         public AppUser AppUser { get; set; }

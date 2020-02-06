@@ -30,6 +30,16 @@ namespace Bookstore.ViewModels.Startup
 
         public async Task ExecuteRegisterCommand()
         {
+            if(CheckValuesEmpty())
+            {
+                await Application.Current.MainPage.DisplayAlert("Warning", "Values are null", "Cancel");
+                return;
+            }
+            if(!IsValidEmail(Email))
+            {
+                await Application.Current.MainPage.DisplayAlert("Warning", "Email not valid", "Cancel");
+                return;
+            }
             var model = new SignupModel()
             {
                 UserName = UserName,
@@ -56,6 +66,28 @@ namespace Bookstore.ViewModels.Startup
                     await Application.Current.MainPage.DisplayAlert("Warning", "Something went wrong", "Cancel");
                 }
             }
-        }     
+        }  
+        
+        private bool CheckValuesEmpty()
+        {
+            if(string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(ConfirmPassword))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
